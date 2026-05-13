@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
+import "./globals.css"; // INI YANG PALING PENTING!
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "NalarAI - Enterprise Risk Assistant",
-  description: "Enterprise-grade anomaly and risk detection with a multi-agent AI architecture.",
+  description: "AI-powered anomaly detection and risk scoring.",
 };
 
 export default function RootLayout({
