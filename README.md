@@ -1,216 +1,286 @@
-# NALAR_ — Multi-Agent Enterprise Risk Intelligence Platform
+# NALAR_
 
-> **AI-powered anomaly detection and risk scoring for enterprise environments, built on a 5-agent pipeline architecture.**
+> Enterprise Risk Intelligence Platform powered by Multi-Agent AI Orchestration
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel-black?style=flat-square&logo=vercel)](https://your-app.vercel.app)
-[![Backend](https://img.shields.io/badge/Backend-Render-46E3B7?style=flat-square&logo=render)](https://your-backend.onrender.com)
-[![Built with Gemini](https://img.shields.io/badge/Built%20with-Gemini%202.5%20Flash-4285F4?style=flat-square&logo=google)](https://deepmind.google/technologies/gemini/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?style=flat-square&logo=fastapi)](https://fastapi.tiangolo.com)
-[![Next.js](https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=next.js)](https://nextjs.org)
+NALAR_ is an AI-powered enterprise intelligence platform designed for real-time anomaly detection, document analysis, compliance monitoring, and operational risk scoring through a coordinated multi-agent pipeline architecture.
+
+Built to simulate enterprise-grade cyber risk analysis workflows, NALAR_ combines modern AI orchestration with a futuristic intelligence dashboard experience.
 
 ---
 
-## 🎯 Problem
+![NALAR Dashboard](./assets/preview.png)
 
-Enterprise organizations generate thousands of documents, logs, and reports daily. Security incidents, financial irregularities, and compliance gaps are often buried inside these files — discovered too late, at great cost.
-
-Manual review is slow. Rule-based systems miss context. **NALAR_ solves this with a coordinated team of 5 specialized AI agents that read, analyze, validate, summarize, and prescribe action — all within seconds.**
-
----
-
-## ✨ Solution
-
-Upload any enterprise document (PDF, CSV, XLSX, logs) and NALAR_'s multi-agent pipeline produces:
-
-- **Risk score (0–100)** with category breakdown
-- **Anomaly feed** with severity levels (HIGH / MEDIUM / LOW)
-- **Executive summary** validated by an AI compliance auditor
-- **Action report** with prioritized recommendations and resolution timeline
-
----
-
-## 🤖 5-Agent Architecture
-
-```
-Document → [D] Analyzer → [A] Risk Detector → [V] Validator → [S] Summarizer → [R] Rec Engine → Report
-```
-
-| Agent | Role | Technology |
-|-------|------|------------|
-| **D** Document Analyzer | Extracts entities, structure, and key facts from raw document text | Gemini 2.5 Flash |
-| **A** Anomaly Detector | Scores risk 0–100, identifies threat categories | Gemini 2.5 Flash + local fallback |
-| **V** Validator & Checker | Cross-checks findings, confirms confidence, outputs VALIDATED/REJECTED | Gemini 2.5 Flash |
-| **S** Smart Summarizer | Builds executive brief + risk category breakdown + anomaly feed | Gemini 2.5 Flash |
-| **R** Recommendation Engine | Generates prioritized action items with effort and timeline estimates | Gemini 2.5 Flash |
-
-Each agent receives the structured output of the previous one — no hallucination propagation, clean data contract at every step.
-
----
-
-## 🏗️ Tech Stack
-
-**Backend**
-- Python + FastAPI — REST API gateway
-- Google Gemini 2.5 Flash — AI inference for all 5 agents
-- Multi-key round-robin manager with rate limit cooldown
-- Supports: PDF (pypdf), CSV, XLSX (openpyxl), TXT, LOG
-
-**Frontend**
-- Next.js 16 + TypeScript
-- Tailwind CSS v4 — custom dark enterprise design system
-- Tab navigation: Overview · Agent Flow · Anomalies · Reports
-- Real-time pipeline visualization with per-agent status
-- localStorage-persisted session stats
-
----
-
-## 🚀 Quick Start (Local)
-
-### Prerequisites
-- Python 3.11+
-- Node.js 20+
-- Google AI Studio API key(s) — [get one free](https://aistudio.google.com)
-
-### Backend
-
-```bash
-cd backend
-pip install -r requirements.txt
-
-# Create .env from template
-cp .env.example .env
-# Edit .env and add your GEMINI_API_KEY_1
-
-uvicorn app.main:app --reload
-# → http://localhost:8000
-```
+## Live Demo
 
 ### Frontend
+https://nalar-chi.vercel.app
 
-```bash
-cd frontend
-npm install
-npm run dev
-# → http://localhost:3000
-```
-
-> The frontend expects the backend at `http://localhost:8000`. For production, set the `NEXT_PUBLIC_API_URL` environment variable on Vercel.
+### Backend API
+https://nalar-backend-production-b6b2.up.railway.app/docs
 
 ---
 
-## 📁 Project Structure
+# Overview
 
-```
-nalar/
-├── backend/
-│   ├── app/
-│   │   ├── agents/
-│   │   │   ├── document.py      # Agent D
-│   │   │   ├── risk.py          # Agent A
-│   │   │   ├── validator.py     # Agent V
-│   │   │   ├── summarizer.py    # Agent S
-│   │   │   └── recommender.py   # Agent R
-│   │   ├── api/
-│   │   │   └── upload.py        # File ingestion + routing
-│   │   ├── core/
-│   │   │   ├── gemini_call.py   # Stable Gemini wrapper + retry
-│   │   │   └── api_key_manager.py  # Round-robin key rotation
-│   │   └── main.py              # FastAPI app + CORS
-│   ├── requirements.txt
-│   └── .env.example
-├── frontend/
-│   ├── app/
-│   │   ├── page.tsx             # Main dashboard (tabs + pipeline UI)
-│   │   ├── layout.tsx
-│   │   └── globals.css
-│   └── package.json
-├── render.yaml                  # Render.com deploy config
-└── README.md
-```
+NALAR_ analyzes uploaded enterprise documents such as:
+- security audit logs
+- compliance reports
+- financial operation records
+- operational system logs
+- structured enterprise data
+
+The platform processes documents through a coordinated 5-agent AI pipeline to generate:
+- enterprise risk scoring
+- anomaly detection
+- compliance insights
+- operational intelligence
+- remediation recommendations
 
 ---
 
-## 🎬 Quick Start / Demo
+# Core Features
 
-Two sample files are included in the `/demo/` folder to test the pipeline:
-
-1. **`server_auth_log.txt`** — Server authentication log with security incidents
-   - Failed login attempts & brute force detection
-   - Unauthorized access & API key misuse
-   - Certificate expiration warnings
-   - Expected: Risk Score 78–85 | Security & Compliance
-
-2. **`financial_anomaly_report.csv`** — Transaction data with anomalies
-   - Unusual vendors & high-value transactions
-   - Offshore entities & suspicious patterns
-   - Expected: Risk Score 82–90 | Financial & Fraud
-
-Upload either file and watch all **5 agents process in sequence**. Each agent adds structured intelligence to the analysis pipeline.
+- Multi-agent AI orchestration pipeline
+- Real-time enterprise risk scoring
+- AI-powered anomaly detection
+- Financial irregularity analysis
+- Compliance & governance assessment
+- Operational drift monitoring
+- Intelligent remediation recommendations
+- Enterprise dashboard visualization
+- File upload & automated parsing
+- FastAPI + Next.js architecture
+- Railway & Vercel cloud deployment
 
 ---
 
-## 🌐 Deployment
+# Multi-Agent Intelligence Pipeline
 
-| Layer | Platform | Notes |
-|-------|----------|-------|
-| Backend | Render.com | Free tier, Singapore region |
-| Frontend | Vercel | Auto-deploy from GitHub |
+NALAR_ uses a collaborative 5-agent orchestration system:
 
-See `render.yaml` for backend configuration. Set `ALLOWED_ORIGINS` on Render after getting your Vercel URL.
+| Agent | Responsibility |
+|---|---|
+| Document Analyzer | Extracts structured intelligence from uploaded documents |
+| Risk Scoring Agent | Calculates overall enterprise risk exposure |
+| Financial Intelligence Agent | Detects suspicious financial activities and irregularities |
+| Compliance Agent | Identifies governance, policy, and regulatory gaps |
+| Validation Agent | Consolidates and verifies final AI analysis |
 
 ---
 
-## 📊 API Reference
+# System Architecture
 
-### `POST /api/upload`
-Upload a document for analysis.
+```text
+┌────────────────────┐
+│   Next.js Frontend │
+└─────────┬──────────┘
+          │
+          ▼
+┌────────────────────┐
+│   FastAPI Backend  │
+└─────────┬──────────┘
+          │
+          ▼
+┌────────────────────────────┐
+│ Multi-Agent Orchestrator   │
+├────────────────────────────┤
+│ • Document Analyzer        │
+│ • Risk Scoring Agent       │
+│ • Financial Agent          │
+│ • Compliance Agent         │
+│ • Validation Agent         │
+└─────────┬──────────────────┘
+          │
+          ▼
+┌────────────────────┐
+│   Gemini AI APIs   │
+└────────────────────┘
+````
 
-**Request:** `multipart/form-data` with `file` field
+---
 
-**Supported formats:** `.pdf`, `.csv`, `.xlsx`, `.xls`, `.txt`, `.log`
+# User Interface Preview
 
-**Response:**
+## Enterprise Intelligence Dashboard
+
+![Dashboard](./assets/dashboard.png)
+
+## Risk Analysis Result
+
+![Analysis](./assets/analysis.png)
+
+## Agent Pipeline Visualization
+
+![Agents](./assets/agents.png)
+
+---
+
+# Example Analysis Output
+
 ```json
 {
-  "status": "success",
-  "filename": "report.pdf",
-  "file_type": ".pdf",
-  "char_count": 8420,
-  "ai_analysis": {
-    "summary": "...",
-    "overall_risk_score": 74,
-    "key_entities": [...],
-    "final_validation": { "status": "VALIDATED", "conclusion": "..." },
-    "smart_summary": {
-      "executive_brief": "...",
-      "risk_categories": { "access_risk": "...", "financial_risk": "...", "compliance": "..." },
-      "anomaly_feed": [...]
-    },
-    "action_report": {
-      "recommendations": [...],
-      "overall_recommendation": "...",
-      "estimated_resolution_days": 14
-    }
-  }
+  "overall_risk_score": 73,
+  "risk_level": "HIGH",
+  "anomalies_detected": 4,
+  "compliance_issues": 3,
+  "financial_irregularities": 2,
+  "recommendation": "Immediate compliance remediation and access monitoring required."
 }
 ```
 
-### `GET /health`
-Health check. Returns `{"status": "ok"}`.
+---
+
+# Tech Stack
+
+## Frontend
+
+* Next.js 15
+* TypeScript
+* TailwindCSS
+* Framer Motion
+
+## Backend
+
+* FastAPI
+* Python
+* Uvicorn
+
+## AI & Infrastructure
+
+* Google Gemini API
+* Railway
+* Vercel
 
 ---
 
-## 👤 Team
+# Installation
 
-Built by **M. Rifki Haipal** — AI Engineer & Full-Stack Developer  
-GitHub: [@einzeinn](https://github.com/einzeinn)
+## Clone Repository
 
----
-
-## 📄 License
-
-MIT License — see [LICENSE](LICENSE) for details.
+```bash
+git clone https://github.com/einzeinn/NALAR_.git
+cd NALAR_
+```
 
 ---
 
-*Built for the lablab.ai AI Agents Hackathon 2026*
+# Frontend Setup
+
+```bash
+cd frontend
+
+npm install
+
+npm run dev
+```
+
+Frontend runs on:
+
+```text
+http://localhost:3000
+```
+
+---
+
+# Backend Setup
+
+```bash
+cd backend
+
+pip install -r requirements.txt
+
+uvicorn app.main:app --reload
+```
+
+Backend runs on:
+
+```text
+http://localhost:8000
+```
+
+---
+
+# Environment Variables
+
+## Frontend `.env.local`
+
+```env
+NEXT_PUBLIC_API_URL=https://your-backend-url
+```
+
+---
+
+## Backend `.env`
+
+```env
+GEMINI_API_KEY_1=your_api_key
+GEMINI_API_KEY_2=your_api_key
+GEMINI_API_KEY_3=your_api_key
+
+ALLOWED_ORIGINS=https://your-frontend-url
+```
+
+---
+
+# API Endpoints
+
+| Method | Endpoint      | Description                |
+| ------ | ------------- | -------------------------- |
+| GET    | `/`           | API status                 |
+| GET    | `/health`     | Health check               |
+| POST   | `/api/upload` | Upload & analyze documents |
+
+---
+
+# Deployment
+
+## Frontend Deployment
+
+* Vercel
+
+## Backend Deployment
+
+* Railway
+
+---
+
+
+# Project Vision
+
+NALAR_ was built to explore how multi-agent AI systems can assist enterprise-level operational intelligence, compliance monitoring, and cybersecurity risk analysis in a more interactive and accessible way.
+
+The project combines:
+
+* AI orchestration
+* enterprise UX design
+* risk intelligence workflows
+* modern cloud deployment
+* real-time analytical interfaces
+
+into a unified experimental platform.
+
+---
+
+# Author
+
+### M RIFKI HAIPAL
+
+#### also known as **quiiplle**
+
+AI Engineer • Software Engineer • Creative Technologist
+
+GitHub:
+[https://github.com/einzeinn](https://github.com/einzeinn)
+
+---
+
+# License
+
+This project is developed for research, experimentation, portfolio, and hackathon purposes.
+
+---
+
+<p align="center">
+Built with Gemini AI, sleep deprivation, deployment debugging, and unreasonable optimism.
+</p>
+```
