@@ -8,8 +8,6 @@ Built to simulate enterprise-grade cyber risk analysis workflows, NALAR_ combine
 
 ---
 
-![NALAR Dashboard](./assets/preview.png)
-
 ## Live Demo
 
 ### Frontend
@@ -103,15 +101,15 @@ NALAR_ uses a collaborative 5-agent orchestration system:
 
 ## Enterprise Intelligence Dashboard
 
-![Dashboard](./assets/dashboard.png)
+![Dashboard](./demo/overview.png)
 
 ## Risk Analysis Result
 
-![Analysis](./assets/analysis.png)
+![Analysis](./demo/anomalies_&_report.png)
 
 ## Agent Pipeline Visualization
 
-![Agents](./assets/agents.png)
+![Agents](./demo/agent_flow.png)
 
 ---
 
