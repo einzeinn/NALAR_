@@ -1,0 +1,3408 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+backend/.env
+backend/app/agents/document.py
+backend/app/agents/orchestrator.py
+backend/app/agents/recommender.py
+backend/app/agents/risk.py
+backend/app/agents/summarizer.py
+backend/app/agents/validator.py
+backend/app/api/upload.py
+backend/app/core/api_key_manager.py
+backend/app/core/gemini_call.py
+backend/app/main.py
+backend/temp_uploads/Insomnia_Care_Proposal.pdf
+backend/temp_uploads/script.pdf
+context/AI-powered risk detection assistant for enterprises - Claude.png
+context/nalar_backend_architecture.svg
+frontend/.git/COMMIT_EDITMSG
+frontend/.git/config
+frontend/.git/description
+frontend/.git/gk/config
+frontend/.git/HEAD
+frontend/.git/hooks/applypatch-msg.sample
+frontend/.git/hooks/commit-msg.sample
+frontend/.git/hooks/fsmonitor-watchman.sample
+frontend/.git/hooks/post-update.sample
+frontend/.git/hooks/pre-applypatch.sample
+frontend/.git/hooks/pre-commit.sample
+frontend/.git/hooks/pre-merge-commit.sample
+frontend/.git/hooks/pre-push.sample
+frontend/.git/hooks/pre-rebase.sample
+frontend/.git/hooks/pre-receive.sample
+frontend/.git/hooks/prepare-commit-msg.sample
+frontend/.git/hooks/push-to-checkout.sample
+frontend/.git/hooks/sendemail-validate.sample
+frontend/.git/hooks/update.sample
+frontend/.git/index
+frontend/.git/info/exclude
+frontend/.git/logs/HEAD
+frontend/.git/logs/refs/heads/master
+frontend/.git/objects/00/4145cddf3f9db91b57b9cb596683c8eb420862
+frontend/.git/objects/05/e726d1b4201bc8c7716d2b058279676582e8c0
+frontend/.git/objects/3a/13f90a773b0facb675bf5b1a8239c8f33d36f5
+frontend/.git/objects/3e/012647c09727e7f85f488403a9ed9622b1f64e
+frontend/.git/objects/3f/36f7c5c4cfb7fb3c745bfd7d38b2d21a8c441d
+frontend/.git/objects/43/c994c2d3617f947bcb5adf1933e21dabe46bb5
+frontend/.git/objects/51/74b28c565c285e3e312ec5178be64fbeca8398
+frontend/.git/objects/52/0a6378500902b888f6d381a0d32211d45b5047
+frontend/.git/objects/56/7f17b0d7c7fb662c16d4357dd74830caf2dccb
+frontend/.git/objects/5e/f6a520780202a1d6addd833d800ccb1ecac0bb
+frontend/.git/objects/61/e36849cf7cfa9f1f71b4a3964a4953e3e243d3
+frontend/.git/objects/71/8d6fea4835ec2d246af9800eddb7ffb276240c
+frontend/.git/objects/77/053960334e2e34dc584dea8019925c3b4ccca9
+frontend/.git/objects/8b/d0e39085d5260e7f8faffcad2fdc45e10aef33
+frontend/.git/objects/97/6eb90df142ef2c4f3f39cee8b0e4c4f4771b62
+frontend/.git/objects/9b/ea61be063bacfdfbfac66e492fb539c9791aeb
+frontend/.git/objects/a1/ca0a151a1a751631ddc0bbb0e5cdd28c47c9a4
+frontend/.git/objects/a2/dc41ecee5ec435200fe7cba2bde4107f823774
+frontend/.git/objects/b2/b2a44f6ebc70c450043c05a002e7a93ba5d651
+frontend/.git/objects/c8/8f389de09f418da376598c42e8788d4fb6d172
+frontend/.git/objects/ce/3cfc0f91c0fcd73e27e9fea3c94c23e0fcc3ce
+frontend/.git/objects/e2/15bc4ccf138bbc38ad58ad57e92135484b3c0f
+frontend/.git/objects/e9/ffa3083ad279ecf95fd8eae59cb253e9a539c4
+frontend/.git/refs/heads/master
+frontend/.gitignore
+frontend/AGENTS.md
+frontend/app/favicon.ico
+frontend/app/globals.css
+frontend/app/layout.tsx
+frontend/app/page.tsx
+frontend/CLAUDE.md
+frontend/eslint.config.mjs
+frontend/next.config.ts
+frontend/package.json
+frontend/postcss.config.mjs
+frontend/public/file.svg
+frontend/public/globe.svg
+frontend/public/next.svg
+frontend/public/vercel.svg
+frontend/public/window.svg
+frontend/README.md
+frontend/tsconfig.json
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="backend/.env">
+GEMINI_API_KEY_1=AIzaSyCaG0-Ex7oRPnjiZtWKgN2SPR0CQwBXDJ0
+GEMINI_API_KEY_2=AIzaSyB_EiPdQWxZrJ8XzyVEV1eei2FcRkWkO8g
+GEMINI_API_KEY_3=AIzaSyBOqMtaMRl2USFDVmihIWjgNzN366pfC3Q
+# dan seterusnya
+</file>
+
+<file path="backend/app/agents/document.py">
+from app.core.gemini_call import gemini_json
+
+def analyze_document_with_ai(text: str) -> dict:
+    """Agent 1: Extract entities from document text."""
+    print("[Agent 1] Document Analyzer is running...")
+
+    prompt = f"""
+    You are an AI Enterprise Document Analyzer.
+    Analyze the following document text and extract its information into JSON format.
+
+    CRITICAL RULES:
+    - Output must be pure JSON only.
+    - Do not use markdown backticks.
+    - Do not add opening or closing prose.
+
+    Required JSON structure:
+    {{
+      "summary": "Professional 2-3 sentence document summary",
+      "key_entities": [
+        {{
+          "entity_name": "Feature, technology, or entity name",
+          "description": "Brief description from the document",
+          "potential_risk": "Potential risk analysis (Low/Medium/High)"
+        }}
+      ]
+    }}
+
+    Document Text:
+    {text}
+    """
+
+    fallback = {
+        "summary": "Document analysis failed.",
+        "key_entities": [],
+    }
+    result = gemini_json(prompt, fallback=fallback)
+    print("[Agent 1] Complete.")
+    return result
+</file>
+
+<file path="backend/app/agents/orchestrator.py">
+import time
+from app.agents.document import analyze_document_with_ai
+from app.agents.risk import analyze_risk
+from app.agents.validator import validate_analysis
+from app.agents.summarizer import summarize_analysis
+from app.agents.recommender import generate_recommendations
+
+def run_multi_agent_pipeline(text: str) -> dict:
+    """Run the 5 AI agents in sequence."""
+    print("\n[Orchestrator] Starting Multi-Agent Pipeline (5 agents)...")
+
+    # Phase 1: Document Analyzer
+    print("[Agent D] Document Analyzer is reading the text...")
+    time.sleep(1)
+    document_data = analyze_document_with_ai(text)
+
+    # Phase 2: Risk Detector
+    print("[Agent A] Anomaly/Risk Detector is identifying threats...")
+    time.sleep(1)
+    risk_data = analyze_risk(document_data)
+
+    # Phase 3: Validator & Checker
+    print("[Agent V] Validator is cross-checking facts...")
+    time.sleep(1.5)
+    validated_data = validate_analysis(risk_data)
+
+    # Phase 4: Smart Summarizer
+    print("[Agent S] Smart Summarizer is building categorized insights...")
+    time.sleep(1)
+    summarized_data = summarize_analysis(validated_data)
+
+    # Phase 5: Recommendation Engine
+    print("[Agent R] Recommendation Engine is preparing the action plan...")
+    time.sleep(1)
+    final_data = generate_recommendations(summarized_data)
+
+    print("[Orchestrator] Pipeline complete. 5/5 agents succeeded.")
+    return final_data
+</file>
+
+<file path="backend/app/agents/recommender.py">
+import json
+from app.core.gemini_call import gemini_json
+
+def generate_recommendations(summarized_data: dict) -> dict:
+    """Agent 5: Recommended corrective actions."""
+    print("[Agent 5] Recommendation Engine is preparing the action plan...")
+
+    anomaly_feed = json.dumps(
+        summarized_data.get("smart_summary", {}).get("anomaly_feed", []), indent=2
+    )
+    score      = summarized_data.get("overall_risk_score", 0)
+    risk_cats  = json.dumps(
+        summarized_data.get("smart_summary", {}).get("risk_categories", {}), indent=2
+    )
+
+    prompt = f"""
+    You are an AI Enterprise Security Consultant.
+    Based on the anomalies below, create concrete and actionable recommendations.
+
+    DETECTED ANOMALIES:
+    {anomaly_feed}
+
+    RISK CATEGORIES:
+    {risk_cats}
+
+    OVERALL RISK SCORE: {score}
+
+    OUTPUT RULES (pure JSON, no markdown):
+    {{
+      "recommendations": [
+        {{
+          "action": "Short, decisive action title (max 8 words)",
+          "detail": "Concrete step explanation (1-2 sentences)",
+          "priority": "HIGH/MEDIUM/LOW",
+          "category": "ACCESS/FINANCIAL/COMPLIANCE/OPERATIONAL",
+          "effort": "IMMEDIATE/SHORT_TERM/LONG_TERM"
+        }}
+      ],
+      "overall_recommendation": "One primary recommendation for management (1 sentence)",
+      "estimated_resolution_days": 14
+    }}
+
+    Create 3-5 recommendations. Prioritize HIGH severity first.
+    Output pure JSON only.
+    """
+
+    fallback = {
+        "recommendations": [],
+        "overall_recommendation": "Manual assessment required by security team.",
+        "estimated_resolution_days": 30,
+    }
+    result = gemini_json(prompt, fallback=fallback)
+
+    summarized_data["action_report"] = result
+    print("[Agent 5] Complete.")
+    return summarized_data
+</file>
+
+<file path="backend/app/agents/risk.py">
+import json
+
+from app.core.gemini_call import gemini_json
+
+
+def _score_locally(document_data: dict) -> int:
+
+    entities = document_data.get("key_entities", [])
+
+    if not entities:
+        return 30
+
+    HIGH_WORDS = {
+        "tinggi",
+        "high",
+        "critical",
+        "kritis",
+        "dangerous",
+    }
+
+    MEDIUM_WORDS = {
+        "medium",
+        "menengah",
+        "moderate",
+        "sedang",
+    }
+
+    high_count = 0
+    medium_count = 0
+
+    for entity in entities:
+
+        risk = (
+            entity.get("potential_risk", "")
+            .lower()
+            .strip()
+        )
+
+        if any(word in risk for word in HIGH_WORDS):
+            high_count += 1
+
+        elif any(word in risk for word in MEDIUM_WORDS):
+            medium_count += 1
+
+    total = len(entities)
+
+    raw_score = (
+        (high_count * 3) +
+        (medium_count * 1.5)
+    ) / (total * 3)
+
+    score = int(raw_score * 100)
+
+    if high_count > 0:
+        score = max(score, 55)
+
+    elif medium_count > 0:
+        score = max(score, 30)
+
+    return max(10, min(score, 95))
+
+
+def _summarize_entities(entities: list) -> str:
+
+    lines = []
+
+    for entity in entities[:10]:
+
+        name = entity.get(
+            "entity_name",
+            "Unknown"
+        )
+
+        risk = entity.get(
+            "potential_risk",
+            "Unknown"
+        )
+
+        lines.append(f"- {name}: {risk}")
+
+    if len(entities) > 10:
+        lines.append(
+            f"- ... and {len(entities) - 10} additional entities"
+        )
+
+    return "\n".join(lines)
+
+
+def analyze_risk(document_data: dict) -> dict:
+
+    print("[Agent 2] Risk Detector is running...")
+
+    summary = (
+        document_data.get("summary", "")[:500]
+    )
+
+    entities_summary = _summarize_entities(
+        document_data.get("key_entities", [])
+    )
+
+    fallback_score = _score_locally(document_data)
+
+    prompt = f"""
+You are an AI Enterprise Risk Assessor.
+
+TASK:
+Analyze the enterprise risk level based on
+the document summary and detected entities.
+
+MANDATORY RULES:
+- Output must be valid JSON
+- Do not use markdown
+- Do not use backticks
+- Do not add any explanation
+- Do not write any text outside JSON
+
+Document Summary:
+{summary}
+
+Entity List:
+{entities_summary}
+
+Required output format:
+
+{{
+  "risk_score": 45,
+  "risk_level": "LOW",
+  "reasoning": "Brief one-sentence rationale"
+}}
+
+Guidance:
+- LOW = 0-30
+- MEDIUM = 31-60
+- HIGH = 61-100
+"""
+
+    result = gemini_json(
+        prompt=prompt,
+        fallback={
+            "risk_score": fallback_score,
+            "risk_level": "MEDIUM",
+            "reasoning": "Fallback local scoring used.",
+        },
+        max_output_tokens=256,
+    )
+
+    try:
+
+        score = int(
+            result.get(
+                "risk_score",
+                fallback_score,
+            )
+        )
+
+        score = max(0, min(score, 100))
+
+    except Exception:
+
+        print(
+            "Invalid risk_score from AI, "
+            "using fallback"
+        )
+
+        score = fallback_score
+
+    risk_level = result.get(
+        "risk_level",
+        "MEDIUM",
+    )
+
+    reasoning = result.get(
+        "reasoning",
+        "No reasoning provided.",
+    )
+
+    document_data["overall_risk_score"] = score
+
+    document_data["risk_assessment"] = {
+        "risk_score": score,
+        "risk_level": risk_level,
+        "reasoning": reasoning,
+    }
+
+    print(
+        f"[Agent 2] "
+        f"Score: {score} "
+        f"({risk_level})"
+    )
+
+    return document_data
+</file>
+
+<file path="backend/app/agents/summarizer.py">
+import json
+from app.core.gemini_call import gemini_json
+
+def summarize_analysis(validated_data: dict) -> dict:
+    """Agent 4: Executive summary and risk categorization."""
+    print("[Agent 4] Smart Summarizer is preparing insights...")
+
+    summary    = validated_data.get("summary", "")
+    score      = validated_data.get("overall_risk_score", 0)
+    entities   = json.dumps(validated_data.get("key_entities", []), indent=2)
+    validation = json.dumps(validated_data.get("final_validation", {}), indent=2)
+
+    prompt = f"""
+    You are an AI Chief Risk Officer preparing an executive report.
+    Based on the data below, create a risk summary split into 3 business categories.
+
+    DATA:
+    - Document Summary: {summary}
+    - Risk Score: {score}
+    - Entities and Risks: {entities}
+    - Validation Result: {validation}
+
+    OUTPUT RULES (pure JSON, no markdown):
+    {{
+      "executive_brief": "One professional executive summary paragraph (2-3 sentences)",
+      "risk_categories": {{
+        "access_risk": "Access and system security risk analysis (1-2 sentences)",
+        "financial_risk": "Financial and budget risk analysis (1-2 sentences)",
+        "compliance": "Regulatory and standards compliance analysis (1-2 sentences)"
+      }},
+      "anomaly_feed": [
+        {{
+          "title": "Short anomaly title",
+          "description": "Anomaly details",
+          "severity": "HIGH/MEDIUM/LOW",
+          "category": "ACCESS/FINANCIAL/COMPLIANCE/OPERATIONAL"
+        }}
+      ]
+    }}
+
+    Create 2-4 anomaly_feed items based on the available entities.
+    Output pure JSON only.
+    """
+
+    fallback = {
+        "executive_brief": "Smart summary unavailable.",
+        "risk_categories": {
+            "access_risk": "Unable to analyze.",
+            "financial_risk": "Unable to analyze.",
+            "compliance": "Unable to analyze.",
+        },
+        "anomaly_feed": [],
+    }
+    result = gemini_json(prompt, fallback=fallback)
+
+    validated_data["smart_summary"] = result
+    print("[Agent 4] Complete.")
+    return validated_data
+</file>
+
+<file path="backend/app/agents/validator.py">
+from app.core.gemini_call import gemini_json
+
+def validate_analysis(risk_data: dict) -> dict:
+    """Agent 3: Validate data integrity and provide a verdict."""
+    print("[Agent 3] Validator is reviewing...")
+
+    summary = risk_data.get("summary", "")
+    score   = risk_data.get("overall_risk_score", 0)
+
+    prompt = f"""
+    You are an AI Compliance Auditor.
+    Review the following summary and risk score:
+
+    Summary: {summary}
+    Risk Score: {score}
+
+    Your task:
+    1. Provide one professional conclusion sentence (max 15 words).
+    2. Set the status to "VALIDATED" or "REJECTED".
+
+    Output pure JSON only, without markdown:
+    {{
+      "conclusion": "conclusion sentence",
+      "status": "VALIDATED"
+    }}
+    """
+
+    fallback = {"conclusion": "Manual review required.", "status": "PENDING"}
+    result   = gemini_json(prompt, fallback=fallback)
+
+    risk_data["final_validation"] = result
+    print("[Agent 3] Complete.")
+    return risk_data
+</file>
+
+<file path="backend/app/api/upload.py">
+from fastapi import APIRouter, UploadFile, File, HTTPException
+import os
+import io
+from app.agents.orchestrator import run_multi_agent_pipeline
+
+router = APIRouter()
+UPLOAD_DIR = "temp_uploads"
+os.makedirs(UPLOAD_DIR, exist_ok=True)
+
+# Maximum text sent to AI (characters)
+MAX_CHARS = 10_000
+
+SUPPORTED_EXTENSIONS = {".pdf", ".csv", ".xlsx", ".xls", ".txt", ".log"}
+
+
+def extract_text_from_file(file_path: str, filename: str) -> str:
+    """Extract text from supported file formats."""
+    ext = os.path.splitext(filename)[1].lower()
+
+    # ── PDF ──────────────────────────────────────────────────────────────────
+    if ext == ".pdf":
+        from pypdf import PdfReader
+        reader = PdfReader(file_path)
+        text = ""
+        for page in reader.pages:
+            page_text = page.extract_text()
+            if page_text:
+                text += page_text + "\n"
+        if not text.strip():
+            raise ValueError("The PDF does not contain extractable text. "
+                             "It may be a scanned or image-based file.")
+        return text
+
+    # ── CSV ──────────────────────────────────────────────────────────────────
+    elif ext == ".csv":
+        import csv
+        rows = []
+        with open(file_path, "r", encoding="utf-8", errors="replace") as f:
+            reader = csv.reader(f)
+            for i, row in enumerate(reader):
+                rows.append(", ".join(row))
+                if i >= 500:  # max 500 rows
+                    rows.append("... (truncated)")
+                    break
+        text = "\n".join(rows)
+        if not text.strip():
+            raise ValueError("The CSV file is empty or cannot be read.")
+        return text
+
+    # ── XLSX / XLS ───────────────────────────────────────────────────────────
+    elif ext in {".xlsx", ".xls"}:
+        try:
+            import openpyxl
+            wb = openpyxl.load_workbook(file_path, read_only=True, data_only=True)
+            rows = []
+            for sheet in wb.worksheets:
+                rows.append(f"[Sheet: {sheet.title}]")
+                for i, row in enumerate(sheet.iter_rows(values_only=True)):
+                    cells = [str(c) if c is not None else "" for c in row]
+                    rows.append(", ".join(cells))
+                    if i >= 300:
+                        rows.append("... (truncated)")
+                        break
+            wb.close()
+            text = "\n".join(rows)
+            if not text.strip():
+                raise ValueError("The Excel file is empty.")
+            return text
+        except ImportError:
+            raise ValueError("The openpyxl library is not installed. "
+                             "Run: pip install openpyxl")
+
+    # ── TXT / LOG ────────────────────────────────────────────────────────────
+    elif ext in {".txt", ".log"}:
+        with open(file_path, "r", encoding="utf-8", errors="replace") as f:
+            text = f.read()
+        if not text.strip():
+            raise ValueError("The text file is empty.")
+        return text
+
+    else:
+        raise ValueError(
+            f"The '{ext}' format is not supported. "
+            f"Accepted formats: {', '.join(sorted(SUPPORTED_EXTENSIONS))}"
+        )
+
+
+@router.post("/upload")
+async def upload_document(file: UploadFile = File(...)):
+    filename = file.filename or "unknown"
+    ext = os.path.splitext(filename)[1].lower()
+
+    # ── Validasi ekstensi ─────────────────────────────────────────────────────
+    if ext not in SUPPORTED_EXTENSIONS:
+        raise HTTPException(
+            status_code=415,
+            detail={
+                "error": "unsupported_format",
+                "message": f"The '{ext}' format is not supported.",
+                "supported": sorted(SUPPORTED_EXTENSIONS),
+            },
+        )
+
+    # ── Simpan file sementara ─────────────────────────────────────────────────
+    file_path = os.path.join(UPLOAD_DIR, filename)
+    try:
+        content = await file.read()
+
+        # Validate size (max 20 MB).
+        if len(content) > 20 * 1024 * 1024:
+            raise HTTPException(
+                status_code=413,
+                detail={
+                    "error": "file_too_large",
+                    "message": "File size exceeds the 20 MB limit.",
+                },
+            )
+
+        with open(file_path, "wb") as buffer:
+            buffer.write(content)
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail={"error": "save_failed", "message": f"Failed to save file: {str(e)}"},
+        )
+
+    # ── Ekstrak teks ──────────────────────────────────────────────────────────
+    try:
+        raw_text = extract_text_from_file(file_path, filename)
+    except ValueError as e:
+        raise HTTPException(
+            status_code=422,
+            detail={"error": "extraction_failed", "message": str(e)},
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail={"error": "extraction_error", "message": f"Error while reading file: {str(e)}"},
+        )
+
+    # ── Truncate & pipeline ───────────────────────────────────────────────────
+    extracted_text = raw_text[:MAX_CHARS]
+
+    try:
+        ai_analysis_json = run_multi_agent_pipeline(extracted_text)
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail={"error": "pipeline_failed", "message": f"AI pipeline error: {str(e)}"},
+        )
+
+    return {
+        "status": "success",
+        "filename": filename,
+        "file_type": ext,
+        "char_count": len(extracted_text),
+        "ai_analysis": ai_analysis_json,
+    }
+</file>
+
+<file path="backend/app/core/api_key_manager.py">
+import os
+import threading
+import time
+from itertools import cycle
+from google import genai
+from dotenv import load_dotenv
+
+load_dotenv()
+
+class APIKeyManager:
+    def __init__(self):
+        self.keys = []
+        i = 1
+        while True:
+            key = os.getenv(f"GEMINI_API_KEY_{i}")
+            if not key:
+                break
+            self.keys.append(key)
+            i += 1
+        
+        if not self.keys:
+            raise ValueError("No GEMINI_API_KEY_* found in .env")
+            
+        self._lock = threading.Lock()
+        self._round_robin = cycle(range(len(self.keys)))  # index cycle
+        self._cooldowns = {}   # key -> timestamp until it can be reused
+    
+    def get_client_and_key(self) -> tuple:
+        """
+        Return (client, key) using round-robin selection,
+        skipping keys that are currently in cooldown.
+        If all keys are cooling down, wait until one is ready.
+        """
+        with self._lock:
+            start_time = time.time()
+            tried = 0
+            while tried < len(self.keys):
+                idx = next(self._round_robin)
+                key = self.keys[idx]
+                until = self._cooldowns.get(key)
+                if until and time.time() < until:
+                    tried += 1
+                    continue
+                return genai.Client(api_key=key), key
+            
+            # All keys are cooling down; wait for the soonest available key.
+            min_key = min(self._cooldowns, key=lambda k: self._cooldowns[k])
+            wait = self._cooldowns[min_key] - time.time()
+            if wait > 0:
+                time.sleep(wait)
+            return genai.Client(api_key=min_key), min_key
+    
+    def report_rate_limit(self, key: str):
+        """Put a rate-limited key on a 20-second cooldown."""
+        with self._lock:
+            self._cooldowns[key] = time.time() + 20
+            print(f"Key {key[-6:]} rate-limited, cooldown 20s")
+    
+    def report_success(self, key: str):
+        """Clear cooldown after a key is used successfully."""
+        with self._lock:
+            self._cooldowns.pop(key, None)
+
+_manager = APIKeyManager()
+
+def get_client_and_key():
+    return _manager.get_client_and_key()
+
+def report_rate_limit(key: str):
+    _manager.report_rate_limit(key)
+
+def report_success(key: str):
+    _manager.report_success(key)
+</file>
+
+<file path="backend/app/core/gemini_call.py">
+import json
+import time
+from google.genai import types
+from google.genai.errors import ClientError
+
+from app.core.api_key_manager import (
+    get_client_and_key,
+    report_rate_limit,
+    report_success,
+)
+
+# Retryable Gemini errors
+_RETRYABLE_CODES = {429, 500, 503, 504}
+
+
+def _extract_json(text: str) -> str:
+    """
+    Extract the first JSON object from the model response.
+    Handles cases where the model adds extra text.
+    """
+
+    text = text.strip()
+
+    # Remove markdown fences.
+    if text.startswith("```json"):
+        text = text[7:]
+
+    if text.startswith("```"):
+        text = text[3:]
+
+    if text.endswith("```"):
+        text = text[:-3]
+
+    text = text.strip()
+
+    # Find JSON object.
+    start = text.find("{")
+    end = text.rfind("}")
+
+    if start != -1 and end != -1:
+        text = text[start:end + 1]
+
+    return text.strip()
+
+
+def gemini_call(
+    prompt: str,
+    max_retries: int = 5,
+    max_output_tokens: int = 8192,
+) -> str:
+    """
+    Stable Gemini call wrapper.
+    """
+
+    last_error = None
+
+    for attempt in range(max_retries):
+
+        client, key = get_client_and_key()
+
+        try:
+            response = client.models.generate_content(
+                model="gemini-2.5-flash-lite",
+                contents=prompt,
+                config=types.GenerateContentConfig(
+                    temperature=0,
+                    max_output_tokens=max_output_tokens,
+                    response_mime_type="application/json",
+                ),
+            )
+
+            text = getattr(response, "text", None)
+
+            if not text or not text.strip():
+                print(
+                    f"[gemini_call] Empty response "
+                    f"(attempt {attempt + 1})"
+                )
+
+                last_error = "Empty response"
+
+                time.sleep(2 ** attempt)
+                continue
+
+            text = text.strip()
+
+            report_success(key)
+
+            return text
+
+        except ClientError as e:
+
+            code = getattr(e, "code", None)
+
+            if code in _RETRYABLE_CODES:
+
+                wait = 2 ** attempt
+
+                if code == 429:
+                    print(
+                        f"Rate limit key {key[-6:]}, "
+                        f"cooldown + rotate key"
+                    )
+
+                    report_rate_limit(key)
+
+                else:
+                    print(
+                        f"Gemini {code} "
+                        f"(attempt {attempt + 1}) "
+                        f"retry in {wait}s"
+                    )
+
+                time.sleep(wait)
+
+                last_error = str(e)
+                continue
+
+            print(f"Non-retryable Gemini error: {e}")
+            raise RuntimeError(str(e)) from e
+
+        except Exception as e:
+
+            print(f"Gemini unknown error: {e}")
+
+            last_error = str(e)
+
+            time.sleep(2 ** attempt)
+
+    raise RuntimeError(
+        f"All Gemini retries failed. Last error: {last_error}"
+    )
+
+
+def gemini_json(
+    prompt: str,
+    fallback: dict,
+    max_retries: int = 5,
+    max_output_tokens: int = 8192,
+) -> dict:
+    """
+    Gemini wrapper that parses JSON directly.
+    """
+
+    try:
+
+        text = gemini_call(
+            prompt=prompt,
+            max_retries=max_retries,
+            max_output_tokens=max_output_tokens,
+        )
+
+        print("\n================ RAW GEMINI ================\n")
+        print(text)
+        print("\n============================================\n")
+
+        text = _extract_json(text)
+
+        parsed = json.loads(text)
+
+        if not isinstance(parsed, dict):
+            raise ValueError("Response is not JSON object")
+
+        return parsed
+
+    except json.JSONDecodeError as e:
+
+        print(f"JSON decode error: {e}")
+
+        try:
+
+            print("Retrying with larger token limit...")
+
+            text = gemini_call(
+                prompt=prompt,
+                max_retries=2,
+                max_output_tokens=min(
+                    max_output_tokens * 2,
+                    32768,
+                ),
+            )
+
+            text = _extract_json(text)
+
+            return json.loads(text)
+
+        except Exception as retry_err:
+
+            print(f"Retry failed: {retry_err}")
+            print("Using fallback response")
+
+            return fallback
+
+    except Exception as e:
+
+        print(f"gemini_json failed: {e}")
+        print("Using fallback response")
+
+        return fallback
+</file>
+
+<file path="backend/app/main.py">
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from app.api import upload
+
+app = FastAPI()
+
+# Allow the Next.js frontend to communicate with the backend.
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+app.include_router(upload.router, prefix="/api")
+</file>
+
+<file path="context/nalar_backend_architecture.svg">
+<svg width="100%" viewBox="0 0 680 920" role="img" style="" xmlns="http://www.w3.org/2000/svg">
+  <title style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">NALAR_ Backend Architecture Diagram</title>
+  <desc style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Multi-agent AI pipeline for enterprise risk intelligence: upload, ingest, analyze, detect anomalies, validate, summarize, recommend, and stream results to frontend.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <!-- Section: CLIENT -->
+  <rect x="40" y="20" width="600" height="68" rx="10" fill="none" stroke="var(--color-border-secondary)" stroke-width="0.5" stroke-dasharray="4 3" style="fill:none;stroke:rgba(222, 220, 209, 0.3);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-dasharray:4px, 3px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text x="56" y="38" style="font-size:10px;fill:var(--color-text-tertiary);letter-spacing:1px;fill:rgb(156, 154, 146);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:10px;font-weight:400;text-anchor:start;dominant-baseline:auto">CLIENT</text>
+  <g onclick="sendPrompt('What does the NALAR_ frontend send to the backend?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <rect x="56" y="44" width="130" height="36" rx="6" stroke-width="0.5" style="fill:rgb(68, 68, 65);stroke:rgb(180, 178, 169);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <text x="121" y="62" text-anchor="middle" dominant-baseline="central" style="fill:rgb(211, 209, 199);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">Web Dashboard</text>
+  </g>
+  <g onclick="sendPrompt('What file types does NALAR_ accept for upload?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <rect x="210" y="44" width="130" height="36" rx="6" stroke-width="0.5" style="fill:rgb(68, 68, 65);stroke:rgb(180, 178, 169);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <text x="275" y="62" text-anchor="middle" dominant-baseline="central" style="fill:rgb(211, 209, 199);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">File Upload UI</text>
+  </g>
+  <g onclick="sendPrompt('How does the real-time feed work in NALAR_?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <rect x="364" y="44" width="130" height="36" rx="6" stroke-width="0.5" style="fill:rgb(68, 68, 65);stroke:rgb(180, 178, 169);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <text x="429" y="62" text-anchor="middle" dominant-baseline="central" style="fill:rgb(211, 209, 199);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">Live Feed / SSE</text>
+  </g>
+  <g onclick="sendPrompt('What does the anomaly heatmap show?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <rect x="518" y="44" width="106" height="36" rx="6" stroke-width="0.5" style="fill:rgb(68, 68, 65);stroke:rgb(180, 178, 169);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <text x="571" y="62" text-anchor="middle" dominant-baseline="central" style="fill:rgb(211, 209, 199);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">Heatmap View</text>
+  </g>
+
+  <!-- Arrow CLIENT -> FASTAPI -->
+  <line x1="340" y1="88" x2="340" y2="108" marker-end="url(#arrow)" style="fill:none;stroke:rgb(156, 154, 146);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- Section: FASTAPI GATEWAY -->
+  <rect x="40" y="108" width="600" height="68" rx="10" fill="none" stroke="var(--color-border-secondary)" stroke-width="0.5" stroke-dasharray="4 3" style="fill:none;stroke:rgba(222, 220, 209, 0.3);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-dasharray:4px, 3px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text x="56" y="126" style="font-size:10px;fill:var(--color-text-tertiary);letter-spacing:1px;fill:rgb(156, 154, 146);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:10px;font-weight:400;text-anchor:start;dominant-baseline:auto">FASTAPI GATEWAY</text>
+  <g onclick="sendPrompt('What REST endpoints does the NALAR_ API expose?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <rect x="56" y="132" width="120" height="36" rx="6" stroke-width="0.5" style="fill:rgb(8, 80, 65);stroke:rgb(93, 202, 165);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <text x="116" y="150" text-anchor="middle" dominant-baseline="central" style="fill:rgb(159, 225, 203);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">Auth (JWT)</text>
+  </g>
+  <g onclick="sendPrompt('How does NALAR_ handle file uploads in the API?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <rect x="196" y="132" width="120" height="36" rx="6" stroke-width="0.5" style="fill:rgb(8, 80, 65);stroke:rgb(93, 202, 165);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <text x="256" y="150" text-anchor="middle" dominant-baseline="central" style="fill:rgb(159, 225, 203);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">Upload Router</text>
+  </g>
+  <g onclick="sendPrompt('How does NALAR_ stream workflow status to the client?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <rect x="336" y="132" width="120" height="36" rx="6" stroke-width="0.5" style="fill:rgb(8, 80, 65);stroke:rgb(93, 202, 165);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <text x="396" y="150" text-anchor="middle" dominant-baseline="central" style="fill:rgb(159, 225, 203);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">SSE / Status</text>
+  </g>
+  <g onclick="sendPrompt('What does the reports endpoint return in NALAR_?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <rect x="476" y="132" width="148" height="36" rx="6" stroke-width="0.5" style="fill:rgb(8, 80, 65);stroke:rgb(93, 202, 165);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <text x="550" y="150" text-anchor="middle" dominant-baseline="central" style="fill:rgb(159, 225, 203);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">Reports &amp; Metrics</text>
+  </g>
+
+  <!-- Arrow GATEWAY -> INGESTION -->
+  <line x1="340" y1="176" x2="340" y2="200" marker-end="url(#arrow)" style="fill:none;stroke:rgb(156, 154, 146);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- Section: INGESTION -->
+  <rect x="40" y="200" width="600" height="68" rx="10" fill="none" stroke="var(--color-border-secondary)" stroke-width="0.5" stroke-dasharray="4 3" style="fill:none;stroke:rgba(222, 220, 209, 0.3);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-dasharray:4px, 3px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text x="56" y="218" style="font-size:10px;fill:var(--color-text-tertiary);letter-spacing:1px;fill:rgb(156, 154, 146);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:10px;font-weight:400;text-anchor:start;dominant-baseline:auto">INGESTION LAYER</text>
+  <g onclick="sendPrompt('How does NALAR_ extract text from PDFs?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <rect x="56" y="224" width="110" height="36" rx="6" stroke-width="0.5" style="fill:rgb(12, 68, 124);stroke:rgb(133, 183, 235);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <text x="111" y="242" text-anchor="middle" dominant-baseline="central" style="fill:rgb(181, 212, 244);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">PDF Parser</text>
+  </g>
+  <g onclick="sendPrompt('How does NALAR_ parse structured logs?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <rect x="184" y="224" width="110" height="36" rx="6" stroke-width="0.5" style="fill:rgb(12, 68, 124);stroke:rgb(133, 183, 235);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <text x="239" y="242" text-anchor="middle" dominant-baseline="central" style="fill:rgb(181, 212, 244);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">Log Parser</text>
+  </g>
+  <g onclick="sendPrompt('How does NALAR_ handle CSV and XLSX files?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <rect x="312" y="224" width="130" height="36" rx="6" stroke-width="0.5" style="fill:rgb(12, 68, 124);stroke:rgb(133, 183, 235);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <text x="377" y="242" text-anchor="middle" dominant-baseline="central" style="fill:rgb(181, 212, 244);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">CSV / XLSX Reader</text>
+  </g>
+  <g onclick="sendPrompt('What is token chunking in the NALAR_ context window?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <rect x="460" y="224" width="164" height="36" rx="6" stroke-width="0.5" style="fill:rgb(12, 68, 124);stroke:rgb(133, 183, 235);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <text x="542" y="242" text-anchor="middle" dominant-baseline="central" style="fill:rgb(181, 212, 244);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">Token Chunk Manager</text>
+  </g>
+
+  <!-- Arrow INGESTION -> PIPELINE -->
+  <line x1="340" y1="268" x2="340" y2="296" marker-end="url(#arrow)" style="fill:none;stroke:rgb(156, 154, 146);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- Section: MULTI-AGENT PIPELINE -->
+  <rect x="40" y="296" width="600" height="340" rx="10" fill="none" stroke="var(--color-border-secondary)" stroke-width="0.5" stroke-dasharray="4 3" style="fill:none;stroke:rgba(222, 220, 209, 0.3);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-dasharray:4px, 3px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text x="56" y="314" style="font-size:10px;fill:var(--color-text-tertiary);letter-spacing:1px;fill:rgb(156, 154, 146);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:10px;font-weight:400;text-anchor:start;dominant-baseline:auto">MULTI-AGENT AI PIPELINE (Gemini 1.5 Pro)</text>
+
+  <!-- Agent 1: Document Analyzer -->
+  <g onclick="sendPrompt('What does the Document Analyzer agent do in NALAR_?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <rect x="200" y="322" width="280" height="52" rx="8" stroke-width="0.5" style="fill:rgb(60, 52, 137);stroke:rgb(175, 169, 236);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <text x="340" y="342" text-anchor="middle" dominant-baseline="central" style="fill:rgb(206, 203, 246);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">① Document Analyzer Agent</text>
+    <text x="340" y="360" text-anchor="middle" dominant-baseline="central" style="fill:rgb(175, 169, 236);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:central">Extracts entities, structure, key facts</text>
+  </g>
+  <line x1="340" y1="374" x2="340" y2="394" marker-end="url(#arrow)" style="fill:none;stroke:rgb(156, 154, 146);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- Agent 2: Risk / Anomaly Detector -->
+  <g onclick="sendPrompt('How does the Risk Detection agent detect anomalies in NALAR_?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <rect x="200" y="394" width="280" height="52" rx="8" stroke-width="0.5" style="fill:rgb(113, 43, 19);stroke:rgb(240, 153, 123);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <text x="340" y="414" text-anchor="middle" dominant-baseline="central" style="fill:rgb(245, 196, 179);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">② Risk Detection Agent</text>
+    <text x="340" y="432" text-anchor="middle" dominant-baseline="central" style="fill:rgb(240, 153, 123);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:central">Flags anomalies, scores risk 0–100</text>
+  </g>
+  <line x1="340" y1="446" x2="340" y2="466" marker-end="url(#arrow)" style="fill:none;stroke:rgb(156, 154, 146);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- Agent 3: Validator -->
+  <g onclick="sendPrompt('What does the Validator agent cross-check in NALAR_?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <rect x="200" y="466" width="280" height="52" rx="8" stroke-width="0.5" style="fill:rgb(99, 56, 6);stroke:rgb(239, 159, 39);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <text x="340" y="486" text-anchor="middle" dominant-baseline="central" style="fill:rgb(250, 199, 117);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">③ Validator Agent</text>
+    <text x="340" y="504" text-anchor="middle" dominant-baseline="central" style="fill:rgb(239, 159, 39);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:central">Cross-checks findings, confirms confidence</text>
+  </g>
+  <line x1="340" y1="518" x2="340" y2="538" marker-end="url(#arrow)" style="fill:none;stroke:rgb(156, 154, 146);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- Agent 4: Insight Summarizer -->
+  <g onclick="sendPrompt('What does the Insight Summarizer agent output in NALAR_?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <rect x="200" y="538" width="280" height="52" rx="8" stroke-width="0.5" style="fill:rgb(39, 80, 10);stroke:rgb(151, 196, 89);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <text x="340" y="558" text-anchor="middle" dominant-baseline="central" style="fill:rgb(192, 221, 151);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">④ Insight Summarizer Agent</text>
+    <text x="340" y="576" text-anchor="middle" dominant-baseline="central" style="fill:rgb(151, 196, 89);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:central">Natural language summary per anomaly</text>
+  </g>
+  <line x1="340" y1="590" x2="340" y2="610" marker-end="url(#arrow)" style="fill:none;stroke:rgb(156, 154, 146);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- Agent 5: Recommendation Engine -->
+  <g onclick="sendPrompt('What actions does the Recommendation agent suggest in NALAR_?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <rect x="200" y="610" width="280" height="52" rx="8" stroke-width="0.5" style="fill:rgb(114, 36, 62);stroke:rgb(237, 147, 177);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <text x="340" y="630" text-anchor="middle" dominant-baseline="central" style="fill:rgb(244, 192, 209);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">⑤ Recommendation Agent</text>
+    <text x="340" y="648" text-anchor="middle" dominant-baseline="central" style="fill:rgb(237, 147, 177);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:central">Proposes actions + priority labels</text>
+  </g>
+
+  <!-- Lateral: Audit Trail Emitter -->
+  <g onclick="sendPrompt('What does the audit trail log in NALAR_?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <rect x="56" y="540" width="120" height="44" rx="6" stroke-width="0.5" style="fill:rgb(68, 68, 65);stroke:rgb(180, 178, 169);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <text x="116" y="558" text-anchor="middle" dominant-baseline="central" style="fill:rgb(211, 209, 199);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">Audit Trail</text>
+    <text x="116" y="574" text-anchor="middle" dominant-baseline="central" style="fill:rgb(180, 178, 169);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:central">Emitter</text>
+  </g>
+  <path d="M200 490 L176 490 L176 562 L176 562" fill="none" stroke="var(--color-border-secondary)" stroke-width="0.5" stroke-dasharray="3 3" marker-end="url(#arrow)" style="fill:none;stroke:rgba(222, 220, 209, 0.3);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-dasharray:3px, 3px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- Arrow PIPELINE -> STORAGE -->
+  <line x1="340" y1="662" x2="340" y2="690" marker-end="url(#arrow)" style="fill:none;stroke:rgb(156, 154, 146);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- Section: STORAGE -->
+  <rect x="40" y="690" width="600" height="100" rx="10" fill="none" stroke="var(--color-border-secondary)" stroke-width="0.5" stroke-dasharray="4 3" style="fill:none;stroke:rgba(222, 220, 209, 0.3);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-dasharray:4px, 3px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text x="56" y="708" style="font-size:10px;fill:var(--color-text-tertiary);letter-spacing:1px;fill:rgb(156, 154, 146);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:10px;font-weight:400;text-anchor:start;dominant-baseline:auto">STORAGE &amp; REAL-TIME (Supabase / Postgres)</text>
+  <g onclick="sendPrompt('What tables does the NALAR_ database need?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <rect x="56" y="716" width="110" height="36" rx="6" stroke-width="0.5" style="fill:rgb(68, 68, 65);stroke:rgb(180, 178, 169);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <text x="111" y="734" text-anchor="middle" dominant-baseline="central" style="fill:rgb(211, 209, 199);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">Documents</text>
+  </g>
+  <g onclick="sendPrompt('What fields does the analysis_sessions table have?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <rect x="184" y="716" width="110" height="36" rx="6" stroke-width="0.5" style="fill:rgb(68, 68, 65);stroke:rgb(180, 178, 169);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <text x="239" y="734" text-anchor="middle" dominant-baseline="central" style="fill:rgb(211, 209, 199);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">Sessions</text>
+  </g>
+  <g onclick="sendPrompt('What does an anomaly record look like in NALAR_?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <rect x="312" y="716" width="110" height="36" rx="6" stroke-width="0.5" style="fill:rgb(68, 68, 65);stroke:rgb(180, 178, 169);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <text x="367" y="734" text-anchor="middle" dominant-baseline="central" style="fill:rgb(211, 209, 199);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">Anomalies</text>
+  </g>
+  <g onclick="sendPrompt('What does the agent_outputs table store in NALAR_?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <rect x="440" y="716" width="110" height="36" rx="6" stroke-width="0.5" style="fill:rgb(68, 68, 65);stroke:rgb(180, 178, 169);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <text x="495" y="734" text-anchor="middle" dominant-baseline="central" style="fill:rgb(211, 209, 199);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">Agent Outputs</text>
+  </g>
+  <g onclick="sendPrompt('How does NALAR_ use Supabase real-time?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <rect x="56" y="762" width="494" height="20" rx="4" stroke-width="0.5" style="fill:rgb(68, 68, 65);stroke:rgb(180, 178, 169);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <text x="303" y="772" text-anchor="middle" dominant-baseline="central" style="fill:rgb(180, 178, 169);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:central">Supabase Realtime → SSE push → Live frontend feed</text>
+  </g>
+
+  <!-- Arrow STORAGE -> OUTPUT -->
+  <line x1="340" y1="790" x2="340" y2="818" marker-end="url(#arrow)" style="fill:none;stroke:rgb(156, 154, 146);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- Section: OUTPUT -->
+  <rect x="40" y="818" width="600" height="82" rx="10" fill="none" stroke="var(--color-border-secondary)" stroke-width="0.5" stroke-dasharray="4 3" style="fill:none;stroke:rgba(222, 220, 209, 0.3);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-dasharray:4px, 3px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <text x="56" y="836" style="font-size:10px;fill:var(--color-text-tertiary);letter-spacing:1px;fill:rgb(156, 154, 146);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:10px;font-weight:400;text-anchor:start;dominant-baseline:auto">STRUCTURED JSON OUTPUT</text>
+  <g onclick="sendPrompt('What does a risk intelligence JSON output look like?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <rect x="56" y="844" width="130" height="36" rx="6" stroke-width="0.5" style="fill:rgb(8, 80, 65);stroke:rgb(93, 202, 165);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <text x="121" y="862" text-anchor="middle" dominant-baseline="central" style="fill:rgb(159, 225, 203);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">Risk Score Card</text>
+  </g>
+  <g onclick="sendPrompt('What does an anomaly card JSON contain?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <rect x="204" y="844" width="130" height="36" rx="6" stroke-width="0.5" style="fill:rgb(113, 43, 19);stroke:rgb(240, 153, 123);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <text x="269" y="862" text-anchor="middle" dominant-baseline="central" style="fill:rgb(245, 196, 179);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">Anomaly Cards</text>
+  </g>
+  <g onclick="sendPrompt('What is the AI reasoning trail format in NALAR_?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <rect x="352" y="844" width="130" height="36" rx="6" stroke-width="0.5" style="fill:rgb(60, 52, 137);stroke:rgb(175, 169, 236);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <text x="417" y="862" text-anchor="middle" dominant-baseline="central" style="fill:rgb(206, 203, 246);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">Reasoning Trail</text>
+  </g>
+  <g onclick="sendPrompt('What does a recommendations payload look like in NALAR_?')" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <rect x="500" y="844" width="124" height="36" rx="6" stroke-width="0.5" style="fill:rgb(39, 80, 10);stroke:rgb(151, 196, 89);color:rgb(255, 255, 255);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <text x="562" y="862" text-anchor="middle" dominant-baseline="central" style="fill:rgb(192, 221, 151);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">Action Report</text>
+  </g>
+</svg>
+</file>
+
+<file path="frontend/.git/COMMIT_EDITMSG">
+Initial commit from Create Next App
+</file>
+
+<file path="frontend/.git/config">
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = false
+	logallrefupdates = true
+	symlinks = false
+	ignorecase = true
+</file>
+
+<file path="frontend/.git/description">
+Unnamed repository; edit this file 'description' to name the repository.
+</file>
+
+<file path="frontend/.git/gk/config">
+[branch "master"]
+	gk-last-accessed = 2026-05-12T14:30:17.637Z
+</file>
+
+<file path="frontend/.git/HEAD">
+ref: refs/heads/master
+</file>
+
+<file path="frontend/.git/hooks/applypatch-msg.sample">
+#!/bin/sh
+#
+# An example hook script to check the commit log message taken by
+# applypatch from an e-mail message.
+#
+# The hook should exit with non-zero status after issuing an
+# appropriate message if it wants to stop the commit.  The hook is
+# allowed to edit the commit message file.
+#
+# To enable this hook, rename this file to "applypatch-msg".
+
+. git-sh-setup
+commitmsg="$(git rev-parse --git-path hooks/commit-msg)"
+test -x "$commitmsg" && exec "$commitmsg" ${1+"$@"}
+:
+</file>
+
+<file path="frontend/.git/hooks/commit-msg.sample">
+#!/bin/sh
+#
+# An example hook script to check the commit log message.
+# Called by "git commit" with one argument, the name of the file
+# that has the commit message.  The hook should exit with non-zero
+# status after issuing an appropriate message if it wants to stop the
+# commit.  The hook is allowed to edit the commit message file.
+#
+# To enable this hook, rename this file to "commit-msg".
+
+# Uncomment the below to add a Signed-off-by line to the message.
+# Doing this in a hook is a bad idea in general, but the prepare-commit-msg
+# hook is more suited to it.
+#
+# SOB=$(git var GIT_AUTHOR_IDENT | sed -n 's/^\(.*>\).*$/Signed-off-by: \1/p')
+# grep -qs "^$SOB" "$1" || echo "$SOB" >> "$1"
+
+# This example catches duplicate Signed-off-by lines.
+
+test "" = "$(grep '^Signed-off-by: ' "$1" |
+	 sort | uniq -c | sed -e '/^[ 	]*1[ 	]/d')" || {
+	echo >&2 Duplicate Signed-off-by lines.
+	exit 1
+}
+</file>
+
+<file path="frontend/.git/hooks/fsmonitor-watchman.sample">
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use IPC::Open2;
+
+# An example hook script to integrate Watchman
+# (https://facebook.github.io/watchman/) with git to speed up detecting
+# new and modified files.
+#
+# The hook is passed a version (currently 2) and last update token
+# formatted as a string and outputs to stdout a new update token and
+# all files that have been modified since the update token. Paths must
+# be relative to the root of the working tree and separated by a single NUL.
+#
+# To enable this hook, rename this file to "query-watchman" and set
+# 'git config core.fsmonitor .git/hooks/query-watchman'
+#
+my ($version, $last_update_token) = @ARGV;
+
+# Uncomment for debugging
+# print STDERR "$0 $version $last_update_token\n";
+
+# Check the hook interface version
+if ($version ne 2) {
+	die "Unsupported query-fsmonitor hook version '$version'.\n" .
+	    "Falling back to scanning...\n";
+}
+
+my $git_work_tree = get_working_dir();
+
+my $retry = 1;
+
+my $json_pkg;
+eval {
+	require JSON::XS;
+	$json_pkg = "JSON::XS";
+	1;
+} or do {
+	require JSON::PP;
+	$json_pkg = "JSON::PP";
+};
+
+launch_watchman();
+
+sub launch_watchman {
+	my $o = watchman_query();
+	if (is_work_tree_watched($o)) {
+		output_result($o->{clock}, @{$o->{files}});
+	}
+}
+
+sub output_result {
+	my ($clockid, @files) = @_;
+
+	# Uncomment for debugging watchman output
+	# open (my $fh, ">", ".git/watchman-output.out");
+	# binmode $fh, ":utf8";
+	# print $fh "$clockid\n@files\n";
+	# close $fh;
+
+	binmode STDOUT, ":utf8";
+	print $clockid;
+	print "\0";
+	local $, = "\0";
+	print @files;
+}
+
+sub watchman_clock {
+	my $response = qx/watchman clock "$git_work_tree"/;
+	die "Failed to get clock id on '$git_work_tree'.\n" .
+		"Falling back to scanning...\n" if $? != 0;
+
+	return $json_pkg->new->utf8->decode($response);
+}
+
+sub watchman_query {
+	my $pid = open2(\*CHLD_OUT, \*CHLD_IN, 'watchman -j --no-pretty')
+	or die "open2() failed: $!\n" .
+	"Falling back to scanning...\n";
+
+	# In the query expression below we're asking for names of files that
+	# changed since $last_update_token but not from the .git folder.
+	#
+	# To accomplish this, we're using the "since" generator to use the
+	# recency index to select candidate nodes and "fields" to limit the
+	# output to file names only. Then we're using the "expression" term to
+	# further constrain the results.
+	my $last_update_line = "";
+	if (substr($last_update_token, 0, 1) eq "c") {
+		$last_update_token = "\"$last_update_token\"";
+		$last_update_line = qq[\n"since": $last_update_token,];
+	}
+	my $query = <<"	END";
+		["query", "$git_work_tree", {$last_update_line
+			"fields": ["name"],
+			"expression": ["not", ["dirname", ".git"]]
+		}]
+	END
+
+	# Uncomment for debugging the watchman query
+	# open (my $fh, ">", ".git/watchman-query.json");
+	# print $fh $query;
+	# close $fh;
+
+	print CHLD_IN $query;
+	close CHLD_IN;
+	my $response = do {local $/; <CHLD_OUT>};
+
+	# Uncomment for debugging the watch response
+	# open ($fh, ">", ".git/watchman-response.json");
+	# print $fh $response;
+	# close $fh;
+
+	die "Watchman: command returned no output.\n" .
+	"Falling back to scanning...\n" if $response eq "";
+	die "Watchman: command returned invalid output: $response\n" .
+	"Falling back to scanning...\n" unless $response =~ /^\{/;
+
+	return $json_pkg->new->utf8->decode($response);
+}
+
+sub is_work_tree_watched {
+	my ($output) = @_;
+	my $error = $output->{error};
+	if ($retry > 0 and $error and $error =~ m/unable to resolve root .* directory (.*) is not watched/) {
+		$retry--;
+		my $response = qx/watchman watch "$git_work_tree"/;
+		die "Failed to make watchman watch '$git_work_tree'.\n" .
+		    "Falling back to scanning...\n" if $? != 0;
+		$output = $json_pkg->new->utf8->decode($response);
+		$error = $output->{error};
+		die "Watchman: $error.\n" .
+		"Falling back to scanning...\n" if $error;
+
+		# Uncomment for debugging watchman output
+		# open (my $fh, ">", ".git/watchman-output.out");
+		# close $fh;
+
+		# Watchman will always return all files on the first query so
+		# return the fast "everything is dirty" flag to git and do the
+		# Watchman query just to get it over with now so we won't pay
+		# the cost in git to look up each individual file.
+		my $o = watchman_clock();
+		$error = $output->{error};
+
+		die "Watchman: $error.\n" .
+		"Falling back to scanning...\n" if $error;
+
+		output_result($o->{clock}, ("/"));
+		$last_update_token = $o->{clock};
+
+		eval { launch_watchman() };
+		return 0;
+	}
+
+	die "Watchman: $error.\n" .
+	"Falling back to scanning...\n" if $error;
+
+	return 1;
+}
+
+sub get_working_dir {
+	my $working_dir;
+	if ($^O =~ 'msys' || $^O =~ 'cygwin') {
+		$working_dir = Win32::GetCwd();
+		$working_dir =~ tr/\\/\//;
+	} else {
+		require Cwd;
+		$working_dir = Cwd::cwd();
+	}
+
+	return $working_dir;
+}
+</file>
+
+<file path="frontend/.git/hooks/post-update.sample">
+#!/bin/sh
+#
+# An example hook script to prepare a packed repository for use over
+# dumb transports.
+#
+# To enable this hook, rename this file to "post-update".
+
+exec git update-server-info
+</file>
+
+<file path="frontend/.git/hooks/pre-applypatch.sample">
+#!/bin/sh
+#
+# An example hook script to verify what is about to be committed
+# by applypatch from an e-mail message.
+#
+# The hook should exit with non-zero status after issuing an
+# appropriate message if it wants to stop the commit.
+#
+# To enable this hook, rename this file to "pre-applypatch".
+
+. git-sh-setup
+precommit="$(git rev-parse --git-path hooks/pre-commit)"
+test -x "$precommit" && exec "$precommit" ${1+"$@"}
+:
+</file>
+
+<file path="frontend/.git/hooks/pre-commit.sample">
+#!/bin/sh
+#
+# An example hook script to verify what is about to be committed.
+# Called by "git commit" with no arguments.  The hook should
+# exit with non-zero status after issuing an appropriate message if
+# it wants to stop the commit.
+#
+# To enable this hook, rename this file to "pre-commit".
+
+if git rev-parse --verify HEAD >/dev/null 2>&1
+then
+	against=HEAD
+else
+	# Initial commit: diff against an empty tree object
+	against=$(git hash-object -t tree /dev/null)
+fi
+
+# If you want to allow non-ASCII filenames set this variable to true.
+allownonascii=$(git config --type=bool hooks.allownonascii)
+
+# Redirect output to stderr.
+exec 1>&2
+
+# Cross platform projects tend to avoid non-ASCII filenames; prevent
+# them from being added to the repository. We exploit the fact that the
+# printable range starts at the space character and ends with tilde.
+if [ "$allownonascii" != "true" ] &&
+	# Note that the use of brackets around a tr range is ok here, (it's
+	# even required, for portability to Solaris 10's /usr/bin/tr), since
+	# the square bracket bytes happen to fall in the designated range.
+	test $(git diff-index --cached --name-only --diff-filter=A -z $against |
+	  LC_ALL=C tr -d '[ -~]\0' | wc -c) != 0
+then
+	cat <<\EOF
+Error: Attempt to add a non-ASCII file name.
+
+This can cause problems if you want to work with people on other platforms.
+
+To be portable it is advisable to rename the file.
+
+If you know what you are doing you can disable this check using:
+
+  git config hooks.allownonascii true
+EOF
+	exit 1
+fi
+
+# If there are whitespace errors, print the offending file names and fail.
+exec git diff-index --check --cached $against --
+</file>
+
+<file path="frontend/.git/hooks/pre-merge-commit.sample">
+#!/bin/sh
+#
+# An example hook script to verify what is about to be committed.
+# Called by "git merge" with no arguments.  The hook should
+# exit with non-zero status after issuing an appropriate message to
+# stderr if it wants to stop the merge commit.
+#
+# To enable this hook, rename this file to "pre-merge-commit".
+
+. git-sh-setup
+test -x "$GIT_DIR/hooks/pre-commit" &&
+        exec "$GIT_DIR/hooks/pre-commit"
+:
+</file>
+
+<file path="frontend/.git/hooks/pre-push.sample">
+#!/bin/sh
+
+# An example hook script to verify what is about to be pushed.  Called by "git
+# push" after it has checked the remote status, but before anything has been
+# pushed.  If this script exits with a non-zero status nothing will be pushed.
+#
+# This hook is called with the following parameters:
+#
+# $1 -- Name of the remote to which the push is being done
+# $2 -- URL to which the push is being done
+#
+# If pushing without using a named remote those arguments will be equal.
+#
+# Information about the commits which are being pushed is supplied as lines to
+# the standard input in the form:
+#
+#   <local ref> <local oid> <remote ref> <remote oid>
+#
+# This sample shows how to prevent push of commits where the log message starts
+# with "WIP" (work in progress).
+
+remote="$1"
+url="$2"
+
+zero=$(git hash-object --stdin </dev/null | tr '[0-9a-f]' '0')
+
+while read local_ref local_oid remote_ref remote_oid
+do
+	if test "$local_oid" = "$zero"
+	then
+		# Handle delete
+		:
+	else
+		if test "$remote_oid" = "$zero"
+		then
+			# New branch, examine all commits
+			range="$local_oid"
+		else
+			# Update to existing branch, examine new commits
+			range="$remote_oid..$local_oid"
+		fi
+
+		# Check for WIP commit
+		commit=$(git rev-list -n 1 --grep '^WIP' "$range")
+		if test -n "$commit"
+		then
+			echo >&2 "Found WIP commit in $local_ref, not pushing"
+			exit 1
+		fi
+	fi
+done
+
+exit 0
+</file>
+
+<file path="frontend/.git/hooks/pre-rebase.sample">
+#!/bin/sh
+#
+# Copyright (c) 2006, 2008 Junio C Hamano
+#
+# The "pre-rebase" hook is run just before "git rebase" starts doing
+# its job, and can prevent the command from running by exiting with
+# non-zero status.
+#
+# The hook is called with the following parameters:
+#
+# $1 -- the upstream the series was forked from.
+# $2 -- the branch being rebased (or empty when rebasing the current branch).
+#
+# This sample shows how to prevent topic branches that are already
+# merged to 'next' branch from getting rebased, because allowing it
+# would result in rebasing already published history.
+
+publish=next
+basebranch="$1"
+if test "$#" = 2
+then
+	topic="refs/heads/$2"
+else
+	topic=`git symbolic-ref HEAD` ||
+	exit 0 ;# we do not interrupt rebasing detached HEAD
+fi
+
+case "$topic" in
+refs/heads/??/*)
+	;;
+*)
+	exit 0 ;# we do not interrupt others.
+	;;
+esac
+
+# Now we are dealing with a topic branch being rebased
+# on top of master.  Is it OK to rebase it?
+
+# Does the topic really exist?
+git show-ref -q "$topic" || {
+	echo >&2 "No such branch $topic"
+	exit 1
+}
+
+# Is topic fully merged to master?
+not_in_master=`git rev-list --pretty=oneline ^master "$topic"`
+if test -z "$not_in_master"
+then
+	echo >&2 "$topic is fully merged to master; better remove it."
+	exit 1 ;# we could allow it, but there is no point.
+fi
+
+# Is topic ever merged to next?  If so you should not be rebasing it.
+only_next_1=`git rev-list ^master "^$topic" ${publish} | sort`
+only_next_2=`git rev-list ^master           ${publish} | sort`
+if test "$only_next_1" = "$only_next_2"
+then
+	not_in_topic=`git rev-list "^$topic" master`
+	if test -z "$not_in_topic"
+	then
+		echo >&2 "$topic is already up to date with master"
+		exit 1 ;# we could allow it, but there is no point.
+	else
+		exit 0
+	fi
+else
+	not_in_next=`git rev-list --pretty=oneline ^${publish} "$topic"`
+	/usr/bin/perl -e '
+		my $topic = $ARGV[0];
+		my $msg = "* $topic has commits already merged to public branch:\n";
+		my (%not_in_next) = map {
+			/^([0-9a-f]+) /;
+			($1 => 1);
+		} split(/\n/, $ARGV[1]);
+		for my $elem (map {
+				/^([0-9a-f]+) (.*)$/;
+				[$1 => $2];
+			} split(/\n/, $ARGV[2])) {
+			if (!exists $not_in_next{$elem->[0]}) {
+				if ($msg) {
+					print STDERR $msg;
+					undef $msg;
+				}
+				print STDERR " $elem->[1]\n";
+			}
+		}
+	' "$topic" "$not_in_next" "$not_in_master"
+	exit 1
+fi
+
+<<\DOC_END
+
+This sample hook safeguards topic branches that have been
+published from being rewound.
+
+The workflow assumed here is:
+
+ * Once a topic branch forks from "master", "master" is never
+   merged into it again (either directly or indirectly).
+
+ * Once a topic branch is fully cooked and merged into "master",
+   it is deleted.  If you need to build on top of it to correct
+   earlier mistakes, a new topic branch is created by forking at
+   the tip of the "master".  This is not strictly necessary, but
+   it makes it easier to keep your history simple.
+
+ * Whenever you need to test or publish your changes to topic
+   branches, merge them into "next" branch.
+
+The script, being an example, hardcodes the publish branch name
+to be "next", but it is trivial to make it configurable via
+$GIT_DIR/config mechanism.
+
+With this workflow, you would want to know:
+
+(1) ... if a topic branch has ever been merged to "next".  Young
+    topic branches can have stupid mistakes you would rather
+    clean up before publishing, and things that have not been
+    merged into other branches can be easily rebased without
+    affecting other people.  But once it is published, you would
+    not want to rewind it.
+
+(2) ... if a topic branch has been fully merged to "master".
+    Then you can delete it.  More importantly, you should not
+    build on top of it -- other people may already want to
+    change things related to the topic as patches against your
+    "master", so if you need further changes, it is better to
+    fork the topic (perhaps with the same name) afresh from the
+    tip of "master".
+
+Let's look at this example:
+
+		   o---o---o---o---o---o---o---o---o---o "next"
+		  /       /           /           /
+		 /   a---a---b A     /           /
+		/   /               /           /
+	       /   /   c---c---c---c B         /
+	      /   /   /             \         /
+	     /   /   /   b---b C     \       /
+	    /   /   /   /             \     /
+    ---o---o---o---o---o---o---o---o---o---o---o "master"
+
+
+A, B and C are topic branches.
+
+ * A has one fix since it was merged up to "next".
+
+ * B has finished.  It has been fully merged up to "master" and "next",
+   and is ready to be deleted.
+
+ * C has not merged to "next" at all.
+
+We would want to allow C to be rebased, refuse A, and encourage
+B to be deleted.
+
+To compute (1):
+
+	git rev-list ^master ^topic next
+	git rev-list ^master        next
+
+	if these match, topic has not merged in next at all.
+
+To compute (2):
+
+	git rev-list master..topic
+
+	if this is empty, it is fully merged to "master".
+
+DOC_END
+</file>
+
+<file path="frontend/.git/hooks/pre-receive.sample">
+#!/bin/sh
+#
+# An example hook script to make use of push options.
+# The example simply echoes all push options that start with 'echoback='
+# and rejects all pushes when the "reject" push option is used.
+#
+# To enable this hook, rename this file to "pre-receive".
+
+if test -n "$GIT_PUSH_OPTION_COUNT"
+then
+	i=0
+	while test "$i" -lt "$GIT_PUSH_OPTION_COUNT"
+	do
+		eval "value=\$GIT_PUSH_OPTION_$i"
+		case "$value" in
+		echoback=*)
+			echo "echo from the pre-receive-hook: ${value#*=}" >&2
+			;;
+		reject)
+			exit 1
+		esac
+		i=$((i + 1))
+	done
+fi
+</file>
+
+<file path="frontend/.git/hooks/prepare-commit-msg.sample">
+#!/bin/sh
+#
+# An example hook script to prepare the commit log message.
+# Called by "git commit" with the name of the file that has the
+# commit message, followed by the description of the commit
+# message's source.  The hook's purpose is to edit the commit
+# message file.  If the hook fails with a non-zero status,
+# the commit is aborted.
+#
+# To enable this hook, rename this file to "prepare-commit-msg".
+
+# This hook includes three examples. The first one removes the
+# "# Please enter the commit message..." help message.
+#
+# The second includes the output of "git diff --name-status -r"
+# into the message, just before the "git status" output.  It is
+# commented because it doesn't cope with --amend or with squashed
+# commits.
+#
+# The third example adds a Signed-off-by line to the message, that can
+# still be edited.  This is rarely a good idea.
+
+COMMIT_MSG_FILE=$1
+COMMIT_SOURCE=$2
+SHA1=$3
+
+/usr/bin/perl -i.bak -ne 'print unless(m/^. Please enter the commit message/..m/^#$/)' "$COMMIT_MSG_FILE"
+
+# case "$COMMIT_SOURCE,$SHA1" in
+#  ,|template,)
+#    /usr/bin/perl -i.bak -pe '
+#       print "\n" . `git diff --cached --name-status -r`
+# 	 if /^#/ && $first++ == 0' "$COMMIT_MSG_FILE" ;;
+#  *) ;;
+# esac
+
+# SOB=$(git var GIT_COMMITTER_IDENT | sed -n 's/^\(.*>\).*$/Signed-off-by: \1/p')
+# git interpret-trailers --in-place --trailer "$SOB" "$COMMIT_MSG_FILE"
+# if test -z "$COMMIT_SOURCE"
+# then
+#   /usr/bin/perl -i.bak -pe 'print "\n" if !$first_line++' "$COMMIT_MSG_FILE"
+# fi
+</file>
+
+<file path="frontend/.git/hooks/push-to-checkout.sample">
+#!/bin/sh
+
+# An example hook script to update a checked-out tree on a git push.
+#
+# This hook is invoked by git-receive-pack(1) when it reacts to git
+# push and updates reference(s) in its repository, and when the push
+# tries to update the branch that is currently checked out and the
+# receive.denyCurrentBranch configuration variable is set to
+# updateInstead.
+#
+# By default, such a push is refused if the working tree and the index
+# of the remote repository has any difference from the currently
+# checked out commit; when both the working tree and the index match
+# the current commit, they are updated to match the newly pushed tip
+# of the branch. This hook is to be used to override the default
+# behaviour; however the code below reimplements the default behaviour
+# as a starting point for convenient modification.
+#
+# The hook receives the commit with which the tip of the current
+# branch is going to be updated:
+commit=$1
+
+# It can exit with a non-zero status to refuse the push (when it does
+# so, it must not modify the index or the working tree).
+die () {
+	echo >&2 "$*"
+	exit 1
+}
+
+# Or it can make any necessary changes to the working tree and to the
+# index to bring them to the desired state when the tip of the current
+# branch is updated to the new commit, and exit with a zero status.
+#
+# For example, the hook can simply run git read-tree -u -m HEAD "$1"
+# in order to emulate git fetch that is run in the reverse direction
+# with git push, as the two-tree form of git read-tree -u -m is
+# essentially the same as git switch or git checkout that switches
+# branches while keeping the local changes in the working tree that do
+# not interfere with the difference between the branches.
+
+# The below is a more-or-less exact translation to shell of the C code
+# for the default behaviour for git's push-to-checkout hook defined in
+# the push_to_deploy() function in builtin/receive-pack.c.
+#
+# Note that the hook will be executed from the repository directory,
+# not from the working tree, so if you want to perform operations on
+# the working tree, you will have to adapt your code accordingly, e.g.
+# by adding "cd .." or using relative paths.
+
+if ! git update-index -q --ignore-submodules --refresh
+then
+	die "Up-to-date check failed"
+fi
+
+if ! git diff-files --quiet --ignore-submodules --
+then
+	die "Working directory has unstaged changes"
+fi
+
+# This is a rough translation of:
+#
+#   head_has_history() ? "HEAD" : EMPTY_TREE_SHA1_HEX
+if git cat-file -e HEAD 2>/dev/null
+then
+	head=HEAD
+else
+	head=$(git hash-object -t tree --stdin </dev/null)
+fi
+
+if ! git diff-index --quiet --cached --ignore-submodules $head --
+then
+	die "Working directory has staged changes"
+fi
+
+if ! git read-tree -u -m "$commit"
+then
+	die "Could not update working tree to new HEAD"
+fi
+</file>
+
+<file path="frontend/.git/hooks/sendemail-validate.sample">
+#!/bin/sh
+
+# An example hook script to validate a patch (and/or patch series) before
+# sending it via email.
+#
+# The hook should exit with non-zero status after issuing an appropriate
+# message if it wants to prevent the email(s) from being sent.
+#
+# To enable this hook, rename this file to "sendemail-validate".
+#
+# By default, it will only check that the patch(es) can be applied on top of
+# the default upstream branch without conflicts in a secondary worktree. After
+# validation (successful or not) of the last patch of a series, the worktree
+# will be deleted.
+#
+# The following config variables can be set to change the default remote and
+# remote ref that are used to apply the patches against:
+#
+#   sendemail.validateRemote (default: origin)
+#   sendemail.validateRemoteRef (default: HEAD)
+#
+# Replace the TODO placeholders with appropriate checks according to your
+# needs.
+
+validate_cover_letter () {
+	file="$1"
+	# TODO: Replace with appropriate checks (e.g. spell checking).
+	true
+}
+
+validate_patch () {
+	file="$1"
+	# Ensure that the patch applies without conflicts.
+	git am -3 "$file" || return
+	# TODO: Replace with appropriate checks for this patch
+	# (e.g. checkpatch.pl).
+	true
+}
+
+validate_series () {
+	# TODO: Replace with appropriate checks for the whole series
+	# (e.g. quick build, coding style checks, etc.).
+	true
+}
+
+# main -------------------------------------------------------------------------
+
+if test "$GIT_SENDEMAIL_FILE_COUNTER" = 1
+then
+	remote=$(git config --default origin --get sendemail.validateRemote) &&
+	ref=$(git config --default HEAD --get sendemail.validateRemoteRef) &&
+	worktree=$(mktemp --tmpdir -d sendemail-validate.XXXXXXX) &&
+	git worktree add -fd --checkout "$worktree" "refs/remotes/$remote/$ref" &&
+	git config --replace-all sendemail.validateWorktree "$worktree"
+else
+	worktree=$(git config --get sendemail.validateWorktree)
+fi || {
+	echo "sendemail-validate: error: failed to prepare worktree" >&2
+	exit 1
+}
+
+unset GIT_DIR GIT_WORK_TREE
+cd "$worktree" &&
+
+if grep -q "^diff --git " "$1"
+then
+	validate_patch "$1"
+else
+	validate_cover_letter "$1"
+fi &&
+
+if test "$GIT_SENDEMAIL_FILE_COUNTER" = "$GIT_SENDEMAIL_FILE_TOTAL"
+then
+	git config --unset-all sendemail.validateWorktree &&
+	trap 'git worktree remove -ff "$worktree"' EXIT &&
+	validate_series
+fi
+</file>
+
+<file path="frontend/.git/hooks/update.sample">
+#!/bin/sh
+#
+# An example hook script to block unannotated tags from entering.
+# Called by "git receive-pack" with arguments: refname sha1-old sha1-new
+#
+# To enable this hook, rename this file to "update".
+#
+# Config
+# ------
+# hooks.allowunannotated
+#   This boolean sets whether unannotated tags will be allowed into the
+#   repository.  By default they won't be.
+# hooks.allowdeletetag
+#   This boolean sets whether deleting tags will be allowed in the
+#   repository.  By default they won't be.
+# hooks.allowmodifytag
+#   This boolean sets whether a tag may be modified after creation. By default
+#   it won't be.
+# hooks.allowdeletebranch
+#   This boolean sets whether deleting branches will be allowed in the
+#   repository.  By default they won't be.
+# hooks.denycreatebranch
+#   This boolean sets whether remotely creating branches will be denied
+#   in the repository.  By default this is allowed.
+#
+
+# --- Command line
+refname="$1"
+oldrev="$2"
+newrev="$3"
+
+# --- Safety check
+if [ -z "$GIT_DIR" ]; then
+	echo "Don't run this script from the command line." >&2
+	echo " (if you want, you could supply GIT_DIR then run" >&2
+	echo "  $0 <ref> <oldrev> <newrev>)" >&2
+	exit 1
+fi
+
+if [ -z "$refname" -o -z "$oldrev" -o -z "$newrev" ]; then
+	echo "usage: $0 <ref> <oldrev> <newrev>" >&2
+	exit 1
+fi
+
+# --- Config
+allowunannotated=$(git config --type=bool hooks.allowunannotated)
+allowdeletebranch=$(git config --type=bool hooks.allowdeletebranch)
+denycreatebranch=$(git config --type=bool hooks.denycreatebranch)
+allowdeletetag=$(git config --type=bool hooks.allowdeletetag)
+allowmodifytag=$(git config --type=bool hooks.allowmodifytag)
+
+# check for no description
+projectdesc=$(sed -e '1q' "$GIT_DIR/description")
+case "$projectdesc" in
+"Unnamed repository"* | "")
+	echo "*** Project description file hasn't been set" >&2
+	exit 1
+	;;
+esac
+
+# --- Check types
+# if $newrev is 0000...0000, it's a commit to delete a ref.
+zero=$(git hash-object --stdin </dev/null | tr '[0-9a-f]' '0')
+if [ "$newrev" = "$zero" ]; then
+	newrev_type=delete
+else
+	newrev_type=$(git cat-file -t $newrev)
+fi
+
+case "$refname","$newrev_type" in
+	refs/tags/*,commit)
+		# un-annotated tag
+		short_refname=${refname##refs/tags/}
+		if [ "$allowunannotated" != "true" ]; then
+			echo "*** The un-annotated tag, $short_refname, is not allowed in this repository" >&2
+			echo "*** Use 'git tag [ -a | -s ]' for tags you want to propagate." >&2
+			exit 1
+		fi
+		;;
+	refs/tags/*,delete)
+		# delete tag
+		if [ "$allowdeletetag" != "true" ]; then
+			echo "*** Deleting a tag is not allowed in this repository" >&2
+			exit 1
+		fi
+		;;
+	refs/tags/*,tag)
+		# annotated tag
+		if [ "$allowmodifytag" != "true" ] && git rev-parse $refname > /dev/null 2>&1
+		then
+			echo "*** Tag '$refname' already exists." >&2
+			echo "*** Modifying a tag is not allowed in this repository." >&2
+			exit 1
+		fi
+		;;
+	refs/heads/*,commit)
+		# branch
+		if [ "$oldrev" = "$zero" -a "$denycreatebranch" = "true" ]; then
+			echo "*** Creating a branch is not allowed in this repository" >&2
+			exit 1
+		fi
+		;;
+	refs/heads/*,delete)
+		# delete branch
+		if [ "$allowdeletebranch" != "true" ]; then
+			echo "*** Deleting a branch is not allowed in this repository" >&2
+			exit 1
+		fi
+		;;
+	refs/remotes/*,commit)
+		# tracking branch
+		;;
+	refs/remotes/*,delete)
+		# delete tracking branch
+		if [ "$allowdeletebranch" != "true" ]; then
+			echo "*** Deleting a tracking branch is not allowed in this repository" >&2
+			exit 1
+		fi
+		;;
+	*)
+		# Anything else (is there anything else?)
+		echo "*** Update hook: unknown type of update to ref $refname of type $newrev_type" >&2
+		exit 1
+		;;
+esac
+
+# --- Finished
+exit 0
+</file>
+
+<file path="frontend/.git/info/exclude">
+# git ls-files --others --exclude-from=.git/info/exclude
+# Lines that start with '#' are comments.
+# For a project mostly in C, the following would be a good set of
+# exclude patterns (uncomment them if you want to use them):
+# *.[oa]
+# *~
+</file>
+
+<file path="frontend/.git/logs/HEAD">
+0000000000000000000000000000000000000000 a1ca0a151a1a751631ddc0bbb0e5cdd28c47c9a4 einzein <quiiplle@gmail.com> 1778596067 +0700	commit (initial): Initial commit from Create Next App
+</file>
+
+<file path="frontend/.git/logs/refs/heads/master">
+0000000000000000000000000000000000000000 a1ca0a151a1a751631ddc0bbb0e5cdd28c47c9a4 einzein <quiiplle@gmail.com> 1778596067 +0700	commit (initial): Initial commit from Create Next App
+</file>
+
+<file path="frontend/.git/refs/heads/master">
+a1ca0a151a1a751631ddc0bbb0e5cdd28c47c9a4
+</file>
+
+<file path="frontend/.gitignore">
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+</file>
+
+<file path="frontend/AGENTS.md">
+<!-- BEGIN:nextjs-agent-rules -->
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
+<!-- END:nextjs-agent-rules -->
+</file>
+
+<file path="frontend/app/globals.css">
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+:root {
+  --background: #000000;
+  --foreground: #ffffff;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+}
+
+.glass-panel {
+  background: rgba(20, 20, 20, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+}
+
+::selection {
+  background: rgba(198, 255, 37, 0.25);
+  color: #ffffff;
+}
+</file>
+
+<file path="frontend/app/layout.tsx">
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+
+const inter = Inter({ subsets: ["latin"] });
+
+export const metadata: Metadata = {
+  title: "NalarAI - Enterprise Risk Assistant",
+  description: "Enterprise-grade anomaly and risk detection with a multi-agent AI architecture.",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <body className={`${inter.className} antialiased`}>
+        {children}
+      </body>
+    </html>
+  );
+}
+</file>
+
+<file path="frontend/app/page.tsx">
+"use client";
+
+import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
+
+// ─── Types ────────────────────────────────────────────────────────────────────
+type Severity = "HIGH" | "MED" | "LOW" | "MEDIUM";
+
+type Entity = {
+  entity_name?: string;
+  description?: string;
+  potential_risk?: string;
+};
+
+type Anomaly = {
+  title?: string;
+  description?: string;
+  severity?: Severity;
+  category?: string;
+};
+
+type Recommendation = {
+  action?: string;
+  detail?: string;
+  priority?: Severity;
+  category?: string;
+  effort?: string;
+};
+
+type AiAnalysis = {
+  summary?: string;
+  key_entities?: Entity[];
+  overall_risk_score?: number;
+  final_validation?: { conclusion?: string; status?: string };
+  smart_summary?: {
+    executive_brief?: string;
+    risk_categories?: {
+      access_risk?: string;
+      financial_risk?: string;
+      compliance?: string;
+    };
+    anomaly_feed?: Anomaly[];
+  };
+  action_report?: {
+    recommendations?: Recommendation[];
+    overall_recommendation?: string;
+    estimated_resolution_days?: number;
+  };
+};
+
+type UploadResult = {
+  status?: string;
+  filename?: string;
+  ai_analysis?: AiAnalysis;
+};
+
+type Agent = {
+  id: string;
+  name: string;
+  role: string;
+  accent: string;
+  glow: string;
+};
+
+// ─── Constants ────────────────────────────────────────────────────────────────
+const STORAGE_KEY = "nalar_stats";
+
+const ACCEPTED_EXTS = [".pdf", ".csv", ".xlsx", ".xls", ".txt", ".log"];
+const MAX_SIZE_MB   = 20;
+
+const ERROR_MESSAGES: Record<string, string> = {
+  unsupported_format: "Unsupported file format. Use PDF, CSV, XLSX, TXT, or LOG.",
+  file_too_large:     `File size exceeds the ${MAX_SIZE_MB} MB limit.`,
+  extraction_failed:  "Failed to read file contents. Ensure the file is not corrupted or password-protected.",
+  extraction_error:   "An error occurred while processing the file.",
+  pipeline_failed:    "AI pipeline failed. Please try again in a few seconds.",
+  network:            "Unable to connect to the backend. Ensure the server is running on port 8000.",
+  timeout:            "Request timeout. The backend might be overloaded.",
+  unknown:            "An unexpected error occurred. Please try again.",
+};
+
+const AGENTS: Agent[] = [
+  { id: "D", name: "Document Analyzer",  role: "Ingest",   accent: "text-[#c6ff25] border-[#c6ff25]/[0.45] bg-[#c6ff25]/10",  glow: "shadow-[0_0_26px_rgba(198,255,37,0.22)]"  },
+  { id: "A", name: "Anomaly Detector",   role: "Detect",   accent: "text-[#ff72ad] border-[#ff72ad]/[0.45] bg-[#ff72ad]/10",  glow: "shadow-[0_0_26px_rgba(255,114,173,0.22)]" },
+  { id: "V", name: "Validator & Checker",role: "Validate", accent: "text-[#6d91ff] border-[#6d91ff]/[0.45] bg-[#6d91ff]/10",  glow: "shadow-[0_0_26px_rgba(109,145,255,0.2)]"  },
+  { id: "S", name: "Smart Summarizer",   role: "Summarize",accent: "text-[#ffdb4d] border-[#ffdb4d]/[0.45] bg-[#ffdb4d]/10",  glow: "shadow-[0_0_26px_rgba(255,219,77,0.2)]"   },
+  { id: "R", name: "Rec. Engine",        role: "Action",   accent: "text-[#d4d4df] border-white/15 bg-white/5",               glow: "shadow-[0_0_26px_rgba(255,255,255,0.08)]"  },
+];
+
+const TRAIL_LOGS = [
+  "Document ingested",
+  "Risk vectors scored",
+  "Validation complete",
+  "Executive summary built",
+  "Action report ready",
+  "Intelligence report generated",
+];
+
+const TABS = ["Overview", "Agent Flow", "Anomalies", "Reports"];
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+function cx(...classes: Array<string | false | undefined | null>) {
+  return classes.filter(Boolean).join(" ");
+}
+
+function normalizeSeverity(value?: string): "HIGH" | "MED" | "LOW" {
+  if (value === "HIGH"   || value === "Tinggi")   return "HIGH";
+  if (value === "MEDIUM" || value === "MED" || value === "Menengah") return "MED";
+  return "LOW";
+}
+
+function severityClass(value?: string) {
+  const s = normalizeSeverity(value);
+  if (s === "HIGH") return "border-[#ff5d78]/30 bg-[#ff5d78]/[0.18] text-[#ff7890]";
+  if (s === "MED")  return "border-[#ffdb4d]/30 bg-[#ffdb4d]/[0.14] text-[#ffdb4d]";
+  return "border-[#c6ff25]/25 bg-[#c6ff25]/[0.12] text-[#c6ff25]";
+}
+
+function entityRiskDot(risk?: string) {
+  const r = risk?.toLowerCase() ?? "";
+  if (r.includes("tinggi") || r.includes("high"))   return "bg-[#ff72ad] shadow-[0_0_7px_rgba(255,114,173,0.7)]";
+  if (r.includes("menengah") || r.includes("medium") || r.includes("moderate")) return "bg-[#ffdb4d] shadow-[0_0_7px_rgba(255,219,77,0.7)]";
+  return "bg-[#c6ff25] shadow-[0_0_7px_rgba(198,255,37,0.7)]";
+}
+
+function entityRiskBadge(risk?: string) {
+  const r = risk?.toLowerCase() ?? "";
+  if (r.includes("tinggi") || r.includes("high"))   return "border-[#ff5d78]/30 bg-[#ff5d78]/[0.15] text-[#ff7890]";
+  if (r.includes("menengah") || r.includes("medium") || r.includes("moderate")) return "border-[#ffdb4d]/30 bg-[#ffdb4d]/[0.12] text-[#ffdb4d]";
+  return "border-[#c6ff25]/25 bg-[#c6ff25]/[0.10] text-[#c6ff25]";
+}
+
+function computeRiskBars(analysis: AiAnalysis) {
+  const score = analysis.overall_risk_score ?? 0;
+  if (score === 0) return { access: 0, financial: 0, compliance: 0, operational: 0 };
+  const feed = analysis.smart_summary?.anomaly_feed ?? [];
+  const countCat = (cat: string) => feed.filter((a) => a.category?.toUpperCase() === cat).length;
+  const scale = (base: number, extra: number) => Math.min(98, Math.round(base + extra * 9));
+  return {
+    access:      scale(score * 0.7, countCat("ACCESS")),
+    financial:   scale(score * 0.6, countCat("FINANCIAL")),
+    compliance:  scale(score * 0.5, countCat("COMPLIANCE")),
+    operational: scale(score * 0.4, countCat("OPERATIONAL")),
+  };
+}
+
+function trailDescription(index: number, analysis: AiAnalysis): string {
+  const score      = analysis.overall_risk_score ?? 0;
+  const entities   = analysis.key_entities?.length ?? 0;
+  const anomalies  = analysis.smart_summary?.anomaly_feed?.length ?? 0;
+  const status     = analysis.final_validation?.status ?? "PENDING";
+  const conclusion = analysis.final_validation?.conclusion ?? "";
+  const brief      = analysis.smart_summary?.executive_brief ?? "";
+  const recs       = analysis.action_report?.recommendations?.length ?? 0;
+  const days       = analysis.action_report?.estimated_resolution_days;
+  const map: Record<number, string> = {
+    0: entities > 0 ? `${entities} entit${entities > 1 ? "ies" : "y"} extracted.` : "Document parsed.",
+    1: score > 0 ? `Risk score calculated: ${score}/100.` : "Risk scoring complete.",
+    2: `Status: ${status}. ${conclusion}`.trim(),
+    3: brief ? `${brief.slice(0, 110)}${brief.length > 110 ? "…" : ""}` : `${anomalies} anomal${anomalies !== 1 ? "ies" : "y"} categorized.`,
+    4: recs > 0 ? `${recs} action${recs > 1 ? "s" : ""} recommended. Est. ${days ?? "?"} days to resolve.` : "No critical actions required.",
+    5: "Full intelligence report ready for review.",
+  };
+  return map[index] ?? "";
+}
+
+function loadStats(): { docs: number; reports: number } {
+  if (typeof window === "undefined") return { docs: 0, reports: 0 };
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : { docs: 0, reports: 0 };
+  } catch { return { docs: 0, reports: 0 }; }
+}
+function saveStats(docs: number, reports: number) {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({ docs, reports }));
+}
+
+const emptyAnalysis: AiAnalysis = {
+  summary: "", overall_risk_score: 0, key_entities: [],
+  final_validation: { conclusion: "", status: "" },
+  smart_summary: { executive_brief: "", risk_categories: { access_risk: "", financial_risk: "", compliance: "" }, anomaly_feed: [] },
+  action_report: { recommendations: [], overall_recommendation: "", estimated_resolution_days: 0 },
+};
+
+// ─── Component ────────────────────────────────────────────────────────────────
+export default function Home() {
+  const [file, setFile]               = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [result, setResult]           = useState<UploadResult | null>(null);
+  const [logs, setLogs]               = useState<Array<{ label: string; filled: boolean }>>([]);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [docsProcessed, setDocsProcessed] = useState(0);
+  const [reportCount, setReportCount]     = useState(0);
+  const [errorMsg, setErrorMsg]           = useState<string | null>(null);
+  const [entitiesExpanded, setEntitiesExpanded] = useState(false);
+  const [activeTab, setActiveTab]         = useState<string>("Overview");
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const { docs, reports } = loadStats();
+    setDocsProcessed(docs);
+    setReportCount(reports);
+  }, []);
+
+  const analysis        = result?.ai_analysis ?? emptyAnalysis;
+  const score           = analysis.overall_risk_score ?? 0;
+  const riskBars        = useMemo(() => computeRiskBars(analysis), [analysis]);
+  const anomalyFeed     = analysis.smart_summary?.anomaly_feed ?? [];
+  const recommendations = analysis.action_report?.recommendations ?? [];
+  const keyEntities     = analysis.key_entities ?? [];
+
+  const ENTITIES_PREVIEW = 4;
+  const visibleEntities  = entitiesExpanded ? keyEntities : keyEntities.slice(0, ENTITIES_PREVIEW);
+  const hasMoreEntities  = keyEntities.length > ENTITIES_PREVIEW;
+
+  const activeStep = isUploading ? currentStep : result ? 6 : 0;
+
+  const pushLog  = (label: string) => setLogs((prev) => {
+    if (prev.some(l => l.label === label)) return prev;
+    return [...prev.slice(-5), { label, filled: false }];
+  });
+  
+  const fillLogs = () => setLogs((prev) => prev.map((l) => ({ ...l, filled: true })));
+  const delay    = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
+
+  const handleReset = () => {
+    setFile(null);
+    setResult(null);
+    setLogs([]);
+    setCurrentStep(0);
+    setErrorMsg(null);
+    setEntitiesExpanded(false);
+    setActiveTab("Overview");
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const validateFile = (f: File): string | null => {
+    const ext = "." + f.name.split(".").pop()?.toLowerCase();
+    if (!ACCEPTED_EXTS.includes(ext))
+      return `Format "${ext}" is not supported. Use: ${ACCEPTED_EXTS.join(", ")}`;
+    if (f.size > MAX_SIZE_MB * 1024 * 1024)
+      return `File size exceeds the ${(f.size / 1024 / 1024).toFixed(1)} MB limit. Limit: ${MAX_SIZE_MB} MB.`;
+    if (f.size === 0)
+      return "File is empty and cannot be analyzed.";
+    return null;
+  };
+
+  const parseBackendError = async (response: Response): Promise<string> => {
+    try {
+      const body = await response.json();
+      const code = body?.detail?.error as string | undefined;
+      const msg  = body?.detail?.message as string | undefined;
+      if (code && ERROR_MESSAGES[code]) return ERROR_MESSAGES[code];
+      if (msg) return msg;
+    } catch { /* not JSON */ }
+    if (response.status === 413) return ERROR_MESSAGES.file_too_large;
+    if (response.status === 415) return ERROR_MESSAGES.unsupported_format;
+    if (response.status === 422) return ERROR_MESSAGES.extraction_failed;
+    if (response.status >= 500)  return `Server error (${response.status}). Check backend terminal.`;
+    return `Request failed (HTTP ${response.status}).`;
+  };
+
+  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const selected = e.target.files?.[0];
+    if (!selected) return;
+
+    setErrorMsg(null);
+    setResult(null);
+    setLogs([]);
+    setCurrentStep(0);
+    setEntitiesExpanded(false);
+
+    const validationError = validateFile(selected);
+    if (validationError) {
+      setErrorMsg(validationError);
+      e.target.value = "";
+      return;
+    }
+
+    setFile(selected);
+    setIsUploading(true);
+    setActiveTab("Agent Flow");
+
+    const form = new FormData();
+    form.append("file", selected);
+
+    try {
+      setCurrentStep(1);
+      pushLog(TRAIL_LOGS[0]);
+
+      const controller = new AbortController();
+      const timeoutId  = setTimeout(() => controller.abort(), 3 * 60 * 1000);
+
+      const fetchPromise = fetch("http://localhost:8000/api/upload", {
+        method: "POST",
+        body: form,
+        signal: controller.signal,
+      });
+
+      let isFetchDone = false;
+      const simulatePipeline = async () => {
+        if (isFetchDone) return; await delay(2000);
+        if (isFetchDone) return; setCurrentStep(2); pushLog(TRAIL_LOGS[1]); await delay(2000);
+        if (isFetchDone) return; setCurrentStep(3); pushLog(TRAIL_LOGS[2]); await delay(2000);
+        if (isFetchDone) return; setCurrentStep(4); pushLog(TRAIL_LOGS[3]); await delay(2000);
+        if (isFetchDone) return; setCurrentStep(5); pushLog(TRAIL_LOGS[4]); 
+      };
+
+      simulatePipeline();
+
+      let response: Response;
+      try {
+        response = await fetchPromise;
+        isFetchDone = true;
+        clearTimeout(timeoutId);
+      } catch (fetchErr) {
+        isFetchDone = true;
+        clearTimeout(timeoutId);
+        if (fetchErr instanceof DOMException && fetchErr.name === "AbortError")
+          throw new Error(ERROR_MESSAGES.timeout);
+        throw new Error(ERROR_MESSAGES.network);
+      }
+
+      if (!response.ok) {
+        const errMsg = await parseBackendError(response);
+        throw new Error(errMsg);
+      }
+
+      const data = (await response.json()) as UploadResult;
+
+      setCurrentStep(6); 
+      pushLog(TRAIL_LOGS[5]); 
+      
+      setResult(data);
+      fillLogs();
+
+      const newDocs = docsProcessed + 1;
+      const newRep  = reportCount + 1;
+      setDocsProcessed(newDocs);
+      setReportCount(newRep);
+      saveStats(newDocs, newRep);
+
+      setActiveTab("Overview");
+
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : ERROR_MESSAGES.unknown;
+      setErrorMsg(msg);
+      setCurrentStep(0);
+      setLogs([]);
+      setActiveTab("Overview");
+    } finally {
+      setIsUploading(false);
+      e.target.value = "";
+    }
+  };
+
+  const riskLabel = score >= 70 ? "Elevated Risk" : score >= 40 ? "Moderate Risk" : score > 0 ? "Low Risk" : "No Data";
+  const riskBadge = score >= 70
+    ? "border-[#ff5d78]/35 bg-[#ff5d78]/[0.1] text-[#ff7890]"
+    : score >= 40
+    ? "border-[#ffdb4d]/35 bg-[#ffdb4d]/[0.12] text-[#ffdb4d]"
+    : "border-white/15 bg-white/5 text-[#9a9aa1]";
+
+  return (
+    <main className="min-h-screen bg-[#1b1b1d] px-4 py-8 text-[#f4f4f1] sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-[1180px] overflow-hidden bg-[#1f1f23] shadow-[0_28px_90px_rgba(0,0,0,0.45)]">
+        <section className="relative overflow-hidden px-5 pb-12 pt-10 sm:px-8 lg:px-10">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_93%_21%,rgba(198,255,37,0.1),transparent_16%),linear-gradient(110deg,rgba(109,145,255,0.08),transparent_34%)]" />
+
+          <div className="relative z-10">
+            {/* ── Header ── */}
+            <header className="flex flex-wrap items-start justify-between gap-4">
+              <div className="flex items-center gap-4">
+                <span className="h-4 w-4 rounded-full bg-[#c6ff25] shadow-[0_0_22px_rgba(198,255,37,0.75)]" />
+                <div>
+                  <p className="font-mono text-[13px] font-semibold uppercase tracking-[0.42em] text-[#c6ff25]">NALAR_</p>
+                  <p className="mt-1 text-sm text-[#898990]">Enterprise Risk Intelligence Platform</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.18em]">
+                <span className="rounded-full border border-[#c6ff25]/40 px-4 py-2 text-[#c6ff25]">• Live</span>
+                <span className="rounded-full border border-[#ffdb4d]/35 px-4 py-2 text-[#ffdb4d]">
+                  {anomalyFeed.length} alert{anomalyFeed.length !== 1 ? "s" : ""}
+                </span>
+              </div>
+            </header>
+
+            {/* ── Shape strip ── */}
+            <div className="mt-12 flex items-center gap-5">
+              <div className="flex items-center gap-5">
+                <span className="h-7 w-7 rounded-full bg-[#c6ff25]" />
+                <span className="h-7 w-7 rotate-45 bg-[#ff72ad]" />
+                <span className="h-4 w-4 rounded-full bg-[#5c82ff]" />
+                <span className="h-0 w-0 border-x-[13px] border-b-[23px] border-x-transparent border-b-[#ffdb4d]" />
+                <span className="h-2 w-2 rounded-full bg-[#ff72ad]" />
+                <span className="h-4 w-4 rotate-45 bg-[#5c82ff]" />
+              </div>
+              <span className="h-px flex-1 bg-white/10" />
+              <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#898990]">SYS-EPOCH 2026.05.13</span>
+            </div>
+
+            {/* ── Hero ── */}
+            <div className="mt-12 max-w-[760px]">
+              <h1 className="text-[56px] font-black leading-[0.96] tracking-[-0.02em] text-white sm:text-[78px] lg:text-[86px]">
+                Risk <span className="text-[#c6ff25]">Intel</span><br />Command
+              </h1>
+              <p className="mt-7 max-w-[700px] text-lg leading-8 text-[#a4a4aa]">
+                Multi-agent AI system for real-time anomaly detection, document analysis,
+                and operational risk scoring across enterprise environments.
+              </p>
+            </div>
+
+            {/* ── Stats strip ── */}
+            <div className="mt-10 grid border-y border-white/10 py-4 font-mono text-xs uppercase tracking-[0.16em] text-[#85858c] sm:grid-cols-4">
+              <MetricLine label="ANOMALIES FLAGGED" value={String(anomalyFeed.length)} />
+              <MetricLine label="AVG RISK SCORE"    value={score > 0 ? `${score}/100` : "—"} />
+              <MetricLine label="AGENTS ACTIVE"     value="5" />
+              <MetricLine label="REPORTS GENERATED" value={String(reportCount)} />
+            </div>
+
+            {/* ── Nav ── */}
+            <nav className="mt-8 flex flex-wrap gap-4 font-mono text-sm font-semibold text-[#9a9aa1]">
+              {TABS.map((item) => (
+                <button 
+                  key={item} 
+                  type="button" 
+                  onClick={() => setActiveTab(item)}
+                  className={cx(
+                    "rounded-[8px] px-6 py-3 transition",
+                    activeTab === item ? "border border-[#c6ff25]/40 bg-[#c6ff25]/10 text-[#c6ff25]" : "hover:text-white"
+                  )}
+                >
+                  {item}
+                </button>
+              ))}
+            </nav>
+
+            {/* ── Drop Zone + Reset ── */}
+            <div className="mt-6 mb-8">
+              {errorMsg && (
+                <div className="mb-4 flex items-start gap-4 rounded-[8px] border border-[#ff5d78]/30 bg-[#ff5d78]/[0.08] p-5">
+                  <span className="mt-0.5 h-5 w-5 shrink-0 rounded-full border-2 border-[#ff5d78] text-center font-mono text-xs font-bold leading-4 text-[#ff5d78]">!</span>
+                  <div className="flex-1">
+                    <p className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[#ff7890]">Upload Error</p>
+                    <p className="mt-1 text-sm leading-6 text-[#e0a0aa]">{errorMsg}</p>
+                  </div>
+                  <button type="button" onClick={() => setErrorMsg(null)}
+                    className="shrink-0 font-mono text-xs text-[#ff7890] transition-colors hover:text-white">
+                    ✕ Dismiss
+                  </button>
+                </div>
+              )}
+
+              {result && !isUploading && (
+                <div className="mb-4 flex items-center justify-between gap-4 rounded-[8px] border border-[#c6ff25]/25 bg-[#c6ff25]/5 px-6 py-4">
+                  <div className="flex items-center gap-3">
+                    <span className="h-2.5 w-2.5 rounded-full bg-[#c6ff25] shadow-[0_0_10px_rgba(198,255,37,0.8)]" />
+                    <div>
+                      <p className="font-mono text-xs uppercase tracking-[0.2em] text-[#c6ff25]">Analysis Complete</p>
+                      <p className="mt-0.5 text-sm text-[#a4a4aa]">
+                        {result.filename} · Risk score: <span className="font-bold text-white">{score}/100</span>
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleReset}
+                    className="flex items-center gap-2 rounded-[8px] border border-white/20 bg-white/5 px-5 py-2.5 font-mono text-xs uppercase tracking-[0.18em] text-[#c0c0c8] transition hover:border-[#ff72ad]/50 hover:bg-[#ff72ad]/10 hover:text-[#ff72ad]"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M2 7a5 5 0 1 0 1-3M2 4V1M2 4H5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                    Analyze New File
+                  </button>
+                </div>
+              )}
+
+              {(!result || isUploading) && (
+                <label className={cx(
+                  "group relative grid min-h-[240px] cursor-pointer place-items-center rounded-[8px] border border-dashed p-8 transition",
+                  isUploading
+                    ? "border-[#ffdb4d]/50 bg-[#222228] cursor-wait"
+                    : "border-[#c6ff25]/35 bg-[#222228] hover:border-[#c6ff25]/70"
+                )}>
+                  <input
+                    ref={fileInputRef}
+                    accept=".pdf,.csv,.xlsx,.xls,.txt,.log"
+                    className="absolute inset-0 cursor-pointer opacity-0"
+                    onChange={handleFileChange}
+                    type="file"
+                    disabled={isUploading}
+                  />
+                  <div className="text-center pointer-events-none">
+                    <div className={cx(
+                      "mx-auto grid h-14 w-14 place-items-center rounded-[6px] text-2xl font-bold transition-colors",
+                      isUploading ? "bg-[#ffdb4d] text-[#1f1f23]" : "bg-[#d9d4e6] text-[#23232b]"
+                    )}>
+                      {isUploading ? (
+                        <svg className="h-6 w-6 animate-spin" viewBox="0 0 24 24" fill="none">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3"/>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"/>
+                        </svg>
+                      ) : "+"}
+                    </div>
+                    <p className="mt-6 text-xl font-extrabold text-white">
+                      {isUploading ? "Analyzing…" : file ? file.name : "Drop enterprise data here"}
+                    </p>
+                    <p className="mt-2 text-sm text-[#8d8d94]">PDFs · Logs · Reports · Structured data</p>
+                    <span className="mt-6 inline-flex rounded-[8px] border border-white/20 px-6 py-3 text-sm font-bold text-white group-hover:border-[#c6ff25]/50">
+                      {isUploading ? "Running pipeline…" : "Analyze with AI →"}
+                    </span>
+                    <div className="mt-5 flex flex-wrap justify-center gap-3 font-mono text-xs uppercase text-[#9b9ba2]">
+                      {["PDF", "CSV", "XLSX", "TXT", "LOG"].map((t) => (
+                        <span key={t} className="rounded-[6px] bg-white/[0.06] px-3 py-1">{t}</span>
+                      ))}
+                    </div>
+                  </div>
+                </label>
+              )}
+            </div>
+
+            {/* ========================================================= */}
+            {/* TAB: OVERVIEW */}
+            {/* ========================================================= */}
+            {activeTab === "Overview" && (
+              <div className="space-y-8 animate-in fade-in duration-500">
+                {/* ── Global Risk Score ── */}
+                <section className="rounded-[8px] border border-[#c6ff25]/25 bg-[#25252c] p-7">
+                  <div className="grid gap-8 lg:grid-cols-[170px_1fr]">
+                    <div>
+                      <p className="font-mono text-xs uppercase tracking-[0.34em] text-[#909096]">GLOBAL RISK SCORE</p>
+                      <div className="relative mt-8 h-28 w-28">
+                        <svg className="absolute inset-0 h-full w-full -rotate-90" viewBox="0 0 120 120">
+                          <circle cx="60" cy="60" r="52" fill="transparent" stroke="rgba(255,255,255,0.07)" strokeWidth="10" />
+                          <circle cx="60" cy="60" r="52" fill="transparent"
+                            stroke={score >= 70 ? "#ff5d78" : score >= 40 ? "#ffdb4d" : "#c6ff25"}
+                            strokeWidth="10" strokeLinecap="round"
+                            strokeDasharray={2 * Math.PI * 52}
+                            strokeDashoffset={2 * Math.PI * 52 * (1 - score / 100)}
+                            className="transition-all duration-1000 ease-out"
+                          />
+                        </svg>
+                        <div className="absolute inset-0 grid place-items-center">
+                          <div className="text-center">
+                            <p className="font-mono text-3xl font-bold text-white">{score}</p>
+                            <p className="font-mono text-[10px] text-[#a7a7ac]">/100</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="self-center">
+                      <h2 className="text-3xl font-extrabold text-white">{riskLabel}</h2>
+                      <span className={cx("mt-3 inline-flex rounded-full border px-4 py-2 font-mono text-xs font-bold uppercase", riskBadge)}>
+                        {score >= 70 ? "HIGH RISK" : score >= 40 ? "MODERATE-HIGH" : score > 0 ? "LOW RISK" : "PENDING"}
+                      </span>
+                      <div className="mt-8 space-y-4">
+                        <RiskBar label="Access anomalies"         value={riskBars.access}      color="bg-[#ff72ad]" />
+                        <RiskBar label="Financial irregularities" value={riskBars.financial}   color="bg-[#ffdb4d]" />
+                        <RiskBar label="Compliance gaps"          value={riskBars.compliance}  color="bg-[#5c82ff]" />
+                        <RiskBar label="Operational drift"        value={riskBars.operational} color="bg-[#c6ff25]" />
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                {/* ── Key Metrics ── */}
+                <div>
+                  <SectionTitle title="Key Metrics" />
+                  <section className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                    <MetricCard accent="lime"   label="Docs processed"    value={String(docsProcessed)} note={docsProcessed > 0 ? "+1 today" : "No documents yet"} />
+                    <MetricCard accent="pink"   label="Anomalies found"   value={String(anomalyFeed.length)} note={anomalyFeed.length > 0 ? `+${anomalyFeed.length} this session` : "None detected"} />
+                    <MetricCard accent="blue"   label="Reports generated" value={String(reportCount)} note={reportCount > 0 ? "Latest report ready" : "No reports yet"} />
+                    <MetricCard accent="yellow" label="Avg analysis time" value={result ? "~12s" : "—"} note={result ? "5-agent pipeline" : "Pending first run"} />
+                  </section>
+                </div>
+
+                {/* ── AI-Generated Insights ── */}
+                <div>
+                  <SectionTitle title="AI-Generated Insights" />
+                  <section className="grid gap-6 lg:grid-cols-3">
+                    <InsightCard 
+                      accent="lime" 
+                      action="Investigate →" 
+                      title="Access Risk"
+                      text={analysis.smart_summary?.risk_categories?.access_risk || "Upload a document to generate access risk analysis."} 
+                      onClick={() => setActiveTab("Anomalies")}
+                    />
+                    <InsightCard 
+                      accent="pink" 
+                      action="Review →" 
+                      title="Financial Risk"
+                      text={analysis.smart_summary?.risk_categories?.financial_risk || "Upload a document to generate financial risk analysis."} 
+                      onClick={() => setActiveTab("Reports")}
+                    />
+                    <InsightCard 
+                      accent="blue" 
+                      action="Fix now →" 
+                      title="Compliance"
+                      text={analysis.smart_summary?.risk_categories?.compliance || "Upload a document to generate compliance analysis."} 
+                      onClick={() => setActiveTab("Reports")}
+                    />
+                  </section>
+                </div>
+              </div>
+            )}
+
+
+            {/* ========================================================= */}
+            {/* TAB: AGENT FLOW */}
+            {/* ========================================================= */}
+            {activeTab === "Agent Flow" && (
+              <div className="space-y-8 animate-in fade-in duration-500">
+                {/* ── Agent Pipeline ── */}
+                <div>
+                  <SectionTitle title="AI Agent Collaboration" />
+                  <section className="rounded-[8px] border border-white/10 bg-[#25252c] p-8">
+                    <div className="mb-10 flex items-center gap-3 text-lg font-bold text-white">
+                      <span className={cx("h-3 w-3 rounded-full transition-colors", isUploading ? "animate-pulse bg-[#c6ff25]" : result ? "bg-[#c6ff25]" : "bg-[#4a6a1a]")} />
+                      Live Multi-Agent Pipeline
+                    </div>
+                    <div className="grid grid-cols-5 items-start gap-3 sm:gap-6">
+                      {AGENTS.map((agent, i) => {
+                        const done    = activeStep > i + 1;
+                        const current = activeStep === i + 1;
+                        const active  = done || current;
+                        return (
+                          <div key={agent.id} className="relative flex flex-col items-center gap-3">
+                            {i < AGENTS.length - 1 && (
+                              <span className={cx("absolute left-[calc(50%+34px)] top-8 hidden h-px w-[calc(100%-28px)] transition-all duration-700 sm:block",
+                                done ? "bg-[#c6ff25]" : "bg-white/16")} />
+                            )}
+                            <span className={cx(
+                              "grid h-16 w-16 place-items-center rounded-[8px] border text-2xl font-black transition-all duration-500",
+                              active ? `${agent.accent} ${agent.glow}` : "border-white/[0.12] bg-white/[0.03] text-[#676770]",
+                              current && "animate-pulse"
+                            )}>{agent.id}</span>
+                            <div className="text-center">
+                              <p className={cx("text-sm transition-colors", active ? "text-[#d5d5dc]" : "text-[#555560]")}>{agent.name}</p>
+                              <p className="mt-1 text-xs text-[#82828a]">{agent.role}</p>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                    <div className="mt-10 flex items-center justify-between border-t border-white/10 pt-6 font-mono text-sm text-[#96969d]">
+                      <span>
+                        {activeStep === 0 && "Waiting for input…"}
+                        {activeStep > 0 && activeStep <= 5 && <>Agent {activeStep} / 5 — <span className="text-[#ffdb4d]">{AGENTS[activeStep - 1]?.name}</span> running…</>}
+                        {activeStep === 6 && <span className="text-[#c6ff25]">All 5 agents complete ✓</span>}
+                      </span>
+                      <span className="flex gap-2">
+                        {AGENTS.map((a, i) => (
+                          <span key={a.id} className={cx("h-2 w-2 rounded-full transition-colors duration-500",
+                            activeStep > i + 1 ? "bg-[#c6ff25]" : activeStep === i + 1 ? "animate-pulse bg-[#ffdb4d]" : "bg-white/[0.18]")} />
+                        ))}
+                      </span>
+                    </div>
+                  </section>
+                </div>
+
+                {/* ── AI Reasoning Trail ── */}
+                <section className="rounded-[8px] border border-white/10 bg-[#25252c] p-8">
+                  <p className="text-lg font-bold uppercase tracking-[0.08em] text-[#b9b9bf]">
+                    AI Reasoning Trail {file ? `— ${file.name}` : ""}
+                  </p>
+                  <div className="mt-7 space-y-6">
+                    {logs.length === 0
+                      ? <p className="text-sm text-[#7e7e85]">Awaiting document upload to begin analysis pipeline.</p>
+                      : logs.map((log, i) => (
+                          <div key={i} className="flex gap-4">
+                            <span className={cx(
+                              "mt-1 h-5 w-5 shrink-0 rounded-full border-2 transition-colors duration-500",
+                              log.filled ? "border-[#c6ff25]" : "border-white/20"
+                            )} />
+                            <div>
+                              <p className={cx("font-mono text-sm font-bold transition-colors duration-500",
+                                log.filled ? "text-[#c6ff25]" : "text-[#777780]")}>{log.label}</p>
+                              {log.filled && result?.ai_analysis && (
+                                <p className="mt-1 text-sm leading-6 text-[#898990]">
+                                  {trailDescription(i, result.ai_analysis)}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                        ))
+                    }
+                  </div>
+                </section>
+              </div>
+            )}
+
+
+            {/* ========================================================= */}
+            {/* TAB: ANOMALIES */}
+            {/* ========================================================= */}
+            {activeTab === "Anomalies" && (
+              <div className="space-y-8 animate-in fade-in duration-500">
+                {/* ── Live Anomaly Feed ── */}
+                <section className="rounded-[8px] border border-white/10 bg-[#25252c] p-8">
+                  <p className="font-mono text-xs uppercase tracking-[0.34em] text-[#9c9ca3]">Live Anomaly Feed</p>
+                  <div className="mt-6 space-y-3">
+                    {anomalyFeed.length === 0
+                      ? <p className="text-sm text-[#7e7e85]">No anomalies detected yet. Upload a document to begin.</p>
+                      : anomalyFeed.map((item, i) => {
+                          const sev = normalizeSeverity(item.severity);
+                          return (
+                            <div key={i} className="flex items-start gap-4 rounded-[8px] bg-white/5 p-4">
+                              <span className={cx("mt-1 h-3 w-3 shrink-0 rounded-full",
+                                sev === "HIGH" ? "bg-[#ff72ad] shadow-[0_0_8px_rgba(255,114,173,0.6)]"
+                                : sev === "MED" ? "bg-[#ffdb4d] shadow-[0_0_8px_rgba(255,219,77,0.6)]"
+                                : "bg-[#c6ff25] shadow-[0_0_8px_rgba(198,255,37,0.6)]")} />
+                              <div className="min-w-0 flex-1">
+                                <p className="text-sm font-semibold text-[#d6d6dc]">{item.title}</p>
+                                {item.description && <p className="mt-1 text-xs leading-relaxed text-[#7e7e85]">{item.description}</p>}
+                                {item.category && <p className="mt-1 font-mono text-[9px] uppercase text-[#555560]">{item.category}</p>}
+                              </div>
+                              <span className={cx("shrink-0 rounded-[6px] border px-3 py-1 font-mono text-xs", severityClass(item.severity))}>{sev}</span>
+                            </div>
+                          );
+                        })
+                    }
+                  </div>
+                </section>
+
+                {/* ── KEY ENTITIES ── */}
+                {keyEntities.length > 0 && (
+                  <div>
+                    <SectionTitle title={`Key Entities Extracted (${keyEntities.length})`} />
+                    <section className="rounded-[8px] border border-white/10 bg-[#25252c] p-6">
+                      <div className="mb-6 flex flex-wrap gap-3">
+                        {(["Tinggi","Menengah","Rendah"] as const).map((level) => {
+                          const count = keyEntities.filter(e => e.potential_risk?.toLowerCase().includes(level.toLowerCase())).length;
+                          if (count === 0) return null;
+                          const colors = {
+                            Tinggi:   "border-[#ff5d78]/30 bg-[#ff5d78]/10 text-[#ff7890]",
+                            Menengah: "border-[#ffdb4d]/30 bg-[#ffdb4d]/10 text-[#ffdb4d]",
+                            Rendah:   "border-[#c6ff25]/25 bg-[#c6ff25]/10 text-[#c6ff25]",
+                          };
+                          return (
+                            <span key={level} className={cx("rounded-full border px-4 py-1.5 font-mono text-xs uppercase tracking-[0.18em]", colors[level])}>
+                              {count} {level === "Tinggi" ? "High" : level === "Menengah" ? "Medium" : "Low"} risk
+                            </span>
+                          );
+                        })}
+                        <span className="rounded-full border border-white/10 bg-white/5 px-4 py-1.5 font-mono text-xs uppercase tracking-[0.18em] text-[#9a9aa1]">
+                          {keyEntities.length} total entities
+                        </span>
+                      </div>
+
+                      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-2">
+                        {visibleEntities.map((entity, i) => (
+                          <div key={i} className="group rounded-[8px] border border-white/[0.07] bg-[#1f1f25] p-5 transition hover:border-white/15">
+                            <div className="flex items-start gap-3">
+                              <span className={cx("mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full", entityRiskDot(entity.potential_risk))} />
+                              <div className="min-w-0 flex-1">
+                                <div className="flex items-start justify-between gap-2">
+                                  <p className="text-sm font-bold text-[#e0e0e6] group-hover:text-white transition-colors">
+                                    {entity.entity_name ?? "Unknown Entity"}
+                                  </p>
+                                  {entity.potential_risk && (
+                                    <span className={cx(
+                                      "shrink-0 rounded-[5px] border px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.12em]",
+                                      entityRiskBadge(entity.potential_risk)
+                                    )}>
+                                      {entity.potential_risk.toLowerCase().includes("tinggi") ? "High"
+                                        : entity.potential_risk.toLowerCase().includes("menengah") ? "Med"
+                                        : entity.potential_risk.toLowerCase().includes("rendah") ? "Low"
+                                        : entity.potential_risk}
+                                    </span>
+                                  )}
+                                </div>
+                                {entity.description && (
+                                  <p className="mt-2 text-sm leading-6 text-[#8a8a92]">{entity.description}</p>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {hasMoreEntities && (
+                        <button
+                          type="button"
+                          onClick={() => setEntitiesExpanded((v) => !v)}
+                          className="mt-5 flex w-full items-center justify-center gap-2 rounded-[8px] border border-white/10 py-3 font-mono text-xs uppercase tracking-[0.2em] text-[#9a9aa1] transition hover:border-white/25 hover:text-white"
+                        >
+                          {entitiesExpanded
+                            ? `▲ Show less`
+                            : `▼ Show ${keyEntities.length - ENTITIES_PREVIEW} more entit${keyEntities.length - ENTITIES_PREVIEW !== 1 ? "ies" : "y"}`}
+                        </button>
+                      )}
+                    </section>
+                  </div>
+                )}
+              </div>
+            )}
+
+
+            {/* ========================================================= */}
+            {/* TAB: REPORTS */}
+            {/* ========================================================= */}
+            {activeTab === "Reports" && (
+              <div className="space-y-8 animate-in fade-in duration-500">
+                {/* ── Executive Summary ── */}
+                {result?.ai_analysis?.smart_summary?.executive_brief ? (
+                  <section className="rounded-[8px] border border-white/10 bg-[#25252c] p-8">
+                    <div className="mb-5 flex items-center justify-between gap-4">
+                      <p className="font-mono text-xs uppercase tracking-[0.34em] text-[#9c9ca3]">Executive Summary</p>
+                      <span className={cx("rounded-full border px-3 py-1 font-mono text-[10px] uppercase",
+                        result.ai_analysis.final_validation?.status === "VALIDATED"
+                          ? "border-[#c6ff25]/30 bg-[#c6ff25]/10 text-[#c6ff25]"
+                          : "border-[#ffdb4d]/30 bg-[#ffdb4d]/10 text-[#ffdb4d]"
+                      )}>
+                        {result.ai_analysis.final_validation?.status ?? "PENDING"}
+                      </span>
+                    </div>
+                    <p className="text-lg italic leading-8 text-[#d6d6dc]">&ldquo;{result.ai_analysis.smart_summary.executive_brief}&rdquo;</p>
+                    {result.ai_analysis.final_validation?.conclusion && (
+                      <p className="mt-4 font-mono text-sm text-[#6d91ff]">Validator: {result.ai_analysis.final_validation.conclusion}</p>
+                    )}
+                  </section>
+                ) : (
+                  <p className="text-sm text-[#7e7e85]">Upload document to view executive summary and action reports.</p>
+                )}
+
+                {/* ── Action Report ── */}
+                {recommendations.length > 0 && (
+                  <div>
+                    <SectionTitle title="Action Report" />
+                    {result?.ai_analysis?.action_report?.overall_recommendation && (
+                      <div className="mb-4 rounded-[8px] border border-[#c6ff25]/20 bg-[#c6ff25]/5 p-5">
+                        <p className="mb-2 font-mono text-xs uppercase tracking-[0.24em] text-[#c6ff25]">Management Directive</p>
+                        <p className="text-sm leading-6 text-[#d6d6dc]">{result.ai_analysis.action_report.overall_recommendation}</p>
+                        {result.ai_analysis.action_report.estimated_resolution_days ? (
+                          <p className="mt-2 font-mono text-xs text-[#7e7e85]">
+                            Est. resolution: {result.ai_analysis.action_report.estimated_resolution_days} days
+                          </p>
+                        ) : null}
+                      </div>
+                    )}
+                    <section className="grid gap-4 lg:grid-cols-3">
+                      {recommendations.map((item, i) => (
+                        <div key={i} className="rounded-[8px] border border-white/10 bg-[#25252c] p-5">
+                          <div className="flex items-start justify-between gap-3">
+                            <p className="text-sm font-bold text-white">{item.action}</p>
+                            <span className={cx("shrink-0 rounded-[6px] border px-2 py-1 font-mono text-[10px]", severityClass(item.priority))}>
+                              {normalizeSeverity(item.priority)}
+                            </span>
+                          </div>
+                          <p className="mt-3 text-sm leading-6 text-[#a5a5ac]">{item.detail}</p>
+                          {item.effort && <p className="mt-3 font-mono text-[10px] uppercase text-[#555560]">{item.effort.replace("_", " ")}</p>}
+                        </div>
+                      ))}
+                    </section>
+                  </div>
+                )}
+              </div>
+            )}
+
+
+            {/* ── Footer ── */}
+            <footer className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-6 font-mono text-xs text-[#8a8a91]">
+              <span>Powered by Gemini 2.5 Flash · Google AI Studio · 5 agents active</span>
+              <span className="flex items-center gap-3">
+                <span className="h-3 w-3 rounded-full bg-[#c6ff25]" />
+                <span className="h-3 w-3 rotate-45 bg-[#ff72ad]" />
+                <span className="h-3 w-3 rounded-full bg-[#5c82ff]" />
+              </span>
+            </footer>
+          </div>
+        </section>
+      </div>
+    </main>
+  );
+}
+
+// ─── Sub-components ───────────────────────────────────────────────────────────
+function MetricLine({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex justify-between gap-3 border-white/10 py-2 sm:border-r sm:px-7 first:pl-0 last:border-r-0 last:pr-0">
+      <span>{label}</span>
+      <span className="font-bold text-[#c6ff25]">{value}</span>
+    </div>
+  );
+}
+
+function RiskBar({ label, value, color }: { label: string; value: number; color: string }) {
+  return (
+    <div className="grid grid-cols-[180px_1fr_36px] items-center gap-4 text-sm text-[#a4a4aa]">
+      <span>{label}</span>
+      <span className="h-1.5 overflow-hidden rounded-full bg-white/10">
+        <span className={cx("block h-full rounded-full transition-all duration-1000 ease-out", color)} style={{ width: `${value}%` }} />
+      </span>
+      <span className="text-right font-mono text-xs">{value}</span>
+    </div>
+  );
+}
+
+function SectionTitle({ title }: { title: string }) {
+  return (
+    <div className="mb-4 mt-10 flex items-center gap-3">
+      <p className="font-mono text-xs uppercase tracking-[0.34em] text-[#9c9ca3]">{title}</p>
+      <span className="h-px flex-1 bg-white/10" />
+    </div>
+  );
+}
+
+function MetricCard({ accent, label, note, value }: { accent: "lime"|"pink"|"blue"|"yellow"; label: string; note: string; value: string }) {
+  const palette = {
+    lime:   "border-[#c6ff25]/25 text-[#c6ff25]",
+    pink:   "border-[#ff72ad]/30 text-[#ff72ad]",
+    blue:   "border-[#5c82ff]/35 text-[#78a0ff]",
+    yellow: "border-[#ffdb4d]/25 text-[#ffdb4d]",
+  }[accent];
+  return (
+    <div className={cx("rounded-[8px] border bg-[#25252c] p-6", palette)}>
+      <p className="font-mono text-xs uppercase tracking-[0.24em] text-[#9d9da4]">{label}</p>
+      <p className="mt-5 text-4xl font-black">{value}</p>
+      <p className="mt-2 font-mono text-sm">{note}</p>
+      <div className="mt-7 flex h-12 items-end gap-2">
+        {[18, 29, 22, 38, 34, 52].map((h, i) => (
+          <span key={i} className="w-full rounded-t-[3px] bg-current opacity-40 last:opacity-100" style={{ height: h }} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function InsightCard({ accent, action, text, title, onClick }: { accent: "lime"|"pink"|"blue"; action: string; text?: string; title: string; onClick?: () => void }) {
+  const palette = {
+    lime: "border-[#c6ff25]/25 text-[#c6ff25] hover:bg-[#c6ff25] hover:text-[#25252c]",
+    pink: "border-[#ff72ad]/30 text-[#ff72ad] hover:bg-[#ff72ad] hover:text-[#25252c]",
+    blue: "border-[#5c82ff]/35 text-[#78a0ff] hover:bg-[#5c82ff] hover:text-[#25252c]",
+  }[accent];
+  
+  return (
+    <article className={cx("rounded-[8px] border bg-[#25252c] p-7 transition-colors", 
+      accent === "lime" ? "border-[#c6ff25]/25 text-[#c6ff25]" : 
+      accent === "pink" ? "border-[#ff72ad]/30 text-[#ff72ad]" : 
+      "border-[#5c82ff]/35 text-[#78a0ff]"
+    )}>
+      <p className="font-mono text-xs uppercase tracking-[0.34em]">{title}</p>
+      <p className="mt-6 min-h-[100px] text-base leading-7 text-[#dedee3]">{text}</p>
+      <button 
+        type="button" 
+        onClick={onClick}
+        className={cx("mt-6 rounded-[8px] border border-current px-5 py-3 font-mono text-sm transition-colors duration-300", palette)}
+      >
+        {action}
+      </button>
+    </article>
+  );
+}
+</file>
+
+<file path="frontend/CLAUDE.md">
+@AGENTS.md
+</file>
+
+<file path="frontend/eslint.config.mjs">
+import { defineConfig, globalIgnores } from "eslint/config";
+import nextVitals from "eslint-config-next/core-web-vitals";
+import nextTs from "eslint-config-next/typescript";
+
+const eslintConfig = defineConfig([
+  ...nextVitals,
+  ...nextTs,
+  // Override default ignores of eslint-config-next.
+  globalIgnores([
+    // Default ignores of eslint-config-next:
+    ".next/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
+  ]),
+]);
+
+export default eslintConfig;
+</file>
+
+<file path="frontend/next.config.ts">
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  /* config options here */
+};
+
+export default nextConfig;
+</file>
+
+<file path="frontend/package.json">
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "next": "16.2.6",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.6",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
+</file>
+
+<file path="frontend/postcss.config.mjs">
+const config = {
+  plugins: {
+    "@tailwindcss/postcss": {},
+  },
+};
+
+export default config;
+</file>
+
+<file path="frontend/public/file.svg">
+<svg fill="none" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.5 13.5V5.41a1 1 0 0 0-.3-.7L9.8.29A1 1 0 0 0 9.08 0H1.5v13.5A2.5 2.5 0 0 0 4 16h8a2.5 2.5 0 0 0 2.5-2.5m-1.5 0v-7H8v-5H3v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1M9.5 5V2.12L12.38 5zM5.13 5h-.62v1.25h2.12V5zm-.62 3h7.12v1.25H4.5zm.62 3h-.62v1.25h7.12V11z" clip-rule="evenodd" fill="#666" fill-rule="evenodd"/></svg>
+</file>
+
+<file path="frontend/public/globe.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><g clip-path="url(#a)"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.27 14.1a6.5 6.5 0 0 0 3.67-3.45q-1.24.21-2.7.34-.31 1.83-.97 3.1M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.48-1.52a7 7 0 0 1-.96 0H7.5a4 4 0 0 1-.84-1.32q-.38-.89-.63-2.08a40 40 0 0 0 3.92 0q-.25 1.2-.63 2.08a4 4 0 0 1-.84 1.31zm2.94-4.76q1.66-.15 2.95-.43a7 7 0 0 0 0-2.58q-1.3-.27-2.95-.43a18 18 0 0 1 0 3.44m-1.27-3.54a17 17 0 0 1 0 3.64 39 39 0 0 1-4.3 0 17 17 0 0 1 0-3.64 39 39 0 0 1 4.3 0m1.1-1.17q1.45.13 2.69.34a6.5 6.5 0 0 0-3.67-3.44q.65 1.26.98 3.1M8.48 1.5l.01.02q.41.37.84 1.31.38.89.63 2.08a40 40 0 0 0-3.92 0q.25-1.2.63-2.08a4 4 0 0 1 .85-1.32 7 7 0 0 1 .96 0m-2.75.4a6.5 6.5 0 0 0-3.67 3.44 29 29 0 0 1 2.7-.34q.31-1.83.97-3.1M4.58 6.28q-1.66.16-2.95.43a7 7 0 0 0 0 2.58q1.3.27 2.95.43a18 18 0 0 1 0-3.44m.17 4.71q-1.45-.12-2.69-.34a6.5 6.5 0 0 0 3.67 3.44q-.65-1.27-.98-3.1" fill="#666"/></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h16v16H0z"/></clipPath></defs></svg>
+</file>
+
+<file path="frontend/public/next.svg">
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 394 80"><path fill="#000" d="M262 0h68.5v12.7h-27.2v66.6h-13.6V12.7H262V0ZM149 0v12.7H94v20.4h44.3v12.6H94v21h55v12.6H80.5V0h68.7zm34.3 0h-17.8l63.8 79.4h17.9l-32-39.7 32-39.6h-17.9l-23 28.6-23-28.6zm18.3 56.7-9-11-27.1 33.7h17.8l18.3-22.7z"/><path fill="#000" d="M81 79.3 17 0H0v79.3h13.6V17l50.2 62.3H81Zm252.6-.4c-1 0-1.8-.4-2.5-1s-1.1-1.6-1.1-2.6.3-1.8 1-2.5 1.6-1 2.6-1 1.8.3 2.5 1a3.4 3.4 0 0 1 .6 4.3 3.7 3.7 0 0 1-3 1.8zm23.2-33.5h6v23.3c0 2.1-.4 4-1.3 5.5a9.1 9.1 0 0 1-3.8 3.5c-1.6.8-3.5 1.3-5.7 1.3-2 0-3.7-.4-5.3-1s-2.8-1.8-3.7-3.2c-.9-1.3-1.4-3-1.4-5h6c.1.8.3 1.6.7 2.2s1 1.2 1.6 1.5c.7.4 1.5.5 2.4.5 1 0 1.8-.2 2.4-.6a4 4 0 0 0 1.6-1.8c.3-.8.5-1.8.5-3V45.5zm30.9 9.1a4.4 4.4 0 0 0-2-3.3 7.5 7.5 0 0 0-4.3-1.1c-1.3 0-2.4.2-3.3.5-.9.4-1.6 1-2 1.6a3.5 3.5 0 0 0-.3 4c.3.5.7.9 1.3 1.2l1.8 1 2 .5 3.2.8c1.3.3 2.5.7 3.7 1.2a13 13 0 0 1 3.2 1.8 8.1 8.1 0 0 1 3 6.5c0 2-.5 3.7-1.5 5.1a10 10 0 0 1-4.4 3.5c-1.8.8-4.1 1.2-6.8 1.2-2.6 0-4.9-.4-6.8-1.2-2-.8-3.4-2-4.5-3.5a10 10 0 0 1-1.7-5.6h6a5 5 0 0 0 3.5 4.6c1 .4 2.2.6 3.4.6 1.3 0 2.5-.2 3.5-.6 1-.4 1.8-1 2.4-1.7a4 4 0 0 0 .8-2.4c0-.9-.2-1.6-.7-2.2a11 11 0 0 0-2.1-1.4l-3.2-1-3.8-1c-2.8-.7-5-1.7-6.6-3.2a7.2 7.2 0 0 1-2.4-5.7 8 8 0 0 1 1.7-5 10 10 0 0 1 4.3-3.5c2-.8 4-1.2 6.4-1.2 2.3 0 4.4.4 6.2 1.2 1.8.8 3.2 2 4.3 3.4 1 1.4 1.5 3 1.5 5h-5.8z"/></svg>
+</file>
+
+<file path="frontend/public/vercel.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1155 1000"><path d="m577.3 0 577.4 1000H0z" fill="#fff"/></svg>
+</file>
+
+<file path="frontend/public/window.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.5 2.5h13v10a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1zM0 1h16v11.5a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 0 12.5zm3.75 4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5M7 4.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0m1.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5" fill="#666"/></svg>
+</file>
+
+<file path="frontend/README.md">
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+## Getting Started
+
+First, run the development server:
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+</file>
+
+<file path="frontend/tsconfig.json">
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    "**/*.mts"
+  ],
+  "exclude": ["node_modules"]
+}
+</file>
+
+</files>

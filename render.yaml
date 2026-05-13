@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: nalar-backend
+    runtime: python
+    region: singapore          # paling dekat ke Indonesia
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: GEMINI_API_KEY_1
+        sync: false            # isi manual di Render dashboard
+      - key: GEMINI_API_KEY_2
+        sync: false
+      - key: GEMINI_API_KEY_3
+        sync: false
+      - key: ALLOWED_ORIGINS
+        sync: false            # isi setelah dapat URL Vercel

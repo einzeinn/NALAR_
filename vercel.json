@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "buildCommand": "cd frontend && npm run build",
+  "installCommand": "cd frontend && npm install",
+  "outputDirectory": "frontend/.next",
+  "framework": "nextjs",
+  "rootDirectory": "frontend",
+  "env": {
+    "NEXT_PUBLIC_API_URL": {
+      "description": "Backend API URL (Render or Railway)",
+      "required": false,
+      "default": "http://localhost:8000"
+    }
+  },
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
+    }
+  ]
+}
