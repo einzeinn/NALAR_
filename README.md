@@ -130,14 +130,22 @@ nalar/
 
 ---
 
-## 🎬 Demo
+## 🎬 Quick Start / Demo
 
-Upload `server_auth_audit.txt` (included in `/demo/`) to see the full pipeline in action:
+Two sample files are included in the `/demo/` folder to test the pipeline:
 
-- **21 flagged events** across 4 sections
-- **5 critical anomalies** including brute force, duplicate invoice, PII export, and unauthorized alert suppression
-- Watch all 5 agents process in sequence on the Agent Flow tab
-- Review structured findings across Anomalies and Reports tabs
+1. **`server_auth_log.txt`** — Server authentication log with security incidents
+   - Failed login attempts & brute force detection
+   - Unauthorized access & API key misuse
+   - Certificate expiration warnings
+   - Expected: Risk Score 78–85 | Security & Compliance
+
+2. **`financial_anomaly_report.csv`** — Transaction data with anomalies
+   - Unusual vendors & high-value transactions
+   - Offshore entities & suspicious patterns
+   - Expected: Risk Score 82–90 | Financial & Fraud
+
+Upload either file and watch all **5 agents process in sequence**. Each agent adds structured intelligence to the analysis pipeline.
 
 ---
 

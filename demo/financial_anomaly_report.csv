@@ -1,0 +1,11 @@
+transaction_id,timestamp,user_id,amount_usd,vendor,category,payment_method,region,status,notes
+TXN001,2026-05-13T08:15:00Z,EMP_2051,150.50,Starbucks,Food & Beverage,CorporateCard,North America,APPROVED,Regular daily expense
+TXN002,2026-05-13T09:20:00Z,EMP_1024,2500.00,AcmeTech Solutions,Software Licenses,CorporateCard,EMEA,APPROVED,Annual subscription renewal
+TXN003,2026-05-13T10:45:00Z,EMP_3099,45000.00,Unknown Vendor XYZ,Consulting Services,Wire Transfer,Offshore,FLAGGED,Unusual vendor - no prior history
+TXN004,2026-05-13T11:30:00Z,EMP_1024,320.75,Marriott Hotels,Travel,CorporateCard,North America,APPROVED,Business trip accommodation
+TXN005,2026-05-13T12:05:00Z,EMP_4567,18500.00,TechSupply Corp,Equipment,Wire Transfer,North America,FLAGGED,Amount significantly higher than average
+TXN006,2026-05-13T13:10:00Z,EMP_2051,89.99,Amazon Business,Office Supplies,CorporateCard,North America,APPROVED,Routine purchase
+TXN007,2026-05-13T14:25:00Z,EMP_3099,125000.00,Phantom Holdings LLC,Consulting,Wire Transfer,Offshore,CRITICAL,Massive transaction to unverified entity
+TXN008,2026-05-13T15:40:00Z,EMP_5123,52.00,Uber,Transportation,CorporateCard,North America,APPROVED,Local travel
+TXN009,2026-05-13T16:15:00Z,EMP_1024,550.00,Delta Airlines,Travel,CorporateCard,North America,APPROVED,Flight booking
+TXN010,2026-05-13T17:00:00Z,EMP_3099,200000.00,Shadow Corp International,Consulting,Wire Transfer,Offshore,CRITICAL,Extremely high-risk transaction - multiple red flags
