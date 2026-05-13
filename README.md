@@ -105,7 +105,7 @@ NALAR_ uses a collaborative 5-agent orchestration system:
 
 ## Risk Analysis Result
 
-![Analysis](./demo/anomalies_&_report.png)
+![Analysis](./demo/anomalies.png)
 
 ## Agent Pipeline Visualization
 
