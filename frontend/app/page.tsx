@@ -611,10 +611,29 @@ export default function Home() {
                 <div>
                   <SectionTitle title="Key Metrics" />
                   <section className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-                    <MetricCard accent="lime"   label="Docs processed"    value={String(docsProcessed)} note={docsProcessed > 0 ? "+1 today" : "No documents yet"} />
-                    <MetricCard accent="pink"   label="Anomalies found"   value={String(anomalyFeed.length)} note={anomalyFeed.length > 0 ? `+${anomalyFeed.length} this session` : "None detected"} />
-                    <MetricCard accent="blue"   label="Reports generated" value={String(reportCount)} note={reportCount > 0 ? "Latest report ready" : "No reports yet"} />
-                    <MetricCard accent="yellow" label="Avg analysis time" value={result ? "~12s" : "—"} note={result ? "5-agent pipeline" : "Pending first run"} />
+                    {(() => {
+                      const recentHistory = history.slice(0, 6).reverse();
+                      const padZeros = (arr: number[]) => [...Array(Math.max(0, 6 - arr.length)).fill(0), ...arr].slice(-6);
+                      
+                      let dCount = Math.max(0, docsProcessed - recentHistory.length);
+                      const chartDocs = padZeros(recentHistory.map(() => ++dCount));
+                      
+                      const chartAnomalies = padZeros(recentHistory.map(h => h.analysis?.smart_summary?.anomaly_feed?.length || 0));
+                      
+                      let rCount = Math.max(0, reportCount - recentHistory.length);
+                      const chartReports = padZeros(recentHistory.map(() => ++rCount));
+                      
+                      const chartTime = padZeros(recentHistory.map(() => 12));
+
+                      return (
+                        <>
+                          <MetricCard accent="lime"   label="Docs processed"    value={String(docsProcessed)} note={docsProcessed > 0 ? "+1 today" : "No documents yet"} chartData={chartDocs} />
+                          <MetricCard accent="pink"   label="Anomalies found"   value={String(anomalyFeed.length)} note={anomalyFeed.length > 0 ? `+${anomalyFeed.length} this session` : "None detected"} chartData={chartAnomalies} />
+                          <MetricCard accent="blue"   label="Reports generated" value={String(reportCount)} note={reportCount > 0 ? "Latest report ready" : "No reports yet"} chartData={chartReports} />
+                          <MetricCard accent="yellow" label="Avg analysis time" value={result ? "~12s" : "—"} note={result ? "5-agent pipeline" : "Pending first run"} chartData={chartTime} />
+                        </>
+                      );
+                    })()}
                   </section>
                 </div>
 
@@ -1005,21 +1024,26 @@ function SectionTitle({ title }: { title: string }) {
   );
 }
 
-function MetricCard({ accent, label, note, value }: { accent: "lime"|"pink"|"blue"|"yellow"; label: string; note: string; value: string }) {
+function MetricCard({ accent, label, note, value, chartData }: { accent: "lime"|"pink"|"blue"|"yellow"; label: string; note: string; value: string; chartData?: number[] }) {
   const palette = {
     lime:   "border-[#c6ff25]/25 text-[#c6ff25]",
     pink:   "border-[#ff72ad]/30 text-[#ff72ad]",
     blue:   "border-[#5c82ff]/35 text-[#78a0ff]",
     yellow: "border-[#ffdb4d]/25 text-[#ffdb4d]",
   }[accent];
+
+  const data = chartData || [18, 29, 22, 38, 34, 52];
+  const maxVal = Math.max(...data, 1);
+  const heights = data.map(v => Math.max(4, (v / maxVal) * 48));
+
   return (
     <div className={cx("rounded-[8px] border bg-[#25252c] p-6", palette)}>
       <p className="font-mono text-xs uppercase tracking-[0.24em] text-[#9d9da4]">{label}</p>
       <p className="mt-5 text-4xl font-black">{value}</p>
       <p className="mt-2 font-mono text-sm">{note}</p>
       <div className="mt-7 flex h-12 items-end gap-2">
-        {[18, 29, 22, 38, 34, 52].map((h, i) => (
-          <span key={i} className="w-full rounded-t-[3px] bg-current opacity-40 last:opacity-100" style={{ height: h }} />
+        {heights.map((h, i) => (
+          <span key={i} className="w-full rounded-t-[3px] bg-current opacity-40 last:opacity-100" style={{ height: h, opacity: data[i] === 0 ? 0.1 : undefined }} />
         ))}
       </div>
     </div>
