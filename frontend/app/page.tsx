@@ -64,6 +64,7 @@ type Agent = {
 };
 // ─── Constants ────────────────────────────────────────────────────────────────
 const STORAGE_KEY = "nalar_stats";
+const HISTORY_KEY = "nalar_history";
 
 const ACCEPTED_EXTS = [".pdf", ".csv", ".xlsx", ".xls", ".txt", ".log"];
 const MAX_SIZE_MB   = 20;
@@ -96,7 +97,7 @@ const TRAIL_LOGS = [
   "Intelligence report generated",
 ];
 
-const TABS = ["Overview", "Agent Flow", "Anomalies", "Reports"];
+const TABS = ["Overview", "Agent Flow", "Anomalies", "Reports", "History"];
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 function cx(...classes: Array<string | false | undefined | null>) {
@@ -185,6 +186,9 @@ const emptyAnalysis: AiAnalysis = {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 export default function Home() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [password, setPassword] = useState("");
+  const [history, setHistory] = useState<any[]>([]);
   const [file, setFile]               = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [result, setResult]           = useState<UploadResult | null>(null);
@@ -199,6 +203,9 @@ export default function Home() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    if (localStorage.getItem("nalar_auth") === "true") setIsAuthenticated(true);
+    const hist = localStorage.getItem(HISTORY_KEY);
+    if (hist) setHistory(JSON.parse(hist));
     const { docs, reports } = loadStats();
     setDocsProcessed(docs);
     setReportCount(reports);
@@ -341,6 +348,10 @@ export default function Home() {
       setReportCount(newRep);
       saveStats(newDocs, newRep);
 
+      const newHist = [{ date: new Date().toISOString(), filename: data.filename, score: data.ai_analysis?.overall_risk_score ?? 0, analysis: data.ai_analysis }, ...history];
+      setHistory(newHist);
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(newHist));
+
       setActiveTab("Overview");
 
     } catch (err) {
@@ -361,6 +372,38 @@ export default function Home() {
     : score >= 40
     ? "border-[#ffdb4d]/35 bg-[#ffdb4d]/[0.12] text-[#ffdb4d]"
     : "border-white/15 bg-white/5 text-[#9a9aa1]";
+
+  if (!isAuthenticated) {
+    return (
+      <main className="min-h-screen bg-[#1b1b1d] grid place-items-center text-white px-4">
+        <form onSubmit={(e) => {
+          e.preventDefault();
+          if (password === "admin") {
+            localStorage.setItem("nalar_auth", "true");
+            setIsAuthenticated(true);
+          } else {
+            alert("Invalid password (hint: admin)");
+          }
+        }} className="w-full max-w-sm p-8 border border-white/10 rounded-xl bg-[#25252c] shadow-[0_0_40px_rgba(198,255,37,0.1)]">
+          <div className="flex justify-center mb-6">
+             <span className="h-6 w-6 rounded-full bg-[#c6ff25] shadow-[0_0_22px_rgba(198,255,37,0.75)]" />
+          </div>
+          <h1 className="text-2xl font-black text-center mb-2 tracking-wide">NALAR_ <span className="text-[#c6ff25]">AUTH</span></h1>
+          <p className="text-center text-sm text-[#898990] mb-8">Restricted Access. Enter clearance code.</p>
+          <input 
+            type="password" 
+            placeholder="Enter password..." 
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full bg-[#1b1b1d] border border-white/10 rounded-md px-4 py-3 mb-6 focus:outline-none focus:border-[#c6ff25]/50 transition text-sm font-mono" 
+          />
+          <button type="submit" className="w-full bg-[#c6ff25] text-[#1b1b1d] font-bold py-3 rounded-md uppercase tracking-[0.2em] text-xs hover:bg-[#aef100] transition shadow-[0_0_15px_rgba(198,255,37,0.4)]">
+            Authenticate
+          </button>
+        </form>
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen bg-[#1b1b1d] px-4 py-8 text-[#f4f4f1] sm:px-6 lg:px-8">
@@ -494,17 +537,17 @@ export default function Home() {
                   <div className="text-center pointer-events-none">
                     <div className={cx(
                       "mx-auto grid h-14 w-14 place-items-center rounded-[6px] text-2xl font-bold transition-colors",
-                      isUploading ? "bg-[#ffdb4d] text-[#1f1f23]" : "bg-[#d9d4e6] text-[#23232b]"
+                      isUploading ? "bg-[#ffdb4d]/20 text-[#ffdb4d] border border-[#ffdb4d]/50" : "bg-[#d9d4e6] text-[#23232b]"
                     )}>
                       {isUploading ? (
-                        <svg className="h-6 w-6 animate-spin" viewBox="0 0 24 24" fill="none">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3"/>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"/>
-                        </svg>
+                        <div className="relative flex h-6 w-6 items-center justify-center">
+                          <span className="absolute h-full w-full animate-ping rounded-full bg-[#ffdb4d] opacity-40"></span>
+                          <span className="h-3 w-3 rounded-full bg-[#ffdb4d]"></span>
+                        </div>
                       ) : "+"}
                     </div>
                     <p className="mt-6 text-xl font-extrabold text-white">
-                      {isUploading ? "Analyzing…" : file ? file.name : "Drop enterprise data here"}
+                      {isUploading ? "Processing Enterprise Data..." : file ? file.name : "Drop enterprise data here"}
                     </p>
                     <p className="mt-2 text-sm text-[#8d8d94]">PDFs · Logs · Reports · Structured data</p>
                     <span className="mt-6 inline-flex rounded-[8px] border border-white/20 px-6 py-3 text-sm font-bold text-white group-hover:border-[#c6ff25]/50">
@@ -800,8 +843,24 @@ export default function Home() {
             {/* ========================================================= */}
             {/* TAB: REPORTS */}
             {/* ========================================================= */}
+            {/* ========================================================= */}
             {activeTab === "Reports" && (
               <div className="space-y-8 animate-in fade-in duration-500">
+                <div className="flex justify-end">
+                  <button 
+                    onClick={() => window.print()}
+                    disabled={!result?.ai_analysis?.smart_summary?.executive_brief}
+                    className="flex items-center gap-2 rounded-[8px] border border-[#c6ff25]/40 bg-[#c6ff25]/10 px-5 py-2.5 font-mono text-xs uppercase tracking-[0.18em] text-[#c6ff25] transition hover:bg-[#c6ff25] hover:text-[#1b1b1d] disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                      <polyline points="7 10 12 15 17 10"></polyline>
+                      <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Export PDF
+                  </button>
+                </div>
+
                 {/* ── Executive Summary ── */}
                 {result?.ai_analysis?.smart_summary?.executive_brief ? (
                   <section className="rounded-[8px] border border-white/10 bg-[#25252c] p-8">
@@ -854,6 +913,46 @@ export default function Home() {
                       ))}
                     </section>
                   </div>
+                )}
+              </div>
+            )}
+
+            {/* ========================================================= */}
+            {/* TAB: HISTORY */}
+            {/* ========================================================= */}
+            {activeTab === "History" && (
+              <div className="space-y-6 animate-in fade-in duration-500">
+                <SectionTitle title="Analysis History" />
+                {history.length === 0 ? (
+                  <p className="text-sm text-[#7e7e85]">No history found. Upload a document to save results here.</p>
+                ) : (
+                  history.map((h, i) => (
+                    <div key={i} className="flex items-center justify-between rounded-[8px] border border-white/10 bg-[#25252c] p-5 transition hover:border-white/20">
+                      <div>
+                        <p className="font-bold text-[#e0e0e6]">{h.filename}</p>
+                        <p className="mt-1 font-mono text-xs text-[#7e7e85]">{new Date(h.date).toLocaleString()}</p>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <span className={cx(
+                          "rounded-full border px-3 py-1 font-mono text-xs",
+                          h.score >= 70 ? "border-[#ff5d78]/30 bg-[#ff5d78]/10 text-[#ff7890]"
+                          : h.score >= 40 ? "border-[#ffdb4d]/30 bg-[#ffdb4d]/10 text-[#ffdb4d]"
+                          : "border-[#c6ff25]/25 bg-[#c6ff25]/10 text-[#c6ff25]"
+                        )}>
+                          Score: {h.score}
+                        </span>
+                        <button 
+                          onClick={() => {
+                            setResult({ filename: h.filename, ai_analysis: h.analysis });
+                            setActiveTab("Reports");
+                          }}
+                          className="font-mono text-xs text-[#5c82ff] hover:underline"
+                        >
+                          View Report
+                        </button>
+                      </div>
+                    </div>
+                  ))
                 )}
               </div>
             )}

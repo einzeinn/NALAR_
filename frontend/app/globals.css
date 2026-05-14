@@ -36,3 +36,51 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #44444a;
 }
+
+@media print {
+  body {
+    background-color: white !important;
+    color: black !important;
+  }
+  
+  /* Ensure backgrounds and borders are printed */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide navigation tabs and upload zone */
+  nav, label[class*="group relative grid"] {
+    display: none !important;
+  }
+
+  /* Adjust background for elements */
+  .bg-\[\#25252c\], .bg-\[\#1f1f23\] {
+    background-color: #f9fafb !important;
+    border-color: #e5e7eb !important;
+  }
+
+  /* Ensure text colors are readable on white background */
+  .text-white, .text-\[\#f4f4f1\], .text-\[\#e0e0e6\], .text-\[\#d6d6dc\] {
+    color: #111827 !important;
+  }
+  
+  .text-\[\#9a9aa1\], .text-\[\#a4a4aa\], .text-\[\#8a8a92\], .text-\[\#9c9ca3\] {
+    color: #4b5563 !important;
+  }
+
+  /* Re-color neon accents for print */
+  .text-\[\#c6ff25\] { color: #166534 !important; }
+  .text-\[\#ff72ad\] { color: #be123c !important; }
+  .text-\[\#ffdb4d\] { color: #854d0e !important; }
+
+  /* Buttons should hide in print */
+  button {
+    display: none !important;
+  }
+
+  /* Force page breaks cleanly */
+  section {
+    page-break-inside: avoid;
+  }
+}
