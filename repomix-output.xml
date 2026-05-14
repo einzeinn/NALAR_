@@ -1,0 +1,3171 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+.gitignore
+backend/.env.example
+backend/app/agents/document.py
+backend/app/agents/orchestrator.py
+backend/app/agents/recommender.py
+backend/app/agents/risk.py
+backend/app/agents/summarizer.py
+backend/app/agents/validator.py
+backend/app/api/upload.py
+backend/app/core/api_key_manager.py
+backend/app/core/gemini_call.py
+backend/app/main.py
+backend/requirements.txt
+demo/agent_flow.png
+demo/anomalies.png
+demo/financial_anomaly_report.csv
+demo/overview.png
+demo/README.md
+demo/server_auth_log.txt
+DEPLOYMENT.md
+frontend/.gitignore
+frontend/AGENTS.md
+frontend/app/favicon.ico
+frontend/app/globals.css
+frontend/app/layout.tsx
+frontend/app/page.tsx
+frontend/CLAUDE.md
+frontend/eslint.config.mjs
+frontend/next.config.ts
+frontend/package.json
+frontend/postcss.config.mjs
+frontend/public/file.svg
+frontend/public/globe.svg
+frontend/public/next.svg
+frontend/public/vercel.svg
+frontend/public/window.svg
+frontend/README.md
+frontend/tailwind.config.ts
+frontend/tsconfig.json
+README.md
+render.yaml
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path=".gitignore">
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+*.egg-info/
+dist/
+build/
+
+# ── Environment & Secrets (JANGAN PERNAH COMMIT!) ────────────────────────────
+.env
+.env.local
+.env.*.local
+backend/.env
+
+# ── Temporary uploads ─────────────────────────────────────────────────────────
+backend/temp_uploads/*
+!backend/temp_uploads/.gitkeep
+
+# ── Next.js ───────────────────────────────────────────────────────────────────
+frontend/.next/
+frontend/out/
+frontend/build/
+frontend/node_modules/
+frontend/.pnp
+frontend/.pnp.*
+frontend/.yarn/*
+!frontend/.yarn/patches
+!frontend/.yarn/plugins
+!frontend/.yarn/releases
+!frontend/.yarn/versions
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/.pnpm-debug.log*
+frontend/*.tsbuildinfo
+frontend/next-env.d.ts
+frontend/.vercel
+frontend/coverage/
+
+# ── OS ────────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.pem
+</file>
+
+<file path="backend/.env.example">
+# ────────────────────────────────────────────────────────────────────────────────
+# NalarAI Backend Environment Variables (FastAPI)
+# ────────────────────────────────────────────────────────────────────────────────
+# Copy this file to .env (already present in local) and fill in the appropriate values
+
+# Gemini API Keys (you need 3 keys for fallback/load distribution)
+# Get keys from: https://aistudio.google.com/app/apikey
+GEMINI_API_KEY_1=your_gemini_api_key_1_here
+GEMINI_API_KEY_2=your_gemini_api_key_2_here
+GEMINI_API_KEY_3=your_gemini_api_key_3_here
+
+# CORS Allowed Origins (comma-separated, no spaces)
+# Development: http://localhost:3000,http://127.0.0.1:3000
+# Production: https://your-app.vercel.app
+# Example: http://localhost:3000,https://your-app.vercel.app
+ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
+</file>
+
+<file path="backend/app/agents/document.py">
+from app.core.gemini_call import gemini_json
+
+def analyze_document_with_ai(text: str) -> dict:
+    """Agent 1: Extract entities from document text."""
+    print("[Agent 1] Document Analyzer is running...")
+
+    prompt = f"""
+    You are an AI Enterprise Document Analyzer.
+    Analyze the following document text and extract its information into JSON format.
+
+    CRITICAL RULES:
+    - Output must be pure JSON only.
+    - Do not use markdown backticks.
+    - Do not add opening or closing prose.
+
+    Required JSON structure:
+    {{
+      "summary": "Professional 2-3 sentence document summary",
+      "key_entities": [
+        {{
+          "entity_name": "Feature, technology, or entity name",
+          "description": "Brief description from the document",
+          "potential_risk": "Potential risk analysis (Low/Medium/High)"
+        }}
+      ]
+    }}
+
+    Document Text:
+    {text}
+    """
+
+    fallback = {
+        "summary": "Document analysis failed.",
+        "key_entities": [],
+    }
+    result = gemini_json(prompt, fallback=fallback)
+    print("[Agent 1] Complete.")
+    return result
+</file>
+
+<file path="backend/app/agents/orchestrator.py">
+import time
+from app.agents.document import analyze_document_with_ai
+from app.agents.risk import analyze_risk
+from app.agents.validator import validate_analysis
+from app.agents.summarizer import summarize_analysis
+from app.agents.recommender import generate_recommendations
+
+def run_multi_agent_pipeline(text: str) -> dict:
+    """Run the 5 AI agents in sequence."""
+    print("\n[Orchestrator] Starting Multi-Agent Pipeline (5 agents)...")
+
+    # Phase 1: Document Analyzer
+    print("[Agent D] Document Analyzer is reading the text...")
+    time.sleep(1)
+    document_data = analyze_document_with_ai(text)
+
+    # Phase 2: Risk Detector
+    print("[Agent A] Anomaly/Risk Detector is identifying threats...")
+    time.sleep(1)
+    risk_data = analyze_risk(document_data)
+
+    # Phase 3: Validator & Checker
+    print("[Agent V] Validator is cross-checking facts...")
+    time.sleep(1.5)
+    validated_data = validate_analysis(risk_data)
+
+    # Phase 4: Smart Summarizer
+    print("[Agent S] Smart Summarizer is building categorized insights...")
+    time.sleep(1)
+    summarized_data = summarize_analysis(validated_data)
+
+    # Phase 5: Recommendation Engine
+    print("[Agent R] Recommendation Engine is preparing the action plan...")
+    time.sleep(1)
+    final_data = generate_recommendations(summarized_data)
+
+    print("[Orchestrator] Pipeline complete. 5/5 agents succeeded.")
+    return final_data
+</file>
+
+<file path="backend/app/agents/recommender.py">
+import json
+from app.core.gemini_call import gemini_json
+
+def generate_recommendations(summarized_data: dict) -> dict:
+    """Agent 5: Recommended corrective actions."""
+    print("[Agent 5] Recommendation Engine is preparing the action plan...")
+
+    anomaly_feed = json.dumps(
+        summarized_data.get("smart_summary", {}).get("anomaly_feed", []), indent=2
+    )
+    score      = summarized_data.get("overall_risk_score", 0)
+    risk_cats  = json.dumps(
+        summarized_data.get("smart_summary", {}).get("risk_categories", {}), indent=2
+    )
+
+    prompt = f"""
+    You are an AI Enterprise Security Consultant.
+    Based on the anomalies below, create concrete and actionable recommendations.
+
+    DETECTED ANOMALIES:
+    {anomaly_feed}
+
+    RISK CATEGORIES:
+    {risk_cats}
+
+    OVERALL RISK SCORE: {score}
+
+    OUTPUT RULES (pure JSON, no markdown):
+    {{
+      "recommendations": [
+        {{
+          "action": "Short, decisive action title (max 8 words)",
+          "detail": "Concrete step explanation (1-2 sentences)",
+          "priority": "HIGH/MEDIUM/LOW",
+          "category": "ACCESS/FINANCIAL/COMPLIANCE/OPERATIONAL",
+          "effort": "IMMEDIATE/SHORT_TERM/LONG_TERM"
+        }}
+      ],
+      "overall_recommendation": "One primary recommendation for management (1 sentence)",
+      "estimated_resolution_days": 14
+    }}
+
+    Create 3-5 recommendations. Prioritize HIGH severity first.
+    Output pure JSON only.
+    """
+
+    fallback = {
+        "recommendations": [],
+        "overall_recommendation": "Manual assessment required by security team.",
+        "estimated_resolution_days": 30,
+    }
+    result = gemini_json(prompt, fallback=fallback)
+
+    summarized_data["action_report"] = result
+    print("[Agent 5] Complete.")
+    return summarized_data
+</file>
+
+<file path="backend/app/agents/risk.py">
+import json
+
+from app.core.gemini_call import gemini_json
+
+
+def _score_locally(document_data: dict) -> int:
+
+    entities = document_data.get("key_entities", [])
+
+    if not entities:
+        return 30
+
+    HIGH_WORDS = {
+        "tinggi",
+        "high",
+        "critical",
+        "kritis",
+        "dangerous",
+    }
+
+    MEDIUM_WORDS = {
+        "medium",
+        "menengah",
+        "moderate",
+        "sedang",
+    }
+
+    high_count = 0
+    medium_count = 0
+
+    for entity in entities:
+
+        risk = (
+            entity.get("potential_risk", "")
+            .lower()
+            .strip()
+        )
+
+        if any(word in risk for word in HIGH_WORDS):
+            high_count += 1
+
+        elif any(word in risk for word in MEDIUM_WORDS):
+            medium_count += 1
+
+    total = len(entities)
+
+    raw_score = (
+        (high_count * 3) +
+        (medium_count * 1.5)
+    ) / (total * 3)
+
+    score = int(raw_score * 100)
+
+    if high_count > 0:
+        score = max(score, 55)
+
+    elif medium_count > 0:
+        score = max(score, 30)
+
+    return max(10, min(score, 95))
+
+
+def _summarize_entities(entities: list) -> str:
+
+    lines = []
+
+    for entity in entities[:10]:
+
+        name = entity.get(
+            "entity_name",
+            "Unknown"
+        )
+
+        risk = entity.get(
+            "potential_risk",
+            "Unknown"
+        )
+
+        lines.append(f"- {name}: {risk}")
+
+    if len(entities) > 10:
+        lines.append(
+            f"- ... and {len(entities) - 10} additional entities"
+        )
+
+    return "\n".join(lines)
+
+
+def analyze_risk(document_data: dict) -> dict:
+
+    print("[Agent 2] Risk Detector is running...")
+
+    summary = (
+        document_data.get("summary", "")[:500]
+    )
+
+    entities_summary = _summarize_entities(
+        document_data.get("key_entities", [])
+    )
+
+    fallback_score = _score_locally(document_data)
+
+    prompt = f"""
+You are an AI Enterprise Risk Assessor.
+
+TASK:
+Analyze the enterprise risk level based on
+the document summary and detected entities.
+
+MANDATORY RULES:
+- Output must be valid JSON
+- Do not use markdown
+- Do not use backticks
+- Do not add any explanation
+- Do not write any text outside JSON
+
+Document Summary:
+{summary}
+
+Entity List:
+{entities_summary}
+
+Required output format:
+
+{{
+  "risk_score": 45,
+  "risk_level": "LOW",
+  "reasoning": "Brief one-sentence rationale"
+}}
+
+Guidance:
+- LOW = 0-30
+- MEDIUM = 31-60
+- HIGH = 61-100
+"""
+
+    result = gemini_json(
+        prompt=prompt,
+        fallback={
+            "risk_score": fallback_score,
+            "risk_level": "MEDIUM",
+            "reasoning": "Fallback local scoring used.",
+        },
+        max_output_tokens=256,
+    )
+
+    try:
+
+        score = int(
+            result.get(
+                "risk_score",
+                fallback_score,
+            )
+        )
+
+        score = max(0, min(score, 100))
+
+    except Exception:
+
+        print(
+            "Invalid risk_score from AI, "
+            "using fallback"
+        )
+
+        score = fallback_score
+
+    risk_level = result.get(
+        "risk_level",
+        "MEDIUM",
+    )
+
+    reasoning = result.get(
+        "reasoning",
+        "No reasoning provided.",
+    )
+
+    document_data["overall_risk_score"] = score
+
+    document_data["risk_assessment"] = {
+        "risk_score": score,
+        "risk_level": risk_level,
+        "reasoning": reasoning,
+    }
+
+    print(
+        f"[Agent 2] "
+        f"Score: {score} "
+        f"({risk_level})"
+    )
+
+    return document_data
+</file>
+
+<file path="backend/app/agents/summarizer.py">
+import json
+from app.core.gemini_call import gemini_json
+
+def summarize_analysis(validated_data: dict) -> dict:
+    """Agent 4: Executive summary and risk categorization."""
+    print("[Agent 4] Smart Summarizer is preparing insights...")
+
+    summary    = validated_data.get("summary", "")
+    score      = validated_data.get("overall_risk_score", 0)
+    entities   = json.dumps(validated_data.get("key_entities", []), indent=2)
+    validation = json.dumps(validated_data.get("final_validation", {}), indent=2)
+
+    prompt = f"""
+    You are an AI Chief Risk Officer preparing an executive report.
+    Based on the data below, create a risk summary split into 3 business categories.
+
+    DATA:
+    - Document Summary: {summary}
+    - Risk Score: {score}
+    - Entities and Risks: {entities}
+    - Validation Result: {validation}
+
+    OUTPUT RULES (pure JSON, no markdown):
+    {{
+      "executive_brief": "One professional executive summary paragraph (2-3 sentences)",
+      "risk_categories": {{
+        "access_risk": "Access and system security risk analysis (1-2 sentences)",
+        "financial_risk": "Financial and budget risk analysis (1-2 sentences)",
+        "compliance": "Regulatory and standards compliance analysis (1-2 sentences)"
+      }},
+      "anomaly_feed": [
+        {{
+          "title": "Short anomaly title",
+          "description": "Anomaly details",
+          "severity": "HIGH/MEDIUM/LOW",
+          "category": "ACCESS/FINANCIAL/COMPLIANCE/OPERATIONAL"
+        }}
+      ]
+    }}
+
+    Create 2-4 anomaly_feed items based on the available entities.
+    Output pure JSON only.
+    """
+
+    fallback = {
+        "executive_brief": "Smart summary unavailable.",
+        "risk_categories": {
+            "access_risk": "Unable to analyze.",
+            "financial_risk": "Unable to analyze.",
+            "compliance": "Unable to analyze.",
+        },
+        "anomaly_feed": [],
+    }
+    result = gemini_json(prompt, fallback=fallback)
+
+    validated_data["smart_summary"] = result
+    print("[Agent 4] Complete.")
+    return validated_data
+</file>
+
+<file path="backend/app/agents/validator.py">
+from app.core.gemini_call import gemini_json
+
+def validate_analysis(risk_data: dict) -> dict:
+    """Agent 3: Validate data integrity and provide a verdict."""
+    print("[Agent 3] Validator is reviewing...")
+
+    summary = risk_data.get("summary", "")
+    score   = risk_data.get("overall_risk_score", 0)
+
+    prompt = f"""
+    You are an AI Compliance Auditor.
+    Review the following summary and risk score:
+
+    Summary: {summary}
+    Risk Score: {score}
+
+    Your task:
+    1. Provide one professional conclusion sentence (max 15 words).
+    2. Set the status to "VALIDATED" or "REJECTED".
+
+    Output pure JSON only, without markdown:
+    {{
+      "conclusion": "conclusion sentence",
+      "status": "VALIDATED"
+    }}
+    """
+
+    fallback = {"conclusion": "Manual review required.", "status": "PENDING"}
+    result   = gemini_json(prompt, fallback=fallback)
+
+    risk_data["final_validation"] = result
+    print("[Agent 3] Complete.")
+    return risk_data
+</file>
+
+<file path="backend/app/api/upload.py">
+from fastapi import APIRouter, UploadFile, File, HTTPException
+import os
+import io
+from app.agents.orchestrator import run_multi_agent_pipeline
+
+router = APIRouter()
+UPLOAD_DIR = "temp_uploads"
+os.makedirs(UPLOAD_DIR, exist_ok=True)
+
+# Maximum text sent to AI (characters)
+MAX_CHARS = 10_000
+
+SUPPORTED_EXTENSIONS = {".pdf", ".csv", ".xlsx", ".xls", ".txt", ".log"}
+
+
+def extract_text_from_file(file_path: str, filename: str) -> str:
+    """Extract text from supported file formats."""
+    ext = os.path.splitext(filename)[1].lower()
+
+    # ── PDF ──────────────────────────────────────────────────────────────────
+    if ext == ".pdf":
+        from pypdf import PdfReader
+        reader = PdfReader(file_path)
+        text = ""
+        for page in reader.pages:
+            page_text = page.extract_text()
+            if page_text:
+                text += page_text + "\n"
+        if not text.strip():
+            raise ValueError("The PDF does not contain extractable text. "
+                             "It may be a scanned or image-based file.")
+        return text
+
+    # ── CSV ──────────────────────────────────────────────────────────────────
+    elif ext == ".csv":
+        import csv
+        rows = []
+        with open(file_path, "r", encoding="utf-8", errors="replace") as f:
+            reader = csv.reader(f)
+            for i, row in enumerate(reader):
+                rows.append(", ".join(row))
+                if i >= 500:  # max 500 rows
+                    rows.append("... (truncated)")
+                    break
+        text = "\n".join(rows)
+        if not text.strip():
+            raise ValueError("The CSV file is empty or cannot be read.")
+        return text
+
+    # ── XLSX / XLS ───────────────────────────────────────────────────────────
+    elif ext in {".xlsx", ".xls"}:
+        try:
+            import openpyxl
+            wb = openpyxl.load_workbook(file_path, read_only=True, data_only=True)
+            rows = []
+            for sheet in wb.worksheets:
+                rows.append(f"[Sheet: {sheet.title}]")
+                for i, row in enumerate(sheet.iter_rows(values_only=True)):
+                    cells = [str(c) if c is not None else "" for c in row]
+                    rows.append(", ".join(cells))
+                    if i >= 300:
+                        rows.append("... (truncated)")
+                        break
+            wb.close()
+            text = "\n".join(rows)
+            if not text.strip():
+                raise ValueError("The Excel file is empty.")
+            return text
+        except ImportError:
+            raise ValueError("The openpyxl library is not installed. "
+                             "Run: pip install openpyxl")
+
+    # ── TXT / LOG ────────────────────────────────────────────────────────────
+    elif ext in {".txt", ".log"}:
+        with open(file_path, "r", encoding="utf-8", errors="replace") as f:
+            text = f.read()
+        if not text.strip():
+            raise ValueError("The text file is empty.")
+        return text
+
+    else:
+        raise ValueError(
+            f"The '{ext}' format is not supported. "
+            f"Accepted formats: {', '.join(sorted(SUPPORTED_EXTENSIONS))}"
+        )
+
+
+@router.post("/upload")
+async def upload_document(file: UploadFile = File(...)):
+    filename = file.filename or "unknown"
+    ext = os.path.splitext(filename)[1].lower()
+
+    # ── Validasi ekstensi ─────────────────────────────────────────────────────
+    if ext not in SUPPORTED_EXTENSIONS:
+        raise HTTPException(
+            status_code=415,
+            detail={
+                "error": "unsupported_format",
+                "message": f"The '{ext}' format is not supported.",
+                "supported": sorted(SUPPORTED_EXTENSIONS),
+            },
+        )
+
+    # ── Simpan file sementara ─────────────────────────────────────────────────
+    file_path = os.path.join(UPLOAD_DIR, filename)
+    try:
+        content = await file.read()
+
+        # Validate size (max 20 MB).
+        if len(content) > 20 * 1024 * 1024:
+            raise HTTPException(
+                status_code=413,
+                detail={
+                    "error": "file_too_large",
+                    "message": "File size exceeds the 20 MB limit.",
+                },
+            )
+
+        with open(file_path, "wb") as buffer:
+            buffer.write(content)
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail={"error": "save_failed", "message": f"Failed to save file: {str(e)}"},
+        )
+
+    # ── Ekstrak teks ──────────────────────────────────────────────────────────
+    try:
+        raw_text = extract_text_from_file(file_path, filename)
+    except ValueError as e:
+        raise HTTPException(
+            status_code=422,
+            detail={"error": "extraction_failed", "message": str(e)},
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail={"error": "extraction_error", "message": f"Error while reading file: {str(e)}"},
+        )
+
+    # ── Truncate & pipeline ───────────────────────────────────────────────────
+    extracted_text = raw_text[:MAX_CHARS]
+
+    try:
+        ai_analysis_json = run_multi_agent_pipeline(extracted_text)
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail={"error": "pipeline_failed", "message": f"AI pipeline error: {str(e)}"},
+        )
+
+    return {
+        "status": "success",
+        "filename": filename,
+        "file_type": ext,
+        "char_count": len(extracted_text),
+        "ai_analysis": ai_analysis_json,
+    }
+</file>
+
+<file path="backend/app/core/api_key_manager.py">
+import os
+import threading
+import time
+from itertools import cycle
+from google import genai
+from dotenv import load_dotenv
+
+load_dotenv()
+
+class APIKeyManager:
+    def __init__(self):
+        self.keys = []
+        i = 1
+        while True:
+            key = os.getenv(f"GEMINI_API_KEY_{i}")
+            if not key:
+                break
+            self.keys.append(key)
+            i += 1
+        
+        if not self.keys:
+            raise ValueError("No GEMINI_API_KEY_* found in .env")
+            
+        self._lock = threading.Lock()
+        self._round_robin = cycle(range(len(self.keys)))  # index cycle
+        self._cooldowns = {}   # key -> timestamp until it can be reused
+    
+    def get_client_and_key(self) -> tuple:
+        """
+        Return (client, key) using round-robin selection,
+        skipping keys that are currently in cooldown.
+        If all keys are cooling down, wait until one is ready.
+        """
+        with self._lock:
+            start_time = time.time()
+            tried = 0
+            while tried < len(self.keys):
+                idx = next(self._round_robin)
+                key = self.keys[idx]
+                until = self._cooldowns.get(key)
+                if until and time.time() < until:
+                    tried += 1
+                    continue
+                return genai.Client(api_key=key), key
+            
+            # All keys are cooling down; wait for the soonest available key.
+            min_key = min(self._cooldowns, key=lambda k: self._cooldowns[k])
+            wait = self._cooldowns[min_key] - time.time()
+            if wait > 0:
+                time.sleep(wait)
+            return genai.Client(api_key=min_key), min_key
+    
+    def report_rate_limit(self, key: str):
+        """Put a rate-limited key on a 20-second cooldown."""
+        with self._lock:
+            self._cooldowns[key] = time.time() + 20
+            print(f"Key {key[-6:]} rate-limited, cooldown 20s")
+    
+    def report_success(self, key: str):
+        """Clear cooldown after a key is used successfully."""
+        with self._lock:
+            self._cooldowns.pop(key, None)
+
+_manager = APIKeyManager()
+
+def get_client_and_key():
+    return _manager.get_client_and_key()
+
+def report_rate_limit(key: str):
+    _manager.report_rate_limit(key)
+
+def report_success(key: str):
+    _manager.report_success(key)
+</file>
+
+<file path="backend/app/core/gemini_call.py">
+import json
+import time
+from google.genai import types
+from google.genai.errors import ClientError
+
+from app.core.api_key_manager import (
+    get_client_and_key,
+    report_rate_limit,
+    report_success,
+)
+
+# Retryable Gemini errors
+_RETRYABLE_CODES = {429, 500, 503, 504}
+
+
+def _extract_json(text: str) -> str:
+    """
+    Extract the first JSON object from the model response.
+    Handles cases where the model adds extra text.
+    """
+
+    text = text.strip()
+
+    # Remove markdown fences.
+    if text.startswith("```json"):
+        text = text[7:]
+
+    if text.startswith("```"):
+        text = text[3:]
+
+    if text.endswith("```"):
+        text = text[:-3]
+
+    text = text.strip()
+
+    # Find JSON object.
+    start = text.find("{")
+    end = text.rfind("}")
+
+    if start != -1 and end != -1:
+        text = text[start:end + 1]
+
+    return text.strip()
+
+
+def gemini_call(
+    prompt: str,
+    max_retries: int = 5,
+    max_output_tokens: int = 8192,
+) -> str:
+    """
+    Stable Gemini call wrapper.
+    """
+
+    last_error = None
+
+    for attempt in range(max_retries):
+
+        client, key = get_client_and_key()
+
+        try:
+            response = client.models.generate_content(
+                model="gemini-2.5-flash-lite",
+                contents=prompt,
+                config=types.GenerateContentConfig(
+                    temperature=0,
+                    max_output_tokens=max_output_tokens,
+                    response_mime_type="application/json",
+                ),
+            )
+
+            text = getattr(response, "text", None)
+
+            if not text or not text.strip():
+                print(
+                    f"[gemini_call] Empty response "
+                    f"(attempt {attempt + 1})"
+                )
+
+                last_error = "Empty response"
+
+                time.sleep(2 ** attempt)
+                continue
+
+            text = text.strip()
+
+            report_success(key)
+
+            return text
+
+        except ClientError as e:
+
+            code = getattr(e, "code", None)
+
+            if code in _RETRYABLE_CODES:
+
+                wait = 2 ** attempt
+
+                if code == 429:
+                    print(
+                        f"Rate limit key {key[-6:]}, "
+                        f"cooldown + rotate key"
+                    )
+
+                    report_rate_limit(key)
+
+                else:
+                    print(
+                        f"Gemini {code} "
+                        f"(attempt {attempt + 1}) "
+                        f"retry in {wait}s"
+                    )
+
+                time.sleep(wait)
+
+                last_error = str(e)
+                continue
+
+            print(f"Non-retryable Gemini error: {e}")
+            raise RuntimeError(str(e)) from e
+
+        except Exception as e:
+
+            print(f"Gemini unknown error: {e}")
+
+            last_error = str(e)
+
+            time.sleep(2 ** attempt)
+
+    raise RuntimeError(
+        f"All Gemini retries failed. Last error: {last_error}"
+    )
+
+
+def gemini_json(
+    prompt: str,
+    fallback: dict,
+    max_retries: int = 5,
+    max_output_tokens: int = 8192,
+) -> dict:
+    """
+    Gemini wrapper that parses JSON directly.
+    """
+
+    try:
+
+        text = gemini_call(
+            prompt=prompt,
+            max_retries=max_retries,
+            max_output_tokens=max_output_tokens,
+        )
+
+        print("\n================ RAW GEMINI ================\n")
+        print(text)
+        print("\n============================================\n")
+
+        text = _extract_json(text)
+
+        parsed = json.loads(text)
+
+        if not isinstance(parsed, dict):
+            raise ValueError("Response is not JSON object")
+
+        return parsed
+
+    except json.JSONDecodeError as e:
+
+        print(f"JSON decode error: {e}")
+
+        try:
+
+            print("Retrying with larger token limit...")
+
+            text = gemini_call(
+                prompt=prompt,
+                max_retries=2,
+                max_output_tokens=min(
+                    max_output_tokens * 2,
+                    32768,
+                ),
+            )
+
+            text = _extract_json(text)
+
+            return json.loads(text)
+
+        except Exception as retry_err:
+
+            print(f"Retry failed: {retry_err}")
+            print("Using fallback response")
+
+            return fallback
+
+    except Exception as e:
+
+        print(f"gemini_json failed: {e}")
+        print("Using fallback response")
+
+        return fallback
+</file>
+
+<file path="backend/app/main.py">
+import os
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from app.api import upload
+
+app = FastAPI(
+    title="NALAR_ Risk Intelligence API",
+    description="Multi-agent AI pipeline for enterprise risk detection",
+    version="1.0.0",
+)
+
+# ── CORS ──────────────────────────────────────────────────────────────────────
+# Tambahkan VERCEL_URL di Render environment variables setelah deploy Vercel
+_RAW = os.getenv("ALLOWED_ORIGINS", "")
+_EXTRA = [u.strip() for u in _RAW.split(",") if u.strip()]
+
+ALLOWED_ORIGINS = [
+    "http://localhost:3000",       # Next.js dev
+    "http://127.0.0.1:3000",
+    *_EXTRA,                       # produksi: isi via env var ALLOWED_ORIGINS
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=ALLOWED_ORIGINS,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+app.include_router(upload.router, prefix="/api")
+
+
+@app.get("/")
+def root():
+    return {
+        "service": "NALAR_ Risk Intelligence API",
+        "version": "1.0.0",
+        "status": "online",
+        "agents": 5,
+    }
+
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}
+</file>
+
+<file path="backend/requirements.txt">
+fastapi==0.115.12
+uvicorn[standard]==0.34.3
+python-multipart==0.0.20
+python-dotenv==1.1.0
+pypdf==5.4.0
+openpyxl==3.1.5
+google-genai==1.14.0
+</file>
+
+<file path="demo/financial_anomaly_report.csv">
+transaction_id,timestamp,user_id,amount_usd,vendor,category,payment_method,region,status,notes
+TXN001,2026-05-13T08:15:00Z,EMP_2051,150.50,Starbucks,Food & Beverage,CorporateCard,North America,APPROVED,Regular daily expense
+TXN002,2026-05-13T09:20:00Z,EMP_1024,2500.00,AcmeTech Solutions,Software Licenses,CorporateCard,EMEA,APPROVED,Annual subscription renewal
+TXN003,2026-05-13T10:45:00Z,EMP_3099,45000.00,Unknown Vendor XYZ,Consulting Services,Wire Transfer,Offshore,FLAGGED,Unusual vendor - no prior history
+TXN004,2026-05-13T11:30:00Z,EMP_1024,320.75,Marriott Hotels,Travel,CorporateCard,North America,APPROVED,Business trip accommodation
+TXN005,2026-05-13T12:05:00Z,EMP_4567,18500.00,TechSupply Corp,Equipment,Wire Transfer,North America,FLAGGED,Amount significantly higher than average
+TXN006,2026-05-13T13:10:00Z,EMP_2051,89.99,Amazon Business,Office Supplies,CorporateCard,North America,APPROVED,Routine purchase
+TXN007,2026-05-13T14:25:00Z,EMP_3099,125000.00,Phantom Holdings LLC,Consulting,Wire Transfer,Offshore,CRITICAL,Massive transaction to unverified entity
+TXN008,2026-05-13T15:40:00Z,EMP_5123,52.00,Uber,Transportation,CorporateCard,North America,APPROVED,Local travel
+TXN009,2026-05-13T16:15:00Z,EMP_1024,550.00,Delta Airlines,Travel,CorporateCard,North America,APPROVED,Flight booking
+TXN010,2026-05-13T17:00:00Z,EMP_3099,200000.00,Shadow Corp International,Consulting,Wire Transfer,Offshore,CRITICAL,Extremely high-risk transaction - multiple red flags
+</file>
+
+<file path="demo/README.md">
+# Demo Files for NALAR_ AI Analysis
+
+This folder contains sample files for testing NALAR_'s multi-agent pipeline.
+
+## Files
+
+### `server_auth_log.txt`
+A realistic server authentication log containing:
+- Normal login/logout events
+- Failed authentication attempts
+- Security incidents (brute force, unauthorized access)
+- Certificate expiration warnings
+- API key misuse detection
+- Database maintenance events
+- Suspicious data access patterns
+
+**Use case**: Tests NALAR_'s ability to identify security risks, anomalies, and compliance issues in infrastructure logs.
+
+### `financial_anomaly_report.csv`
+A CSV file with transaction data containing:
+- Normal business expenses (food, travel, software)
+- Flagged transactions (unusual vendors, high amounts)
+- Critical transactions (offshore entities, suspicious partners)
+- Anomalous patterns (multiple high-value transfers from same user)
+
+**Use case**: Tests NALAR_'s ability to detect financial irregularities, fraud indicators, and compliance violations.
+
+## How to Use
+
+1. Start NALAR_ frontend (http://localhost:3000)
+2. Click "Upload File"
+3. Select one of these demo files
+4. Watch the 5-agent pipeline analyze the file:
+   - **Document Analyzer**: Extracts structure and entities
+   - **Anomaly Detector**: Identifies risks and scores them
+   - **Validator**: Confirms findings and confidence levels
+   - **Smart Summarizer**: Builds executive summary with risk breakdown
+   - **Recommendation Engine**: Generates actionable remediation steps
+
+## Expected Results
+
+- **server_auth_log.txt**: Risk Score 78-85 | Categories: Security, Compliance
+- **financial_anomaly_report.csv**: Risk Score 82-90 | Categories: Financial, Fraud
+
+---
+
+**Note**: These are synthetic examples for demonstration purposes. They contain realistic patterns that NALAR_ can detect and analyze.
+</file>
+
+<file path="demo/server_auth_log.txt">
+===================================================================================
+                        SERVER AUTHENTICATION LOG
+                         Generated: 2026-05-13
+===================================================================================
+
+[2026-05-13 08:15:23] INFO: System startup initiated
+[2026-05-13 08:15:45] DEBUG: Loading configuration from /etc/nalar/config.yml
+[2026-05-13 08:16:02] INFO: Database connection established to pg_prod_01
+
+[2026-05-13 08:45:12] WARNING: Failed login attempt from 192.168.1.45 - User: admin_backup
+[2026-05-13 08:45:13] WARNING: Failed login attempt from 192.168.1.45 - User: admin_backup
+[2026-05-13 08:45:15] ERROR: Account lockdown triggered for admin_backup after 3 failed attempts
+
+[2026-05-13 09:20:33] INFO: User jane_doe (ID: 1024) logged in from 203.0.113.42
+[2026-05-13 09:20:34] DEBUG: Session token generated: sess_abc123def456
+[2026-05-13 09:20:35] DEBUG: User jane_doe granted permissions: [READ, WRITE, EXECUTE]
+
+[2026-05-13 09:45:00] CRITICAL: Unauthorized access attempt from 198.51.100.78
+[2026-05-13 09:45:00] CRITICAL: Multiple failed sudo attempts detected
+[2026-05-13 09:45:01] ALERT: Security team notified - Potential brute force attack
+
+[2026-05-13 10:15:22] WARNING: Session timeout for user: john_smith (ID: 2051) after 30 min inactivity
+[2026-05-13 10:15:23] INFO: User john_smith logged out successfully
+
+[2026-05-13 10:45:50] INFO: Backup user credentials synced from LDAP
+[2026-05-13 10:45:51] DEBUG: 47 user records updated
+[2026-05-13 10:45:52] INFO: Sync completed successfully
+
+[2026-05-13 11:30:15] ERROR: Certificate expiration detected
+[2026-05-13 11:30:16] ERROR: SSL certificate for api.internal.corp will expire in 7 days
+[2026-05-13 11:30:17] WARNING: Certificate renewal scheduled for 2026-05-20
+
+[2026-05-13 12:05:40] CRITICAL: Unauthorized API key usage detected
+[2026-05-13 12:05:41] CRITICAL: API key 'sk_prod_xxxxx' used from unexpected location: 45.33.32.156
+[2026-05-13 12:05:42] ALERT: API key revoked and access blocked
+
+[2026-05-13 13:10:22] INFO: Scheduled maintenance window started
+[2026-05-13 13:10:23] INFO: System in read-only mode
+[2026-05-13 13:15:45] INFO: Database optimization completed
+[2026-05-13 13:16:00] INFO: System back online - all services operational
+
+[2026-05-13 14:25:15] WARNING: High memory usage detected - 87% utilization
+[2026-05-13 14:25:16] WARNING: Potential memory leak in service: auth_daemon
+[2026-05-13 14:25:17] INFO: Service restart scheduled
+
+[2026-05-13 15:40:33] CRITICAL: Unusual data access pattern detected
+[2026-05-13 15:40:34] CRITICAL: User carlos_admin accessing records outside normal permission scope
+[2026-05-13 15:40:35] CRITICAL: 512 sensitive records accessed in 2 minutes
+[2026-05-13 15:40:36] ALERT: Access revoked and investigation initiated
+
+===================================================================================
+                              END OF LOG
+===================================================================================
+</file>
+
+<file path="DEPLOYMENT.md">
+# 🚀 NALAR_ Deployment Guide
+
+Complete step-by-step guide untuk deploy NalarAI ke production (Render + Vercel).
+
+---
+
+## 📋 Prerequisites
+
+- GitHub account dengan public repository
+- [Render.com](https://render.com) account (free tier)
+- [Vercel.com](https://vercel.com) account (free tier)
+- Gemini API keys (3x dari [Google AI Studio](https://aistudio.google.com/app/apikey))
+
+---
+
+## 🔧 Phase 1: Setup Local Environment
+
+### Backend (FastAPI)
+
+```bash
+cd backend
+
+# Create .env dari template
+cp .env.example .env
+
+# Edit .env dan isi Gemini API keys
+# GEMINI_API_KEY_1=your_key_here
+# GEMINI_API_KEY_2=your_key_here
+# GEMINI_API_KEY_3=your_key_here
+
+# Test backend locally
+uvicorn app.main:app --reload
+# Akses: http://localhost:8000/docs
+```
+
+### Frontend (Next.js)
+
+```bash
+cd frontend
+
+# Create .env.local dari template
+cp .env.example .env.local
+
+# .env.local akan berisi:
+# NEXT_PUBLIC_API_URL=http://localhost:8000
+
+# Install & test frontend
+npm install
+npm run dev
+# Akses: http://localhost:3000
+```
+
+---
+
+## 🌐 Phase 2: Deploy Backend ke Render.com
+
+### Step 1: Prepare Repository
+```bash
+# Ensure you're at project root
+git add .
+git commit -m "Add deployment config"
+git push origin main
+```
+
+### Step 2: Create Render Service
+
+1. Go to [render.com/dashboard](https://render.com/dashboard)
+2. Click **"New +"** → **"Web Service"**
+3. Connect your GitHub repository
+4. Fill in the settings:
+
+| Setting | Value |
+|---------|-------|
+| **Name** | `nalar-backend` |
+| **Root Directory** | `backend` |
+| **Environment** | `Python 3.11` |
+| **Build Command** | `pip install -r requirements.txt` |
+| **Start Command** | `uvicorn app.main:app --host 0.0.0.0 --port $PORT` |
+| **Plan** | `Free` |
+| **Region** | `Singapore` (atau `Tokyo` jika lebih dekat) |
+
+### Step 3: Add Environment Variables
+
+Di Render dashboard, buka **"Environment"** dan add:
+
+```
+GEMINI_API_KEY_1 = your_first_key
+GEMINI_API_KEY_2 = your_second_key
+GEMINI_API_KEY_3 = your_third_key
+ALLOWED_ORIGINS = https://your-app.vercel.app,http://localhost:3000
+```
+
+### Step 4: Deploy
+
+Render akan auto-deploy ketika push ke main branch.
+Tunggu sampai status menjadi "Live" (biasanya 2-5 menit).
+
+**Copy Backend URL**: `https://nalar-backend-xxxxx.onrender.com`
+
+---
+
+## 🎨 Phase 3: Deploy Frontend ke Vercel
+
+### Step 1: Setup Vercel Project
+
+1. Go to [vercel.com/new](https://vercel.com/new)
+2. Import your GitHub repository
+3. Configure:
+
+| Setting | Value |
+|---------|-------|
+| **Framework** | `Next.js` |
+| **Root Directory** | `frontend` |
+| **Build Command** | `npm run build` |
+| **Install Command** | `npm install` |
+| **Output Directory** | `.next` |
+
+### Step 2: Add Environment Variables
+
+Di Vercel dashboard → **"Settings"** → **"Environment Variables"**:
+
+```
+NEXT_PUBLIC_API_URL = https://nalar-backend-xxxxx.onrender.com
+```
+
+(Replace dengan Backend URL dari Render yang kamu dapat di Phase 2)
+
+### Step 3: Deploy
+
+Klik **"Deploy"** dan tunggu sampai selesai (~2-5 menit).
+
+**Copy Frontend URL**: `https://your-app.vercel.app`
+
+---
+
+## 🔄 Phase 4: Update Backend CORS
+
+Setelah Frontend deployed, update Backend ALLOWED_ORIGINS:
+
+1. Go to Render dashboard → **nalar-backend** service
+2. Click **"Environment"**
+3. Edit `ALLOWED_ORIGINS`:
+   ```
+   ALLOWED_ORIGINS=https://your-app.vercel.app,http://localhost:3000
+   ```
+4. Click **"Save"** (service akan auto-redeploy)
+
+---
+
+## ✅ Phase 5: Verification
+
+### Test Backend
+```bash
+curl https://nalar-backend-xxxxx.onrender.com/health
+# Expected response: {"status": "ok"}
+```
+
+### Test Frontend
+1. Open https://your-app.vercel.app di browser
+2. Upload test file (PDF/CSV/Excel)
+3. Verify file di-process oleh 5-agent pipeline
+4. Lihat hasil analysis
+
+### Common Issues
+
+| Issue | Solution |
+|-------|----------|
+| **CORS error di frontend** | Verify `ALLOWED_ORIGINS` di backend `.env` |
+| **Backend timeout** | Increase timeout di Render settings (max 30 min) |
+| **API URL not found** | Ensure `NEXT_PUBLIC_API_URL` set di Vercel |
+| **Cold start lag** | Render free tier di-pause setelah 15 min inactivity; normal behavior |
+
+---
+
+## 📊 Production URLs
+
+After deployment, update these anywhere needed:
+
+```
+🔗 Frontend:  https://your-app.vercel.app
+🔗 Backend:   https://nalar-backend-xxxxx.onrender.com
+🔗 API Docs:  https://nalar-backend-xxxxx.onrender.com/docs
+```
+
+---
+
+## 🔐 Security Checklist
+
+- [ ] `.env` files are in `.gitignore` (never commit secrets)
+- [ ] Use environment variables for all API keys
+- [ ] Backend CORS restricted to frontend URL (not `*`)
+- [ ] Gemini API keys rotated every 90 days
+- [ ] HTTPS enforced (both Render & Vercel provide automatic SSL)
+
+---
+
+## 📝 Rollback
+
+If something goes wrong:
+
+**Vercel**: Click **"Deployments"** → select previous version → **"Promote to Production"**
+
+**Render**: Automatic rollback available in **"Deploys"** tab
+
+---
+
+## 💬 Support
+
+- **Render Docs**: https://render.com/docs
+- **Vercel Docs**: https://vercel.com/docs
+- **FastAPI Docs**: https://fastapi.tiangolo.com/deployment
+- **Next.js Docs**: https://nextjs.org/docs/deployment
+</file>
+
+<file path="frontend/.gitignore">
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+</file>
+
+<file path="frontend/AGENTS.md">
+<!-- BEGIN:nextjs-agent-rules -->
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
+<!-- END:nextjs-agent-rules -->
+</file>
+
+<file path="frontend/CLAUDE.md">
+@AGENTS.md
+</file>
+
+<file path="frontend/eslint.config.mjs">
+import { defineConfig, globalIgnores } from "eslint/config";
+import nextVitals from "eslint-config-next/core-web-vitals";
+import nextTs from "eslint-config-next/typescript";
+
+const eslintConfig = defineConfig([
+  ...nextVitals,
+  ...nextTs,
+  // Override default ignores of eslint-config-next.
+  globalIgnores([
+    // Default ignores of eslint-config-next:
+    ".next/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
+  ]),
+]);
+
+export default eslintConfig;
+</file>
+
+<file path="frontend/next.config.ts">
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  /* config options here */
+};
+
+export default nextConfig;
+</file>
+
+<file path="frontend/public/file.svg">
+<svg fill="none" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.5 13.5V5.41a1 1 0 0 0-.3-.7L9.8.29A1 1 0 0 0 9.08 0H1.5v13.5A2.5 2.5 0 0 0 4 16h8a2.5 2.5 0 0 0 2.5-2.5m-1.5 0v-7H8v-5H3v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1M9.5 5V2.12L12.38 5zM5.13 5h-.62v1.25h2.12V5zm-.62 3h7.12v1.25H4.5zm.62 3h-.62v1.25h7.12V11z" clip-rule="evenodd" fill="#666" fill-rule="evenodd"/></svg>
+</file>
+
+<file path="frontend/public/globe.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><g clip-path="url(#a)"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.27 14.1a6.5 6.5 0 0 0 3.67-3.45q-1.24.21-2.7.34-.31 1.83-.97 3.1M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.48-1.52a7 7 0 0 1-.96 0H7.5a4 4 0 0 1-.84-1.32q-.38-.89-.63-2.08a40 40 0 0 0 3.92 0q-.25 1.2-.63 2.08a4 4 0 0 1-.84 1.31zm2.94-4.76q1.66-.15 2.95-.43a7 7 0 0 0 0-2.58q-1.3-.27-2.95-.43a18 18 0 0 1 0 3.44m-1.27-3.54a17 17 0 0 1 0 3.64 39 39 0 0 1-4.3 0 17 17 0 0 1 0-3.64 39 39 0 0 1 4.3 0m1.1-1.17q1.45.13 2.69.34a6.5 6.5 0 0 0-3.67-3.44q.65 1.26.98 3.1M8.48 1.5l.01.02q.41.37.84 1.31.38.89.63 2.08a40 40 0 0 0-3.92 0q.25-1.2.63-2.08a4 4 0 0 1 .85-1.32 7 7 0 0 1 .96 0m-2.75.4a6.5 6.5 0 0 0-3.67 3.44 29 29 0 0 1 2.7-.34q.31-1.83.97-3.1M4.58 6.28q-1.66.16-2.95.43a7 7 0 0 0 0 2.58q1.3.27 2.95.43a18 18 0 0 1 0-3.44m.17 4.71q-1.45-.12-2.69-.34a6.5 6.5 0 0 0 3.67 3.44q-.65-1.27-.98-3.1" fill="#666"/></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h16v16H0z"/></clipPath></defs></svg>
+</file>
+
+<file path="frontend/public/next.svg">
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 394 80"><path fill="#000" d="M262 0h68.5v12.7h-27.2v66.6h-13.6V12.7H262V0ZM149 0v12.7H94v20.4h44.3v12.6H94v21h55v12.6H80.5V0h68.7zm34.3 0h-17.8l63.8 79.4h17.9l-32-39.7 32-39.6h-17.9l-23 28.6-23-28.6zm18.3 56.7-9-11-27.1 33.7h17.8l18.3-22.7z"/><path fill="#000" d="M81 79.3 17 0H0v79.3h13.6V17l50.2 62.3H81Zm252.6-.4c-1 0-1.8-.4-2.5-1s-1.1-1.6-1.1-2.6.3-1.8 1-2.5 1.6-1 2.6-1 1.8.3 2.5 1a3.4 3.4 0 0 1 .6 4.3 3.7 3.7 0 0 1-3 1.8zm23.2-33.5h6v23.3c0 2.1-.4 4-1.3 5.5a9.1 9.1 0 0 1-3.8 3.5c-1.6.8-3.5 1.3-5.7 1.3-2 0-3.7-.4-5.3-1s-2.8-1.8-3.7-3.2c-.9-1.3-1.4-3-1.4-5h6c.1.8.3 1.6.7 2.2s1 1.2 1.6 1.5c.7.4 1.5.5 2.4.5 1 0 1.8-.2 2.4-.6a4 4 0 0 0 1.6-1.8c.3-.8.5-1.8.5-3V45.5zm30.9 9.1a4.4 4.4 0 0 0-2-3.3 7.5 7.5 0 0 0-4.3-1.1c-1.3 0-2.4.2-3.3.5-.9.4-1.6 1-2 1.6a3.5 3.5 0 0 0-.3 4c.3.5.7.9 1.3 1.2l1.8 1 2 .5 3.2.8c1.3.3 2.5.7 3.7 1.2a13 13 0 0 1 3.2 1.8 8.1 8.1 0 0 1 3 6.5c0 2-.5 3.7-1.5 5.1a10 10 0 0 1-4.4 3.5c-1.8.8-4.1 1.2-6.8 1.2-2.6 0-4.9-.4-6.8-1.2-2-.8-3.4-2-4.5-3.5a10 10 0 0 1-1.7-5.6h6a5 5 0 0 0 3.5 4.6c1 .4 2.2.6 3.4.6 1.3 0 2.5-.2 3.5-.6 1-.4 1.8-1 2.4-1.7a4 4 0 0 0 .8-2.4c0-.9-.2-1.6-.7-2.2a11 11 0 0 0-2.1-1.4l-3.2-1-3.8-1c-2.8-.7-5-1.7-6.6-3.2a7.2 7.2 0 0 1-2.4-5.7 8 8 0 0 1 1.7-5 10 10 0 0 1 4.3-3.5c2-.8 4-1.2 6.4-1.2 2.3 0 4.4.4 6.2 1.2 1.8.8 3.2 2 4.3 3.4 1 1.4 1.5 3 1.5 5h-5.8z"/></svg>
+</file>
+
+<file path="frontend/public/vercel.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1155 1000"><path d="m577.3 0 577.4 1000H0z" fill="#fff"/></svg>
+</file>
+
+<file path="frontend/public/window.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.5 2.5h13v10a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1zM0 1h16v11.5a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 0 12.5zm3.75 4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5M7 4.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0m1.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5" fill="#666"/></svg>
+</file>
+
+<file path="frontend/README.md">
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+## Getting Started
+
+First, run the development server:
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+</file>
+
+<file path="frontend/tailwind.config.ts">
+import type { Config } from "tailwindcss";
+
+const config: Config = {
+  content: [
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+};
+export default config;
+</file>
+
+<file path="frontend/tsconfig.json">
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    "**/*.mts"
+  ],
+  "exclude": ["node_modules"]
+}
+</file>
+
+<file path="render.yaml">
+services:
+  - type: web
+    name: nalar-backend
+    runtime: python
+    region: singapore          # paling dekat ke Indonesia
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: GEMINI_API_KEY_1
+        sync: false            # isi manual di Render dashboard
+      - key: GEMINI_API_KEY_2
+        sync: false
+      - key: GEMINI_API_KEY_3
+        sync: false
+      - key: ALLOWED_ORIGINS
+        sync: false            # isi setelah dapat URL Vercel
+</file>
+
+<file path="frontend/app/layout.tsx">
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+
+const inter = Inter({ subsets: ["latin"] });
+
+export const metadata: Metadata = {
+  title: "NalarAI - Enterprise Risk Intelligence",
+  description: "Multi-agent AI for real-time anomaly detection and risk scoring.",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en" className="dark">
+      <body className={`${inter.className} antialiased`}>
+        {children}
+      </body>
+    </html>
+  );
+}
+</file>
+
+<file path="frontend/app/globals.css">
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .glass-card {
+    @apply bg-white/[0.03] backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)];
+  }
+}
+
+:root {
+  --background: #1b1b1d;
+  --foreground: #f4f4f1;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  min-height: 100vh;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar styling for professional look */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #1f1f23;
+}
+::-webkit-scrollbar-thumb {
+  background: #333338;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #44444a;
+}
+
+@media print {
+  body {
+    background-color: white !important;
+    color: black !important;
+  }
+  
+  /* Ensure backgrounds and borders are printed */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide navigation tabs and upload zone */
+  nav, label[class*="group relative grid"] {
+    display: none !important;
+  }
+
+  /* Adjust background for elements */
+  .bg-\[\#25252c\], .bg-\[\#1f1f23\] {
+    background-color: #f9fafb !important;
+    border-color: #e5e7eb !important;
+  }
+
+  /* Ensure text colors are readable on white background */
+  .text-white, .text-\[\#f4f4f1\], .text-\[\#e0e0e6\], .text-\[\#d6d6dc\] {
+    color: #111827 !important;
+  }
+  
+  .text-\[\#9a9aa1\], .text-\[\#a4a4aa\], .text-\[\#8a8a92\], .text-\[\#9c9ca3\] {
+    color: #4b5563 !important;
+  }
+
+  /* Re-color neon accents for print */
+  .text-\[\#c6ff25\] { color: #166534 !important; }
+  .text-\[\#ff72ad\] { color: #be123c !important; }
+  .text-\[\#ffdb4d\] { color: #854d0e !important; }
+
+  /* Buttons should hide in print */
+  button {
+    display: none !important;
+  }
+
+  /* Force page breaks cleanly */
+  section {
+    page-break-inside: avoid;
+  }
+}
+</file>
+
+<file path="frontend/package.json">
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "lucide-react": "^1.14.0",
+    "next": "16.2.6",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "autoprefixer": "^10.5.0",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.6",
+    "postcss": "^8.5.14",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5"
+  }
+}
+</file>
+
+<file path="frontend/app/page.tsx">
+"use client";
+
+import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
+// ─── Types ────────────────────────────────────────────────────────────────────
+type Severity = "HIGH" | "MED" | "LOW" | "MEDIUM";
+
+type Entity = {
+  entity_name?: string;
+  description?: string;
+  potential_risk?: string;
+};
+
+type Anomaly = {
+  title?: string;
+  description?: string;
+  severity?: Severity;
+  category?: string;
+};
+
+type Recommendation = {
+  action?: string;
+  detail?: string;
+  priority?: Severity;
+  category?: string;
+  effort?: string;
+};
+
+type AiAnalysis = {
+  summary?: string;
+  key_entities?: Entity[];
+  overall_risk_score?: number;
+  final_validation?: { conclusion?: string; status?: string };
+  smart_summary?: {
+    executive_brief?: string;
+    risk_categories?: {
+      access_risk?: string;
+      financial_risk?: string;
+      compliance?: string;
+    };
+    anomaly_feed?: Anomaly[];
+  };
+  action_report?: {
+    recommendations?: Recommendation[];
+    overall_recommendation?: string;
+    estimated_resolution_days?: number;
+  };
+};
+
+type UploadResult = {
+  status?: string;
+  filename?: string;
+  ai_analysis?: AiAnalysis;
+};
+
+type Agent = {
+  id: string;
+  name: string;
+  role: string;
+  accent: string;
+  glow: string;
+};
+// ─── Constants ────────────────────────────────────────────────────────────────
+const STORAGE_KEY = "nalar_stats";
+const HISTORY_KEY = "nalar_history";
+
+const ACCEPTED_EXTS = [".pdf", ".csv", ".xlsx", ".xls", ".txt", ".log"];
+const MAX_SIZE_MB   = 20;
+
+const ERROR_MESSAGES: Record<string, string> = {
+  unsupported_format: "Unsupported file format. Use PDF, CSV, XLSX, TXT, or LOG.",
+  file_too_large:     `File size exceeds the ${MAX_SIZE_MB} MB limit.`,
+  extraction_failed:  "Failed to read file contents. Ensure the file is not corrupted or password-protected.",
+  extraction_error:   "An error occurred while processing the file.",
+  pipeline_failed:    "AI pipeline failed. Please try again in a few seconds.",
+  network:            "Unable to connect to the backend. Ensure the server is running on port 8000.",
+  timeout:            "Request timeout. The backend might be overloaded.",
+  unknown:            "An unexpected error occurred. Please try again.",
+};
+
+const AGENTS: Agent[] = [
+  { id: "D", name: "Document Analyzer",  role: "Ingest",   accent: "text-[#c6ff25] border-[#c6ff25]/[0.45] bg-[#c6ff25]/10",  glow: "shadow-[0_0_26px_rgba(198,255,37,0.22)]"  },
+  { id: "A", name: "Anomaly Detector",   role: "Detect",   accent: "text-[#ff72ad] border-[#ff72ad]/[0.45] bg-[#ff72ad]/10",  glow: "shadow-[0_0_26px_rgba(255,114,173,0.22)]" },
+  { id: "V", name: "Validator & Checker",role: "Validate", accent: "text-[#6d91ff] border-[#6d91ff]/[0.45] bg-[#6d91ff]/10",  glow: "shadow-[0_0_26px_rgba(109,145,255,0.2)]"  },
+  { id: "S", name: "Smart Summarizer",   role: "Summarize",accent: "text-[#ffdb4d] border-[#ffdb4d]/[0.45] bg-[#ffdb4d]/10",  glow: "shadow-[0_0_26px_rgba(255,219,77,0.2)]"   },
+  { id: "R", name: "Rec. Engine",        role: "Action",   accent: "text-[#d4d4df] border-white/15 bg-white/5",               glow: "shadow-[0_0_26px_rgba(255,255,255,0.08)]"  },
+];
+
+const TRAIL_LOGS = [
+  "Document ingested",
+  "Risk vectors scored",
+  "Validation complete",
+  "Executive summary built",
+  "Action report ready",
+  "Intelligence report generated",
+];
+
+const TABS = ["Overview", "Agent Flow", "Anomalies", "Reports", "History"];
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+function cx(...classes: Array<string | false | undefined | null>) {
+  return classes.filter(Boolean).join(" ");
+}
+
+function normalizeSeverity(value?: string): "HIGH" | "MED" | "LOW" {
+  if (value === "HIGH"   || value === "Tinggi")   return "HIGH";
+  if (value === "MEDIUM" || value === "MED" || value === "Menengah") return "MED";
+  return "LOW";
+}
+
+function severityClass(value?: string) {
+  const s = normalizeSeverity(value);
+  if (s === "HIGH") return "border-[#ff5d78]/30 bg-[#ff5d78]/[0.18] text-[#ff7890]";
+  if (s === "MED")  return "border-[#ffdb4d]/30 bg-[#ffdb4d]/[0.14] text-[#ffdb4d]";
+  return "border-[#c6ff25]/25 bg-[#c6ff25]/[0.12] text-[#c6ff25]";
+}
+
+function entityRiskDot(risk?: string) {
+  const r = risk?.toLowerCase() ?? "";
+  if (r.includes("tinggi") || r.includes("high"))   return "bg-[#ff72ad] shadow-[0_0_7px_rgba(255,114,173,0.7)]";
+  if (r.includes("menengah") || r.includes("medium") || r.includes("moderate")) return "bg-[#ffdb4d] shadow-[0_0_7px_rgba(255,219,77,0.7)]";
+  return "bg-[#c6ff25] shadow-[0_0_7px_rgba(198,255,37,0.7)]";
+}
+
+function entityRiskBadge(risk?: string) {
+  const r = risk?.toLowerCase() ?? "";
+  if (r.includes("tinggi") || r.includes("high"))   return "border-[#ff5d78]/30 bg-[#ff5d78]/[0.15] text-[#ff7890]";
+  if (r.includes("menengah") || r.includes("medium") || r.includes("moderate")) return "border-[#ffdb4d]/30 bg-[#ffdb4d]/[0.12] text-[#ffdb4d]";
+  return "border-[#c6ff25]/25 bg-[#c6ff25]/[0.10] text-[#c6ff25]";
+}
+
+function computeRiskBars(analysis: AiAnalysis) {
+  const score = analysis.overall_risk_score ?? 0;
+  if (score === 0) return { access: 0, financial: 0, compliance: 0, operational: 0 };
+  const feed = analysis.smart_summary?.anomaly_feed ?? [];
+  const countCat = (cat: string) => feed.filter((a) => a.category?.toUpperCase() === cat).length;
+  const scale = (base: number, extra: number) => Math.min(98, Math.round(base + extra * 9));
+  return {
+    access:      scale(score * 0.7, countCat("ACCESS")),
+    financial:   scale(score * 0.6, countCat("FINANCIAL")),
+    compliance:  scale(score * 0.5, countCat("COMPLIANCE")),
+    operational: scale(score * 0.4, countCat("OPERATIONAL")),
+  };
+}
+
+function trailDescription(index: number, analysis: AiAnalysis): string {
+  const score      = analysis.overall_risk_score ?? 0;
+  const entities   = analysis.key_entities?.length ?? 0;
+  const anomalies  = analysis.smart_summary?.anomaly_feed?.length ?? 0;
+  const status     = analysis.final_validation?.status ?? "PENDING";
+  const conclusion = analysis.final_validation?.conclusion ?? "";
+  const brief      = analysis.smart_summary?.executive_brief ?? "";
+  const recs       = analysis.action_report?.recommendations?.length ?? 0;
+  const days       = analysis.action_report?.estimated_resolution_days;
+  const map: Record<number, string> = {
+    0: entities > 0 ? `${entities} entit${entities > 1 ? "ies" : "y"} extracted.` : "Document parsed.",
+    1: score > 0 ? `Risk score calculated: ${score}/100.` : "Risk scoring complete.",
+    2: `Status: ${status}. ${conclusion}`.trim(),
+    3: brief ? `${brief.slice(0, 110)}${brief.length > 110 ? "…" : ""}` : `${anomalies} anomal${anomalies !== 1 ? "ies" : "y"} categorized.`,
+    4: recs > 0 ? `${recs} action${recs > 1 ? "s" : ""} recommended. Est. ${days ?? "?"} days to resolve.` : "No critical actions required.",
+    5: "Full intelligence report ready for review.",
+  };
+  return map[index] ?? "";
+}
+
+function loadStats(): { docs: number; reports: number } {
+  if (typeof window === "undefined") return { docs: 0, reports: 0 };
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : { docs: 0, reports: 0 };
+  } catch { return { docs: 0, reports: 0 }; }
+}
+function saveStats(docs: number, reports: number) {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({ docs, reports }));
+}
+
+const emptyAnalysis: AiAnalysis = {
+  summary: "", overall_risk_score: 0, key_entities: [],
+  final_validation: { conclusion: "", status: "" },
+  smart_summary: { executive_brief: "", risk_categories: { access_risk: "", financial_risk: "", compliance: "" }, anomaly_feed: [] },
+  action_report: { recommendations: [], overall_recommendation: "", estimated_resolution_days: 0 },
+};
+
+// ─── Component ────────────────────────────────────────────────────────────────
+export default function Home() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [password, setPassword] = useState("");
+  const [history, setHistory] = useState<any[]>([]);
+  const [file, setFile]               = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [result, setResult]           = useState<UploadResult | null>(null);
+  const [logs, setLogs]               = useState<Array<{ label: string; filled: boolean }>>([]);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [docsProcessed, setDocsProcessed] = useState(0);
+  const [reportCount, setReportCount]     = useState(0);
+  const [errorMsg, setErrorMsg]           = useState<string | null>(null);
+  const [entitiesExpanded, setEntitiesExpanded] = useState(false);
+  const [activeTab, setActiveTab]         = useState<string>("Overview");
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (localStorage.getItem("nalar_auth") === "true") setIsAuthenticated(true);
+    const hist = localStorage.getItem(HISTORY_KEY);
+    if (hist) setHistory(JSON.parse(hist));
+    const { docs, reports } = loadStats();
+    setDocsProcessed(docs);
+    setReportCount(reports);
+  }, []);
+
+  const analysis        = result?.ai_analysis ?? emptyAnalysis;
+  const score           = analysis.overall_risk_score ?? 0;
+  const riskBars        = useMemo(() => computeRiskBars(analysis), [analysis]);
+  const anomalyFeed     = analysis.smart_summary?.anomaly_feed ?? [];
+  const recommendations = analysis.action_report?.recommendations ?? [];
+  const keyEntities     = analysis.key_entities ?? [];
+
+  const ENTITIES_PREVIEW = 4;
+  const visibleEntities  = entitiesExpanded ? keyEntities : keyEntities.slice(0, ENTITIES_PREVIEW);
+  const hasMoreEntities  = keyEntities.length > ENTITIES_PREVIEW;
+
+  const activeStep = isUploading ? currentStep : result ? 6 : 0;
+
+  const pushLog  = (label: string) => setLogs((prev) => {
+    if (prev.some(l => l.label === label)) return prev;
+    return [...prev.slice(-5), { label, filled: false }];
+  });
+  
+  const fillLogs = () => setLogs((prev) => prev.map((l) => ({ ...l, filled: true })));
+  const delay    = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
+
+  const handleReset = () => {
+    setFile(null);
+    setResult(null);
+    setLogs([]);
+    setCurrentStep(0);
+    setErrorMsg(null);
+    setEntitiesExpanded(false);
+    setActiveTab("Overview");
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const validateFile = (f: File): string | null => {
+    const ext = "." + f.name.split(".").pop()?.toLowerCase();
+    if (!ACCEPTED_EXTS.includes(ext))
+      return `Format "${ext}" is not supported. Use: ${ACCEPTED_EXTS.join(", ")}`;
+    if (f.size > MAX_SIZE_MB * 1024 * 1024)
+      return `File size exceeds the ${(f.size / 1024 / 1024).toFixed(1)} MB limit. Limit: ${MAX_SIZE_MB} MB.`;
+    if (f.size === 0)
+      return "File is empty and cannot be analyzed.";
+    return null;
+  };
+
+  const parseBackendError = async (response: Response): Promise<string> => {
+    try {
+      const body = await response.json();
+      const code = body?.detail?.error as string | undefined;
+      const msg  = body?.detail?.message as string | undefined;
+      if (code && ERROR_MESSAGES[code]) return ERROR_MESSAGES[code];
+      if (msg) return msg;
+    } catch { /* not JSON */ }
+    if (response.status === 413) return ERROR_MESSAGES.file_too_large;
+    if (response.status === 415) return ERROR_MESSAGES.unsupported_format;
+    if (response.status === 422) return ERROR_MESSAGES.extraction_failed;
+    if (response.status >= 500)  return `Server error (${response.status}). Check backend terminal.`;
+    return `Request failed (HTTP ${response.status}).`;
+  };
+
+  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const selected = e.target.files?.[0];
+    if (!selected) return;
+
+    setErrorMsg(null);
+    setResult(null);
+    setLogs([]);
+    setCurrentStep(0);
+    setEntitiesExpanded(false);
+
+    const validationError = validateFile(selected);
+    if (validationError) {
+      setErrorMsg(validationError);
+      e.target.value = "";
+      return;
+    }
+
+    setFile(selected);
+    setIsUploading(true);
+    setActiveTab("Agent Flow");
+
+    const form = new FormData();
+    form.append("file", selected);
+
+    try {
+      setCurrentStep(1);
+      pushLog(TRAIL_LOGS[0]);
+
+      const controller = new AbortController();
+      const timeoutId  = setTimeout(() => controller.abort(), 3 * 60 * 1000);
+
+      const fetchPromise = fetch(`${API_BASE_URL}/api/upload`, {
+  method: "POST",
+  body: form,
+  signal: controller.signal,
+});
+      let isFetchDone = false;
+      const simulatePipeline = async () => {
+        if (isFetchDone) return; await delay(2000);
+        if (isFetchDone) return; setCurrentStep(2); pushLog(TRAIL_LOGS[1]); await delay(2000);
+        if (isFetchDone) return; setCurrentStep(3); pushLog(TRAIL_LOGS[2]); await delay(2000);
+        if (isFetchDone) return; setCurrentStep(4); pushLog(TRAIL_LOGS[3]); await delay(2000);
+        if (isFetchDone) return; setCurrentStep(5); pushLog(TRAIL_LOGS[4]); 
+      };
+
+      simulatePipeline();
+
+      let response: Response;
+      try {
+        response = await fetchPromise;
+        isFetchDone = true;
+        clearTimeout(timeoutId);
+      } catch (fetchErr) {
+        isFetchDone = true;
+        clearTimeout(timeoutId);
+        if (fetchErr instanceof DOMException && fetchErr.name === "AbortError")
+          throw new Error(ERROR_MESSAGES.timeout);
+        throw new Error(ERROR_MESSAGES.network);
+      }
+
+      if (!response.ok) {
+        const errMsg = await parseBackendError(response);
+        throw new Error(errMsg);
+      }
+
+      const data = (await response.json()) as UploadResult;
+
+      setCurrentStep(6); 
+      pushLog(TRAIL_LOGS[5]); 
+      
+      setResult(data);
+      fillLogs();
+
+      const newDocs = docsProcessed + 1;
+      const newRep  = reportCount + 1;
+      setDocsProcessed(newDocs);
+      setReportCount(newRep);
+      saveStats(newDocs, newRep);
+
+      const newHist = [{ date: new Date().toISOString(), filename: data.filename, score: data.ai_analysis?.overall_risk_score ?? 0, analysis: data.ai_analysis }, ...history];
+      setHistory(newHist);
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(newHist));
+
+      setActiveTab("Overview");
+
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : ERROR_MESSAGES.unknown;
+      setErrorMsg(msg);
+      setCurrentStep(0);
+      setLogs([]);
+      setActiveTab("Overview");
+    } finally {
+      setIsUploading(false);
+      e.target.value = "";
+    }
+  };
+
+  const riskLabel = score >= 70 ? "Elevated Risk" : score >= 40 ? "Moderate Risk" : score > 0 ? "Low Risk" : "No Data";
+  const riskBadge = score >= 70
+    ? "border-[#ff5d78]/35 bg-[#ff5d78]/[0.1] text-[#ff7890]"
+    : score >= 40
+    ? "border-[#ffdb4d]/35 bg-[#ffdb4d]/[0.12] text-[#ffdb4d]"
+    : "border-white/15 bg-white/5 text-[#9a9aa1]";
+
+  if (!isAuthenticated) {
+    return (
+      <main className="min-h-screen bg-[#1b1b1d] grid place-items-center text-white px-4">
+        <form onSubmit={(e) => {
+          e.preventDefault();
+          if (password === "admin") {
+            localStorage.setItem("nalar_auth", "true");
+            setIsAuthenticated(true);
+          } else {
+            alert("Invalid password (hint: admin)");
+          }
+        }} className="w-full max-w-sm p-8 border border-white/10 rounded-xl bg-[#25252c] shadow-[0_0_40px_rgba(198,255,37,0.1)]">
+          <div className="flex justify-center mb-6">
+             <span className="h-6 w-6 rounded-full bg-[#c6ff25] shadow-[0_0_22px_rgba(198,255,37,0.75)]" />
+          </div>
+          <h1 className="text-2xl font-black text-center mb-2 tracking-wide">NALAR_ <span className="text-[#c6ff25]">AUTH</span></h1>
+          <p className="text-center text-sm text-[#898990] mb-8">Restricted Access. Enter clearance code.</p>
+          <input 
+            type="password" 
+            placeholder="Enter password..." 
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full bg-[#1b1b1d] border border-white/10 rounded-md px-4 py-3 mb-6 focus:outline-none focus:border-[#c6ff25]/50 transition text-sm font-mono" 
+          />
+          <button type="submit" className="w-full bg-[#c6ff25] text-[#1b1b1d] font-bold py-3 rounded-md uppercase tracking-[0.2em] text-xs hover:bg-[#aef100] transition shadow-[0_0_15px_rgba(198,255,37,0.4)]">
+            Authenticate
+          </button>
+        </form>
+      </main>
+    );
+  }
+
+  return (
+    <main className="min-h-screen bg-[#1b1b1d] px-4 py-8 text-[#f4f4f1] sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-[1180px] overflow-hidden bg-[#1f1f23] shadow-[0_28px_90px_rgba(0,0,0,0.45)]">
+        <section className="relative overflow-hidden px-5 pb-12 pt-10 sm:px-8 lg:px-10">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_93%_21%,rgba(198,255,37,0.1),transparent_16%),linear-gradient(110deg,rgba(109,145,255,0.08),transparent_34%)]" />
+
+          <div className="relative z-10">
+            {/* ── Header ── */}
+            <header className="flex flex-wrap items-start justify-between gap-4">
+              <div className="flex items-center gap-4">
+                <span className="h-4 w-4 rounded-full bg-[#c6ff25] shadow-[0_0_22px_rgba(198,255,37,0.75)]" />
+                <div>
+                  <p className="font-mono text-[13px] font-semibold uppercase tracking-[0.42em] text-[#c6ff25]">NALAR_</p>
+                  <p className="mt-1 text-sm text-[#898990]">Enterprise Risk Intelligence Platform</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.18em]">
+                <span className="rounded-full border border-[#c6ff25]/40 px-4 py-2 text-[#c6ff25]">• Live</span>
+                <span className="rounded-full border border-[#ffdb4d]/35 px-4 py-2 text-[#ffdb4d]">
+                  {anomalyFeed.length} alert{anomalyFeed.length !== 1 ? "s" : ""}
+                </span>
+              </div>
+            </header>
+
+            {/* ── Shape strip ── */}
+            <div className="mt-12 flex items-center gap-5">
+              <div className="flex items-center gap-5">
+                <span className="h-7 w-7 rounded-full bg-[#c6ff25]" />
+                <span className="h-7 w-7 rotate-45 bg-[#ff72ad]" />
+                <span className="h-4 w-4 rounded-full bg-[#5c82ff]" />
+                <span className="h-0 w-0 border-x-[13px] border-b-[23px] border-x-transparent border-b-[#ffdb4d]" />
+                <span className="h-2 w-2 rounded-full bg-[#ff72ad]" />
+                <span className="h-4 w-4 rotate-45 bg-[#5c82ff]" />
+              </div>
+              <span className="h-px flex-1 bg-white/10" />
+              <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#898990]">SYS-EPOCH 2026.05.13</span>
+            </div>
+
+            {/* ── Hero ── */}
+            <div className="mt-12 max-w-[760px]">
+              <h1 className="text-[56px] font-black leading-[0.96] tracking-[-0.02em] text-white sm:text-[78px] lg:text-[86px]">
+                Risk <span className="text-[#c6ff25]">Intel</span><br />Command
+              </h1>
+              <p className="mt-7 max-w-[700px] text-lg leading-8 text-[#a4a4aa]">
+                Multi-agent AI system for real-time anomaly detection, document analysis,
+                and operational risk scoring across enterprise environments.
+              </p>
+            </div>
+
+            {/* ── Stats strip ── */}
+            <div className="mt-10 grid border-y border-white/10 py-4 font-mono text-xs uppercase tracking-[0.16em] text-[#85858c] sm:grid-cols-4">
+              <MetricLine label="ANOMALIES FLAGGED" value={String(anomalyFeed.length)} />
+              <MetricLine label="AVG RISK SCORE"    value={score > 0 ? `${score}/100` : "—"} />
+              <MetricLine label="AGENTS ACTIVE"     value="5" />
+              <MetricLine label="REPORTS GENERATED" value={String(reportCount)} />
+            </div>
+
+            {/* ── Nav ── */}
+            <nav className="mt-8 flex flex-wrap gap-4 font-mono text-sm font-semibold text-[#9a9aa1]">
+              {TABS.map((item) => (
+                <button 
+                  key={item} 
+                  type="button" 
+                  onClick={() => setActiveTab(item)}
+                  className={cx(
+                    "rounded-[8px] px-6 py-3 transition",
+                    activeTab === item ? "border border-[#c6ff25]/40 bg-[#c6ff25]/10 text-[#c6ff25]" : "hover:text-white"
+                  )}
+                >
+                  {item}
+                </button>
+              ))}
+            </nav>
+
+            {/* ── Drop Zone + Reset ── */}
+            <div className="mt-6 mb-8">
+              {errorMsg && (
+                <div className="mb-4 flex items-start gap-4 rounded-[8px] border border-[#ff5d78]/30 bg-[#ff5d78]/[0.08] p-5">
+                  <span className="mt-0.5 h-5 w-5 shrink-0 rounded-full border-2 border-[#ff5d78] text-center font-mono text-xs font-bold leading-4 text-[#ff5d78]">!</span>
+                  <div className="flex-1">
+                    <p className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[#ff7890]">Upload Error</p>
+                    <p className="mt-1 text-sm leading-6 text-[#e0a0aa]">{errorMsg}</p>
+                  </div>
+                  <button type="button" onClick={() => setErrorMsg(null)}
+                    className="shrink-0 font-mono text-xs text-[#ff7890] transition-colors hover:text-white">
+                    ✕ Dismiss
+                  </button>
+                </div>
+              )}
+
+              {result && !isUploading && (
+                <div className="mb-4 flex items-center justify-between gap-4 rounded-[8px] border border-[#c6ff25]/25 bg-[#c6ff25]/5 px-6 py-4">
+                  <div className="flex items-center gap-3">
+                    <span className="h-2.5 w-2.5 rounded-full bg-[#c6ff25] shadow-[0_0_10px_rgba(198,255,37,0.8)]" />
+                    <div>
+                      <p className="font-mono text-xs uppercase tracking-[0.2em] text-[#c6ff25]">Analysis Complete</p>
+                      <p className="mt-0.5 text-sm text-[#a4a4aa]">
+                        {result.filename} · Risk score: <span className="font-bold text-white">{score}/100</span>
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleReset}
+                    className="flex items-center gap-2 rounded-[8px] border border-white/20 bg-white/5 px-5 py-2.5 font-mono text-xs uppercase tracking-[0.18em] text-[#c0c0c8] transition hover:border-[#ff72ad]/50 hover:bg-[#ff72ad]/10 hover:text-[#ff72ad]"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M2 7a5 5 0 1 0 1-3M2 4V1M2 4H5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                    Analyze New File
+                  </button>
+                </div>
+              )}
+
+              {(!result || isUploading) && (
+                <label className={cx(
+                  "group relative grid min-h-[240px] cursor-pointer place-items-center rounded-[8px] border border-dashed p-8 transition",
+                  isUploading
+                    ? "border-[#ffdb4d]/50 bg-[#222228] cursor-wait"
+                    : "border-[#c6ff25]/35 bg-[#222228] hover:border-[#c6ff25]/70"
+                )}>
+                  <input
+                    ref={fileInputRef}
+                    accept=".pdf,.csv,.xlsx,.xls,.txt,.log"
+                    className="absolute inset-0 cursor-pointer opacity-0"
+                    onChange={handleFileChange}
+                    type="file"
+                    disabled={isUploading}
+                  />
+                  <div className="text-center pointer-events-none">
+                    <div className={cx(
+                      "mx-auto grid h-14 w-14 place-items-center rounded-[6px] text-2xl font-bold transition-colors",
+                      isUploading ? "bg-[#ffdb4d]/20 text-[#ffdb4d] border border-[#ffdb4d]/50" : "bg-[#d9d4e6] text-[#23232b]"
+                    )}>
+                      {isUploading ? (
+                        <div className="relative flex h-6 w-6 items-center justify-center">
+                          <span className="absolute h-full w-full animate-ping rounded-full bg-[#ffdb4d] opacity-40"></span>
+                          <span className="h-3 w-3 rounded-full bg-[#ffdb4d]"></span>
+                        </div>
+                      ) : "+"}
+                    </div>
+                    <p className="mt-6 text-xl font-extrabold text-white">
+                      {isUploading ? "Processing Enterprise Data..." : file ? file.name : "Drop enterprise data here"}
+                    </p>
+                    <p className="mt-2 text-sm text-[#8d8d94]">PDFs · Logs · Reports · Structured data</p>
+                    <span className="mt-6 inline-flex rounded-[8px] border border-white/20 px-6 py-3 text-sm font-bold text-white group-hover:border-[#c6ff25]/50">
+                      {isUploading ? "Running pipeline…" : "Analyze with AI →"}
+                    </span>
+                    <div className="mt-5 flex flex-wrap justify-center gap-3 font-mono text-xs uppercase text-[#9b9ba2]">
+                      {["PDF", "CSV", "XLSX", "TXT", "LOG"].map((t) => (
+                        <span key={t} className="rounded-[6px] bg-white/[0.06] px-3 py-1">{t}</span>
+                      ))}
+                    </div>
+                  </div>
+                </label>
+              )}
+            </div>
+
+            {/* ========================================================= */}
+            {/* TAB: OVERVIEW */}
+            {/* ========================================================= */}
+            {activeTab === "Overview" && (
+              <div className="space-y-8 animate-in fade-in duration-500">
+                {/* ── Global Risk Score ── */}
+                <section className="rounded-[8px] border border-[#c6ff25]/25 bg-[#25252c] p-7">
+                  <div className="grid gap-8 lg:grid-cols-[170px_1fr]">
+                    <div>
+                      <p className="font-mono text-xs uppercase tracking-[0.34em] text-[#909096]">GLOBAL RISK SCORE</p>
+                      <div className="relative mt-8 h-28 w-28">
+                        <svg className="absolute inset-0 h-full w-full -rotate-90" viewBox="0 0 120 120">
+                          <circle cx="60" cy="60" r="52" fill="transparent" stroke="rgba(255,255,255,0.07)" strokeWidth="10" />
+                          <circle cx="60" cy="60" r="52" fill="transparent"
+                            stroke={score >= 70 ? "#ff5d78" : score >= 40 ? "#ffdb4d" : "#c6ff25"}
+                            strokeWidth="10" strokeLinecap="round"
+                            strokeDasharray={2 * Math.PI * 52}
+                            strokeDashoffset={2 * Math.PI * 52 * (1 - score / 100)}
+                            className="transition-all duration-1000 ease-out"
+                          />
+                        </svg>
+                        <div className="absolute inset-0 grid place-items-center">
+                          <div className="text-center">
+                            <p className="font-mono text-3xl font-bold text-white">{score}</p>
+                            <p className="font-mono text-[10px] text-[#a7a7ac]">/100</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="self-center">
+                      <h2 className="text-3xl font-extrabold text-white">{riskLabel}</h2>
+                      <span className={cx("mt-3 inline-flex rounded-full border px-4 py-2 font-mono text-xs font-bold uppercase", riskBadge)}>
+                        {score >= 70 ? "HIGH RISK" : score >= 40 ? "MODERATE-HIGH" : score > 0 ? "LOW RISK" : "PENDING"}
+                      </span>
+                      <div className="mt-8 space-y-4">
+                        <RiskBar label="Access anomalies"         value={riskBars.access}      color="bg-[#ff72ad]" />
+                        <RiskBar label="Financial irregularities" value={riskBars.financial}   color="bg-[#ffdb4d]" />
+                        <RiskBar label="Compliance gaps"          value={riskBars.compliance}  color="bg-[#5c82ff]" />
+                        <RiskBar label="Operational drift"        value={riskBars.operational} color="bg-[#c6ff25]" />
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                {/* ── Key Metrics ── */}
+                <div>
+                  <SectionTitle title="Key Metrics" />
+                  <section className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                    {(() => {
+                      const recentHistory = history.slice(0, 6).reverse();
+                      const padZeros = (arr: number[]) => [...Array(Math.max(0, 6 - arr.length)).fill(0), ...arr].slice(-6);
+                      
+                      let dCount = Math.max(0, docsProcessed - recentHistory.length);
+                      const chartDocs = padZeros(recentHistory.map(() => ++dCount));
+                      
+                      const chartAnomalies = padZeros(recentHistory.map(h => h.analysis?.smart_summary?.anomaly_feed?.length || 0));
+                      
+                      let rCount = Math.max(0, reportCount - recentHistory.length);
+                      const chartReports = padZeros(recentHistory.map(() => ++rCount));
+                      
+                      const chartTime = padZeros(recentHistory.map(() => 12));
+
+                      return (
+                        <>
+                          <MetricCard accent="lime"   label="Docs processed"    value={String(docsProcessed)} note={docsProcessed > 0 ? "+1 today" : "No documents yet"} chartData={chartDocs} />
+                          <MetricCard accent="pink"   label="Anomalies found"   value={String(anomalyFeed.length)} note={anomalyFeed.length > 0 ? `+${anomalyFeed.length} this session` : "None detected"} chartData={chartAnomalies} />
+                          <MetricCard accent="blue"   label="Reports generated" value={String(reportCount)} note={reportCount > 0 ? "Latest report ready" : "No reports yet"} chartData={chartReports} />
+                          <MetricCard accent="yellow" label="Avg analysis time" value={result ? "~12s" : "—"} note={result ? "5-agent pipeline" : "Pending first run"} chartData={chartTime} />
+                        </>
+                      );
+                    })()}
+                  </section>
+                </div>
+
+                {/* ── AI-Generated Insights ── */}
+                <div>
+                  <SectionTitle title="AI-Generated Insights" />
+                  <section className="grid gap-6 lg:grid-cols-3">
+                    <InsightCard 
+                      accent="lime" 
+                      action="Investigate →" 
+                      title="Access Risk"
+                      text={analysis.smart_summary?.risk_categories?.access_risk || "Upload a document to generate access risk analysis."} 
+                      onClick={() => setActiveTab("Anomalies")}
+                    />
+                    <InsightCard 
+                      accent="pink" 
+                      action="Review →" 
+                      title="Financial Risk"
+                      text={analysis.smart_summary?.risk_categories?.financial_risk || "Upload a document to generate financial risk analysis."} 
+                      onClick={() => setActiveTab("Reports")}
+                    />
+                    <InsightCard 
+                      accent="blue" 
+                      action="Fix now →" 
+                      title="Compliance"
+                      text={analysis.smart_summary?.risk_categories?.compliance || "Upload a document to generate compliance analysis."} 
+                      onClick={() => setActiveTab("Reports")}
+                    />
+                  </section>
+                </div>
+              </div>
+            )}
+
+
+            {/* ========================================================= */}
+            {/* TAB: AGENT FLOW */}
+            {/* ========================================================= */}
+            {activeTab === "Agent Flow" && (
+              <div className="space-y-8 animate-in fade-in duration-500">
+                {/* ── Agent Pipeline ── */}
+                <div>
+                  <SectionTitle title="AI Agent Collaboration" />
+                  <section className="rounded-[8px] border border-white/10 bg-[#25252c] p-8">
+                    <div className="mb-10 flex items-center gap-3 text-lg font-bold text-white">
+                      <span className={cx("h-3 w-3 rounded-full transition-colors", isUploading ? "animate-pulse bg-[#c6ff25]" : result ? "bg-[#c6ff25]" : "bg-[#4a6a1a]")} />
+                      Live Multi-Agent Pipeline
+                    </div>
+                    <div className="grid grid-cols-5 items-start gap-3 sm:gap-6">
+                      {AGENTS.map((agent, i) => {
+                        const done    = activeStep > i + 1;
+                        const current = activeStep === i + 1;
+                        const active  = done || current;
+                        return (
+                          <div key={agent.id} className="relative flex flex-col items-center gap-3">
+                            {i < AGENTS.length - 1 && (
+                              <span className={cx("absolute left-[calc(50%+34px)] top-8 hidden h-px w-[calc(100%-28px)] transition-all duration-700 sm:block",
+                                done ? "bg-[#c6ff25]" : "bg-white/16")} />
+                            )}
+                            <span className={cx(
+                              "grid h-16 w-16 place-items-center rounded-[8px] border text-2xl font-black transition-all duration-500",
+                              active ? `${agent.accent} ${agent.glow}` : "border-white/[0.12] bg-white/[0.03] text-[#676770]",
+                              current && "animate-pulse"
+                            )}>{agent.id}</span>
+                            <div className="text-center">
+                              <p className={cx("text-sm transition-colors", active ? "text-[#d5d5dc]" : "text-[#555560]")}>{agent.name}</p>
+                              <p className="mt-1 text-xs text-[#82828a]">{agent.role}</p>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                    <div className="mt-10 flex items-center justify-between border-t border-white/10 pt-6 font-mono text-sm text-[#96969d]">
+                      <span>
+                        {activeStep === 0 && "Waiting for input…"}
+                        {activeStep > 0 && activeStep <= 5 && <>Agent {activeStep} / 5 — <span className="text-[#ffdb4d]">{AGENTS[activeStep - 1]?.name}</span> running…</>}
+                        {activeStep === 6 && <span className="text-[#c6ff25]">All 5 agents complete ✓</span>}
+                      </span>
+                      <span className="flex gap-2">
+                        {AGENTS.map((a, i) => (
+                          <span key={a.id} className={cx("h-2 w-2 rounded-full transition-colors duration-500",
+                            activeStep > i + 1 ? "bg-[#c6ff25]" : activeStep === i + 1 ? "animate-pulse bg-[#ffdb4d]" : "bg-white/[0.18]")} />
+                        ))}
+                      </span>
+                    </div>
+                  </section>
+                </div>
+
+                {/* ── AI Reasoning Trail ── */}
+                <section className="rounded-[8px] border border-white/10 bg-[#25252c] p-8">
+                  <p className="text-lg font-bold uppercase tracking-[0.08em] text-[#b9b9bf]">
+                    AI Reasoning Trail {file ? `— ${file.name}` : ""}
+                  </p>
+                  <div className="mt-7 space-y-6">
+                    {logs.length === 0
+                      ? <p className="text-sm text-[#7e7e85]">Awaiting document upload to begin analysis pipeline.</p>
+                      : logs.map((log, i) => (
+                          <div key={i} className="flex gap-4">
+                            <span className={cx(
+                              "mt-1 h-5 w-5 shrink-0 rounded-full border-2 transition-colors duration-500",
+                              log.filled ? "border-[#c6ff25]" : "border-white/20"
+                            )} />
+                            <div>
+                              <p className={cx("font-mono text-sm font-bold transition-colors duration-500",
+                                log.filled ? "text-[#c6ff25]" : "text-[#777780]")}>{log.label}</p>
+                              {log.filled && result?.ai_analysis && (
+                                <p className="mt-1 text-sm leading-6 text-[#898990]">
+                                  {trailDescription(i, result.ai_analysis)}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                        ))
+                    }
+                  </div>
+                </section>
+              </div>
+            )}
+
+
+            {/* ========================================================= */}
+            {/* TAB: ANOMALIES */}
+            {/* ========================================================= */}
+            {activeTab === "Anomalies" && (
+              <div className="space-y-8 animate-in fade-in duration-500">
+                {/* ── Live Anomaly Feed ── */}
+                <section className="rounded-[8px] border border-white/10 bg-[#25252c] p-8">
+                  <p className="font-mono text-xs uppercase tracking-[0.34em] text-[#9c9ca3]">Live Anomaly Feed</p>
+                  <div className="mt-6 space-y-3">
+                    {anomalyFeed.length === 0
+                      ? <p className="text-sm text-[#7e7e85]">No anomalies detected yet. Upload a document to begin.</p>
+                      : anomalyFeed.map((item, i) => {
+                          const sev = normalizeSeverity(item.severity);
+                          return (
+                            <div key={i} className="flex items-start gap-4 rounded-[8px] bg-white/5 p-4">
+                              <span className={cx("mt-1 h-3 w-3 shrink-0 rounded-full",
+                                sev === "HIGH" ? "bg-[#ff72ad] shadow-[0_0_8px_rgba(255,114,173,0.6)]"
+                                : sev === "MED" ? "bg-[#ffdb4d] shadow-[0_0_8px_rgba(255,219,77,0.6)]"
+                                : "bg-[#c6ff25] shadow-[0_0_8px_rgba(198,255,37,0.6)]")} />
+                              <div className="min-w-0 flex-1">
+                                <p className="text-sm font-semibold text-[#d6d6dc]">{item.title}</p>
+                                {item.description && <p className="mt-1 text-xs leading-relaxed text-[#7e7e85]">{item.description}</p>}
+                                {item.category && <p className="mt-1 font-mono text-[9px] uppercase text-[#555560]">{item.category}</p>}
+                              </div>
+                              <span className={cx("shrink-0 rounded-[6px] border px-3 py-1 font-mono text-xs", severityClass(item.severity))}>{sev}</span>
+                            </div>
+                          );
+                        })
+                    }
+                  </div>
+                </section>
+
+                {/* ── KEY ENTITIES ── */}
+                {keyEntities.length > 0 && (
+                  <div>
+                    <SectionTitle title={`Key Entities Extracted (${keyEntities.length})`} />
+                    <section className="rounded-[8px] border border-white/10 bg-[#25252c] p-6">
+                      <div className="mb-6 flex flex-wrap gap-3">
+                        {(["Tinggi","Menengah","Rendah"] as const).map((level) => {
+                          const count = keyEntities.filter(e => e.potential_risk?.toLowerCase().includes(level.toLowerCase())).length;
+                          if (count === 0) return null;
+                          const colors = {
+                            Tinggi:   "border-[#ff5d78]/30 bg-[#ff5d78]/10 text-[#ff7890]",
+                            Menengah: "border-[#ffdb4d]/30 bg-[#ffdb4d]/10 text-[#ffdb4d]",
+                            Rendah:   "border-[#c6ff25]/25 bg-[#c6ff25]/10 text-[#c6ff25]",
+                          };
+                          return (
+                            <span key={level} className={cx("rounded-full border px-4 py-1.5 font-mono text-xs uppercase tracking-[0.18em]", colors[level])}>
+                              {count} {level === "Tinggi" ? "High" : level === "Menengah" ? "Medium" : "Low"} risk
+                            </span>
+                          );
+                        })}
+                        <span className="rounded-full border border-white/10 bg-white/5 px-4 py-1.5 font-mono text-xs uppercase tracking-[0.18em] text-[#9a9aa1]">
+                          {keyEntities.length} total entities
+                        </span>
+                      </div>
+
+                      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-2">
+                        {visibleEntities.map((entity, i) => (
+                          <div key={i} className="group rounded-[8px] border border-white/[0.07] bg-[#1f1f25] p-5 transition hover:border-white/15">
+                            <div className="flex items-start gap-3">
+                              <span className={cx("mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full", entityRiskDot(entity.potential_risk))} />
+                              <div className="min-w-0 flex-1">
+                                <div className="flex items-start justify-between gap-2">
+                                  <p className="text-sm font-bold text-[#e0e0e6] group-hover:text-white transition-colors">
+                                    {entity.entity_name ?? "Unknown Entity"}
+                                  </p>
+                                  {entity.potential_risk && (
+                                    <span className={cx(
+                                      "shrink-0 rounded-[5px] border px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.12em]",
+                                      entityRiskBadge(entity.potential_risk)
+                                    )}>
+                                      {entity.potential_risk.toLowerCase().includes("tinggi") ? "High"
+                                        : entity.potential_risk.toLowerCase().includes("menengah") ? "Med"
+                                        : entity.potential_risk.toLowerCase().includes("rendah") ? "Low"
+                                        : entity.potential_risk}
+                                    </span>
+                                  )}
+                                </div>
+                                {entity.description && (
+                                  <p className="mt-2 text-sm leading-6 text-[#8a8a92]">{entity.description}</p>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {hasMoreEntities && (
+                        <button
+                          type="button"
+                          onClick={() => setEntitiesExpanded((v) => !v)}
+                          className="mt-5 flex w-full items-center justify-center gap-2 rounded-[8px] border border-white/10 py-3 font-mono text-xs uppercase tracking-[0.2em] text-[#9a9aa1] transition hover:border-white/25 hover:text-white"
+                        >
+                          {entitiesExpanded
+                            ? `▲ Show less`
+                            : `▼ Show ${keyEntities.length - ENTITIES_PREVIEW} more entit${keyEntities.length - ENTITIES_PREVIEW !== 1 ? "ies" : "y"}`}
+                        </button>
+                      )}
+                    </section>
+                  </div>
+                )}
+              </div>
+            )}
+
+
+            {/* ========================================================= */}
+            {/* TAB: REPORTS */}
+            {/* ========================================================= */}
+            {/* ========================================================= */}
+            {activeTab === "Reports" && (
+              <div className="space-y-8 animate-in fade-in duration-500">
+                <div className="flex justify-end">
+                  <button 
+                    onClick={() => window.print()}
+                    disabled={!result?.ai_analysis?.smart_summary?.executive_brief}
+                    className="flex items-center gap-2 rounded-[8px] border border-[#c6ff25]/40 bg-[#c6ff25]/10 px-5 py-2.5 font-mono text-xs uppercase tracking-[0.18em] text-[#c6ff25] transition hover:bg-[#c6ff25] hover:text-[#1b1b1d] disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                      <polyline points="7 10 12 15 17 10"></polyline>
+                      <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Export PDF
+                  </button>
+                </div>
+
+                {/* ── Executive Summary ── */}
+                {result?.ai_analysis?.smart_summary?.executive_brief ? (
+                  <section className="rounded-[8px] border border-white/10 bg-[#25252c] p-8">
+                    <div className="mb-5 flex items-center justify-between gap-4">
+                      <p className="font-mono text-xs uppercase tracking-[0.34em] text-[#9c9ca3]">Executive Summary</p>
+                      <span className={cx("rounded-full border px-3 py-1 font-mono text-[10px] uppercase",
+                        result.ai_analysis.final_validation?.status === "VALIDATED"
+                          ? "border-[#c6ff25]/30 bg-[#c6ff25]/10 text-[#c6ff25]"
+                          : "border-[#ffdb4d]/30 bg-[#ffdb4d]/10 text-[#ffdb4d]"
+                      )}>
+                        {result.ai_analysis.final_validation?.status ?? "PENDING"}
+                      </span>
+                    </div>
+                    <p className="text-lg italic leading-8 text-[#d6d6dc]">&ldquo;{result.ai_analysis.smart_summary.executive_brief}&rdquo;</p>
+                    {result.ai_analysis.final_validation?.conclusion && (
+                      <p className="mt-4 font-mono text-sm text-[#6d91ff]">Validator: {result.ai_analysis.final_validation.conclusion}</p>
+                    )}
+                  </section>
+                ) : (
+                  <p className="text-sm text-[#7e7e85]">Upload document to view executive summary and action reports.</p>
+                )}
+
+                {/* ── Action Report ── */}
+                {recommendations.length > 0 && (
+                  <div>
+                    <SectionTitle title="Action Report" />
+                    {result?.ai_analysis?.action_report?.overall_recommendation && (
+                      <div className="mb-4 rounded-[8px] border border-[#c6ff25]/20 bg-[#c6ff25]/5 p-5">
+                        <p className="mb-2 font-mono text-xs uppercase tracking-[0.24em] text-[#c6ff25]">Management Directive</p>
+                        <p className="text-sm leading-6 text-[#d6d6dc]">{result.ai_analysis.action_report.overall_recommendation}</p>
+                        {result.ai_analysis.action_report.estimated_resolution_days ? (
+                          <p className="mt-2 font-mono text-xs text-[#7e7e85]">
+                            Est. resolution: {result.ai_analysis.action_report.estimated_resolution_days} days
+                          </p>
+                        ) : null}
+                      </div>
+                    )}
+                    <section className="grid gap-4 lg:grid-cols-3">
+                      {recommendations.map((item, i) => (
+                        <div key={i} className="rounded-[8px] border border-white/10 bg-[#25252c] p-5">
+                          <div className="flex items-start justify-between gap-3">
+                            <p className="text-sm font-bold text-white">{item.action}</p>
+                            <span className={cx("shrink-0 rounded-[6px] border px-2 py-1 font-mono text-[10px]", severityClass(item.priority))}>
+                              {normalizeSeverity(item.priority)}
+                            </span>
+                          </div>
+                          <p className="mt-3 text-sm leading-6 text-[#a5a5ac]">{item.detail}</p>
+                          {item.effort && <p className="mt-3 font-mono text-[10px] uppercase text-[#555560]">{item.effort.replace("_", " ")}</p>}
+                        </div>
+                      ))}
+                    </section>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* ========================================================= */}
+            {/* TAB: HISTORY */}
+            {/* ========================================================= */}
+            {activeTab === "History" && (
+              <div className="space-y-6 animate-in fade-in duration-500">
+                <SectionTitle title="Analysis History" />
+                {history.length === 0 ? (
+                  <p className="text-sm text-[#7e7e85]">No history found. Upload a document to save results here.</p>
+                ) : (
+                  history.map((h, i) => (
+                    <div key={i} className="flex items-center justify-between rounded-[8px] border border-white/10 bg-[#25252c] p-5 transition hover:border-white/20">
+                      <div>
+                        <p className="font-bold text-[#e0e0e6]">{h.filename}</p>
+                        <p className="mt-1 font-mono text-xs text-[#7e7e85]">{new Date(h.date).toLocaleString()}</p>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <span className={cx(
+                          "rounded-full border px-3 py-1 font-mono text-xs",
+                          h.score >= 70 ? "border-[#ff5d78]/30 bg-[#ff5d78]/10 text-[#ff7890]"
+                          : h.score >= 40 ? "border-[#ffdb4d]/30 bg-[#ffdb4d]/10 text-[#ffdb4d]"
+                          : "border-[#c6ff25]/25 bg-[#c6ff25]/10 text-[#c6ff25]"
+                        )}>
+                          Score: {h.score}
+                        </span>
+                        <button 
+                          onClick={() => {
+                            setResult({ filename: h.filename, ai_analysis: h.analysis });
+                            setActiveTab("Reports");
+                          }}
+                          className="font-mono text-xs text-[#5c82ff] hover:underline"
+                        >
+                          View Report
+                        </button>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            )}
+
+
+            {/* ── Footer ── */}
+            <footer className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-6 font-mono text-xs text-[#8a8a91]">
+              <span>Powered by Gemini 2.5 Flash · Google AI Studio · 5 agents active</span>
+              <span className="flex items-center gap-3">
+                <span className="h-3 w-3 rounded-full bg-[#c6ff25]" />
+                <span className="h-3 w-3 rotate-45 bg-[#ff72ad]" />
+                <span className="h-3 w-3 rounded-full bg-[#5c82ff]" />
+              </span>
+            </footer>
+          </div>
+        </section>
+      </div>
+    </main>
+  );
+}
+
+// ─── Sub-components ───────────────────────────────────────────────────────────
+function MetricLine({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex justify-between gap-3 border-white/10 py-2 sm:border-r sm:px-7 first:pl-0 last:border-r-0 last:pr-0">
+      <span>{label}</span>
+      <span className="font-bold text-[#c6ff25]">{value}</span>
+    </div>
+  );
+}
+
+function RiskBar({ label, value, color }: { label: string; value: number; color: string }) {
+  return (
+    <div className="grid grid-cols-[180px_1fr_36px] items-center gap-4 text-sm text-[#a4a4aa]">
+      <span>{label}</span>
+      <span className="h-1.5 overflow-hidden rounded-full bg-white/10">
+        <span className={cx("block h-full rounded-full transition-all duration-1000 ease-out", color)} style={{ width: `${value}%` }} />
+      </span>
+      <span className="text-right font-mono text-xs">{value}</span>
+    </div>
+  );
+}
+
+function SectionTitle({ title }: { title: string }) {
+  return (
+    <div className="mb-4 mt-10 flex items-center gap-3">
+      <p className="font-mono text-xs uppercase tracking-[0.34em] text-[#9c9ca3]">{title}</p>
+      <span className="h-px flex-1 bg-white/10" />
+    </div>
+  );
+}
+
+function MetricCard({ accent, label, note, value, chartData }: { accent: "lime"|"pink"|"blue"|"yellow"; label: string; note: string; value: string; chartData?: number[] }) {
+  const palette = {
+    lime:   "border-[#c6ff25]/25 text-[#c6ff25]",
+    pink:   "border-[#ff72ad]/30 text-[#ff72ad]",
+    blue:   "border-[#5c82ff]/35 text-[#78a0ff]",
+    yellow: "border-[#ffdb4d]/25 text-[#ffdb4d]",
+  }[accent];
+
+  const data = chartData || [18, 29, 22, 38, 34, 52];
+  const maxVal = Math.max(...data, 1);
+  const heights = data.map(v => Math.max(4, (v / maxVal) * 48));
+
+  return (
+    <div className={cx("rounded-[8px] border bg-[#25252c] p-6", palette)}>
+      <p className="font-mono text-xs uppercase tracking-[0.24em] text-[#9d9da4]">{label}</p>
+      <p className="mt-5 text-4xl font-black">{value}</p>
+      <p className="mt-2 font-mono text-sm">{note}</p>
+      <div className="mt-7 flex h-12 items-end gap-2">
+        {heights.map((h, i) => (
+          <span key={i} className="w-full rounded-t-[3px] bg-current opacity-40 last:opacity-100" style={{ height: h, opacity: data[i] === 0 ? 0.1 : undefined }} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function InsightCard({ accent, action, text, title, onClick }: { accent: "lime"|"pink"|"blue"; action: string; text?: string; title: string; onClick?: () => void }) {
+  const palette = {
+    lime: "border-[#c6ff25]/25 text-[#c6ff25] hover:bg-[#c6ff25] hover:text-[#25252c]",
+    pink: "border-[#ff72ad]/30 text-[#ff72ad] hover:bg-[#ff72ad] hover:text-[#25252c]",
+    blue: "border-[#5c82ff]/35 text-[#78a0ff] hover:bg-[#5c82ff] hover:text-[#25252c]",
+  }[accent];
+  
+  return (
+    <article className={cx("rounded-[8px] border bg-[#25252c] p-7 transition-colors", 
+      accent === "lime" ? "border-[#c6ff25]/25 text-[#c6ff25]" : 
+      accent === "pink" ? "border-[#ff72ad]/30 text-[#ff72ad]" : 
+      "border-[#5c82ff]/35 text-[#78a0ff]"
+    )}>
+      <p className="font-mono text-xs uppercase tracking-[0.34em]">{title}</p>
+      <p className="mt-6 min-h-[100px] text-base leading-7 text-[#dedee3]">{text}</p>
+      <button 
+        type="button" 
+        onClick={onClick}
+        className={cx("mt-6 rounded-[8px] border border-current px-5 py-3 font-mono text-sm transition-colors duration-300", palette)}
+      >
+        {action}
+      </button>
+    </article>
+  );
+}
+</file>
+
+<file path="frontend/postcss.config.mjs">
+export default {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+};
+</file>
+
+<file path="README.md">
+# NALAR_
+
+> Enterprise Risk Intelligence Platform powered by Multi-Agent AI Orchestration
+
+NALAR_ is an AI-powered enterprise intelligence platform designed for real-time anomaly detection, document analysis, compliance monitoring, and operational risk scoring through a coordinated multi-agent pipeline architecture.
+
+Built to simulate enterprise-grade cyber risk analysis workflows, NALAR_ combines modern AI orchestration with a futuristic intelligence dashboard experience.
+
+---
+
+## Live Demo
+
+### Frontend
+https://nalar-chi.vercel.app
+
+### Backend API
+https://nalar-backend-production-b6b2.up.railway.app/docs
+
+---
+
+# Overview
+
+NALAR_ analyzes uploaded enterprise documents such as:
+- security audit logs
+- compliance reports
+- financial operation records
+- operational system logs
+- structured enterprise data
+
+The platform processes documents through a coordinated 5-agent AI pipeline to generate:
+- enterprise risk scoring
+- anomaly detection
+- compliance insights
+- operational intelligence
+- remediation recommendations
+
+---
+
+# Core Features
+
+- Multi-agent AI orchestration pipeline
+- Real-time enterprise risk scoring
+- AI-powered anomaly detection
+- Financial irregularity analysis
+- Compliance & governance assessment
+- Operational drift monitoring
+- Intelligent remediation recommendations
+- Enterprise dashboard visualization
+- File upload & automated parsing
+- FastAPI + Next.js architecture
+- Railway & Vercel cloud deployment
+
+---
+
+# Multi-Agent Intelligence Pipeline
+
+NALAR_ uses a collaborative 5-agent orchestration system:
+
+| Agent | Responsibility |
+|---|---|
+| Document Analyzer | Extracts structured intelligence from uploaded documents |
+| Risk Scoring Agent | Calculates overall enterprise risk exposure |
+| Financial Intelligence Agent | Detects suspicious financial activities and irregularities |
+| Compliance Agent | Identifies governance, policy, and regulatory gaps |
+| Validation Agent | Consolidates and verifies final AI analysis |
+
+---
+
+# System Architecture
+
+```text
+┌────────────────────┐
+│   Next.js Frontend │
+└─────────┬──────────┘
+          │
+          ▼
+┌────────────────────┐
+│   FastAPI Backend  │
+└─────────┬──────────┘
+          │
+          ▼
+┌────────────────────────────┐
+│ Multi-Agent Orchestrator   │
+├────────────────────────────┤
+│ • Document Analyzer        │
+│ • Risk Scoring Agent       │
+│ • Financial Agent          │
+│ • Compliance Agent         │
+│ • Validation Agent         │
+└─────────┬──────────────────┘
+          │
+          ▼
+┌────────────────────┐
+│   Gemini AI APIs   │
+└────────────────────┘
+````
+
+---
+
+# User Interface Preview
+
+## Enterprise Intelligence Dashboard
+
+![Dashboard](./demo/overview.png)
+
+## Risk Analysis Result
+
+![Analysis](./demo/anomalies.png)
+
+## Agent Pipeline Visualization
+
+![Agents](./demo/agent_flow.png)
+
+---
+
+# Example Analysis Output
+
+```json
+{
+  "overall_risk_score": 73,
+  "risk_level": "HIGH",
+  "anomalies_detected": 4,
+  "compliance_issues": 3,
+  "financial_irregularities": 2,
+  "recommendation": "Immediate compliance remediation and access monitoring required."
+}
+```
+
+---
+
+# Tech Stack
+
+## Frontend
+
+* Next.js 15
+* TypeScript
+* TailwindCSS
+* Framer Motion
+
+## Backend
+
+* FastAPI
+* Python
+* Uvicorn
+
+## AI & Infrastructure
+
+* Google Gemini API
+* Railway
+* Vercel
+
+---
+
+# Installation
+
+## Clone Repository
+
+```bash
+git clone https://github.com/einzeinn/NALAR_.git
+cd NALAR_
+```
+
+---
+
+# Frontend Setup
+
+```bash
+cd frontend
+
+npm install
+
+npm run dev
+```
+
+Frontend runs on:
+
+```text
+http://localhost:3000
+```
+
+---
+
+# Backend Setup
+
+```bash
+cd backend
+
+pip install -r requirements.txt
+
+uvicorn app.main:app --reload
+```
+
+Backend runs on:
+
+```text
+http://localhost:8000
+```
+
+---
+
+# Environment Variables
+
+## Frontend `.env.local`
+
+```env
+NEXT_PUBLIC_API_URL=https://your-backend-url
+```
+
+---
+
+## Backend `.env`
+
+```env
+GEMINI_API_KEY_1=your_api_key
+GEMINI_API_KEY_2=your_api_key
+GEMINI_API_KEY_3=your_api_key
+
+ALLOWED_ORIGINS=https://your-frontend-url
+```
+
+---
+
+# API Endpoints
+
+| Method | Endpoint      | Description                |
+| ------ | ------------- | -------------------------- |
+| GET    | `/`           | API status                 |
+| GET    | `/health`     | Health check               |
+| POST   | `/api/upload` | Upload & analyze documents |
+
+---
+
+# Deployment
+
+## Frontend Deployment
+
+* Vercel
+
+## Backend Deployment
+
+* Railway
+
+---
+
+
+# Project Vision
+
+NALAR_ was built to explore how multi-agent AI systems can assist enterprise-level operational intelligence, compliance monitoring, and cybersecurity risk analysis in a more interactive and accessible way.
+
+The project combines:
+
+* AI orchestration
+* enterprise UX design
+* risk intelligence workflows
+* modern cloud deployment
+* real-time analytical interfaces
+
+into a unified experimental platform.
+
+---
+
+# Author
+
+### M RIFKI HAIPAL
+
+#### also known as **quiiplle**
+
+AI Engineer • Software Engineer • Creative Technologist
+
+GitHub:
+[https://github.com/einzeinn](https://github.com/einzeinn)
+
+---
+
+# License
+
+This project is developed for research, experimentation, portfolio, and hackathon purposes.
+
+---
+
+<p align="center">
+Built with Gemini AI, sleep deprivation, deployment debugging, and unreasonable optimism.
+</p>
+```
+</file>
+
+</files>
